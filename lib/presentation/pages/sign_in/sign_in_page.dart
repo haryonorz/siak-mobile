@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:siak_mobile/common/app/app.dart';
+import 'package:siak_mobile/presentation/cubit/auth/authentication_cubit.dart';
 import 'package:siak_mobile/presentation/cubit/sign_in/sign_in_cubit.dart';
 import 'package:siak_mobile/presentation/pages/sign_in/components/sign_in_form.dart';
 
@@ -17,8 +18,7 @@ class SignInPage extends StatelessWidget {
       child: BlocListener<SignInCubit, SignInState>(
         listener: (context, state) {
           if (state is SignInSuccess) {
-            // context.read<AuthenticationCubit>().signIn(state.token);
-            print("login success");
+            context.read<AuthenticationCubit>().signIn(state.user);
           }
           if (state is SignInError) {
             ScaffoldMessenger.of(context).showSnackBar(

@@ -1,15 +1,28 @@
+import 'package:siak_mobile/data/datasources/db/user_local_data_source.dart';
+import 'package:siak_mobile/data/models/user_model.dart';
 import 'package:siak_mobile/domain/entities/user.dart';
 import 'package:siak_mobile/domain/repositories/auth_repository.dart';
 
 class AuthRepositoryImpl extends AuthRepository {
-  @override
-  Future<void> persistUser(User user) async {}
+  final UserLocalDataSource localDataSource;
+
+  AuthRepositoryImpl({
+    required this.localDataSource,
+  });
 
   @override
-  Future<void> deleteUser() async {}
+  Future<void> persistUser(User user) async {
+    await localDataSource.insertUser(UserResponse.fromEntity(user));
+  }
+
+  @override
+  Future<void> deleteUser() async {
+    await localDataSource.removeUser();
+  }
 
   @override
   Future<bool> hasUser() async {
-    return false;
+    final result = await localDataSource.getUser();
+    return result != null;
   }
 }
