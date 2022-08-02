@@ -13,7 +13,7 @@ class SignInPage extends StatelessWidget {
   Widget build(BuildContext context) {
     return AnnotatedRegion<SystemUiOverlayStyle>(
       value: SystemUiOverlayStyle.light.copyWith(
-        statusBarColor: Colors.transparent,
+        statusBarColor: AppColors.backgroundBlue,
       ),
       child: BlocListener<SignInCubit, SignInState>(
         listener: (context, state) {
@@ -43,9 +43,9 @@ class SignInPage extends StatelessWidget {
           resizeToAvoidBottomInset: false,
           body: SafeArea(
             bottom: false,
-            child: Padding(
-              padding:
-                  const EdgeInsets.symmetric(horizontal: AppDefaults.xlSpace),
+            child: Container(
+              margin:
+                  const EdgeInsets.symmetric(horizontal: AppDefaults.margin),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [

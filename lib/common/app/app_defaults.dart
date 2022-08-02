@@ -38,6 +38,10 @@ class AppDefaults {
     statusBarColor: AppColors.backgroundBlue,
     statusBarIconBrightness: Brightness.light,
   );
+  static const SystemUiOverlayStyle statusBarRed = SystemUiOverlayStyle(
+    statusBarColor: AppColors.backgroundRed,
+    statusBarIconBrightness: Brightness.light,
+  );
 
   //Divider
   static const sDivider = Divider(height: 1, thickness: 1);

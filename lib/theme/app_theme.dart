@@ -36,5 +36,6 @@ ThemeData appTheme(BuildContext context) {
       ),
       contentPadding: const EdgeInsets.fromLTRB(24, 24, 24, 16),
     ),
+    dialogBackgroundColor: AppColors.backgroundBlue,
   );
 }

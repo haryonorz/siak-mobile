@@ -12,6 +12,7 @@ class AppColors {
   //Background
   static const Color backgroundDarkBlue = Color(0xFF0F173E);
   static const Color backgroundBlue = Color(0xFF0b2a60);
+  static const Color backgroundRed = Color(0xFFec1e22);
 
   //Button
   static const Color buttonActive = Color(0xFFec1e22);

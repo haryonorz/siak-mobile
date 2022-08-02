@@ -23,6 +23,7 @@ class AuthRepositoryImpl extends AuthRepository {
   @override
   Future<bool> hasUser() async {
     final result = await localDataSource.getUser();
+    await Future.delayed(const Duration(seconds: 3));
     return result != null;
   }
 }

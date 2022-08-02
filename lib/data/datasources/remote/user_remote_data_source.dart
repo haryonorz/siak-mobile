@@ -8,6 +8,7 @@ import 'package:siak_mobile/data/models/user_model.dart';
 
 abstract class UserRemoteDataSources {
   Future<UserResponse> doSignIn(String username, String password);
+  Future<bool> doSignOut(String username, String type);
 }
 
 class UserRemoteDataSourcesImpl extends UserRemoteDataSources {
@@ -28,6 +29,25 @@ class UserRemoteDataSourcesImpl extends UserRemoteDataSources {
     );
     if (response.statusCode == 200) {
       return UserResponse.fromJson(json.decode(response.body));
+    } else {
+      final error = ErrorResponse.fromJson(json.decode(response.body));
+      throw ServerException(
+          'Server Error [${response.statusCode}]: ${error.message}');
+    }
+  }
+
+  @override
+  Future<bool> doSignOut(String username, String type) async {
+    final response = await client.post(
+      Uri.parse(EndPoints.signOut),
+      body: {
+        'key': EndPoints.key,
+        'username': username,
+        'type': type,
+      },
+    );
+    if (response.statusCode == 200) {
+      return true;
     } else {
       final error = ErrorResponse.fromJson(json.decode(response.body));
       throw ServerException(
