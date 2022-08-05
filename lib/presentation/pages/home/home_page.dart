@@ -1,13 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-import 'package:siak_mobile/common/app/app_colors.dart';
-import 'package:siak_mobile/common/app/app_defaults.dart';
-import 'package:siak_mobile/common/app/app_images.dart';
+import 'package:siak_mobile/common/app/app.dart';
+import 'package:siak_mobile/presentation/cubit/all_agenda/all_agenda_cubit.dart';
 import 'package:siak_mobile/presentation/cubit/auth/authentication_cubit.dart';
 import 'package:siak_mobile/presentation/cubit/sign_out/sign_out_cubit.dart';
 import 'package:siak_mobile/presentation/pages/home/components/home_drawer.dart';
 import 'package:siak_mobile/presentation/pages/home/components/home_search_field.dart';
+import 'package:siak_mobile/presentation/widget/agenda_card.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({Key? key}) : super(key: key);
@@ -18,6 +18,12 @@ class HomePage extends StatefulWidget {
 
 class _HomePageState extends State<HomePage> {
   final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
+
+  @override
+  void initState() {
+    super.initState();
+    Future.microtask(() => context.read<AllAgendaCubit>().fetchData('all'));
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -77,6 +83,7 @@ class _HomePageState extends State<HomePage> {
         ),
         drawer: const HomeDrawer(),
         body: Column(
+          mainAxisAlignment: MainAxisAlignment.start,
           children: [
             Container(
               margin: const EdgeInsets.only(top: 48),
@@ -101,8 +108,49 @@ class _HomePageState extends State<HomePage> {
                 ],
               ),
             ),
-            const Center(
-              child: Text("data"),
+            Expanded(
+              child: BlocBuilder<AllAgendaCubit, AllAgendaState>(
+                builder: (context, state) {
+                  if (state is AllAgendaLoading) {
+                    return const Center(
+                      child: CircularProgressIndicator(),
+                    );
+                  } else if (state is AllAgendaEmpty) {
+                    return const Center(
+                      child: Text('No Data'),
+                    );
+                  } else if (state is AllAgendaHasData) {
+                    return RefreshIndicator(
+                      onRefresh: () async {
+                        context.read<AllAgendaCubit>().fetchData('all');
+                      },
+                      child: ListView.builder(
+                        padding: EdgeInsets.zero,
+                        itemBuilder: (context, index) {
+                          final agenda = state.agendas[index];
+                          return Container(
+                            margin: EdgeInsets.only(
+                                top: index == 0 ? AppDefaults.margin : 0,
+                                bottom: index == state.agendas.length - 1
+                                    ? AppDefaults.margin
+                                    : 10),
+                            child: AgendaCard(
+                              agenda: agenda,
+                            ),
+                          );
+                        },
+                        itemCount: state.agendas.length,
+                      ),
+                    );
+                  } else if (state is AllAgendaError) {
+                    return Center(
+                      child: Text(state.message),
+                    );
+                  } else {
+                    return Container();
+                  }
+                },
+              ),
             ),
           ],
         ),

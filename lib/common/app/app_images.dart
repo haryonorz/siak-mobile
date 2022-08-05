@@ -3,4 +3,6 @@ class AppImages {
   static const logoStrategis = 'assets/images/logo_strategis.png';
 
   static const backgroundHomeTop = 'assets/images/bg_home_top.png';
+
+  static const defaultPhoto = 'assets/images/default_photo.png';
 }

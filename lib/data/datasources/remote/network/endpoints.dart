@@ -8,4 +8,6 @@ class EndPoints {
 
   static const String signIn = '$baseUrl/doLogin';
   static const String signOut = '$baseUrl/doLogout';
+
+  static const String getAllAgenda = '$baseUrl/getAllAgenda';
 }
