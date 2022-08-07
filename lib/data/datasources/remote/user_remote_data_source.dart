@@ -7,7 +7,11 @@ import 'package:siak_mobile/data/models/error_response.dart';
 import 'package:siak_mobile/data/models/user_model.dart';
 
 abstract class UserRemoteDataSources {
-  Future<UserResponse> doSignIn(String username, String password);
+  Future<UserResponse> doSignIn(
+    String username,
+    String password,
+    String? fcmToken,
+  );
   Future<bool> doSignOut(String username, String type);
 }
 
@@ -17,14 +21,18 @@ class UserRemoteDataSourcesImpl extends UserRemoteDataSources {
   UserRemoteDataSourcesImpl({required this.client});
 
   @override
-  Future<UserResponse> doSignIn(String username, String password) async {
+  Future<UserResponse> doSignIn(
+    String username,
+    String password,
+    String? fcmToken,
+  ) async {
     final response = await client.post(
       Uri.parse(EndPoints.signIn),
       body: {
         'key': EndPoints.key,
         'username': username,
         'password': password,
-        'token': 'test',
+        'token': fcmToken,
       },
     );
     if (response.statusCode == 200) {

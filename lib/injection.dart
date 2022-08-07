@@ -1,3 +1,4 @@
+import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:get_it/get_it.dart';
 import 'package:http/http.dart' as http;
 import 'package:siak_mobile/data/datasources/db/helper/database_helper.dart';
@@ -35,6 +36,7 @@ void init() {
   locator.registerLazySingleton<UserRepository>(() => UserRepositoryImpl(
         remoteDataSource: locator(),
         localDataSource: locator(),
+        messaging: locator(),
       ));
   locator.registerLazySingleton<AuthRepository>(
       () => AuthRepositoryImpl(localDataSource: locator()));
@@ -51,6 +53,7 @@ void init() {
       () => AgendaRemoteDataSourcesImpl(client: locator()));
 
   locator.registerLazySingleton(() => http.Client());
-
   locator.registerLazySingleton<DatabaseHelper>(() => DatabaseHelper());
+  locator.registerLazySingleton<FirebaseMessaging>(
+      () => FirebaseMessaging.instance);
 }
