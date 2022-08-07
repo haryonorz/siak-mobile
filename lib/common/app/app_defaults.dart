@@ -14,7 +14,7 @@ class AppDefaults {
   static const double sSpace = 5;
   static const double mSpace = 8;
   static const double lSpace = 10;
-  static const double xlSpace = 20;
+  static const double xlSpace = 24;
   static const double xxlSpace = 30;
 
   static const double appBarElevation = 2;
@@ -26,10 +26,6 @@ class AppDefaults {
   static const Duration membershipDuration = Duration(milliseconds: 500);
   static const Duration dotPromoDuration = Duration(milliseconds: 250);
 
-  static const SystemUiOverlayStyle statusBarTransparent = SystemUiOverlayStyle(
-    statusBarColor: Colors.transparent,
-    statusBarIconBrightness: Brightness.dark,
-  );
   static const SystemUiOverlayStyle statusBarWhite = SystemUiOverlayStyle(
     statusBarColor: Colors.white,
     statusBarIconBrightness: Brightness.dark,
@@ -38,8 +34,12 @@ class AppDefaults {
     statusBarColor: Colors.black,
     statusBarIconBrightness: Brightness.light,
   );
-  static const SystemUiOverlayStyle statusBarGreen = SystemUiOverlayStyle(
-    statusBarColor: AppColors.backgroundGreen,
+  static const SystemUiOverlayStyle statusBarDarkBlue = SystemUiOverlayStyle(
+    statusBarColor: AppColors.backgroundBlue,
+    statusBarIconBrightness: Brightness.light,
+  );
+  static const SystemUiOverlayStyle statusBarRed = SystemUiOverlayStyle(
+    statusBarColor: AppColors.backgroundRed,
     statusBarIconBrightness: Brightness.light,
   );
 
@@ -47,20 +47,6 @@ class AppDefaults {
   static const sDivider = Divider(height: 1, thickness: 1);
   static const mDivider = Divider(height: 1, thickness: 1.5);
   static const xlDivider = Divider(height: 10, thickness: 10);
-
-  //Iput Border
-  static InputBorder border = OutlineInputBorder(
-    borderSide: const BorderSide(color: AppColors.borderLightGrey, width: 1.4),
-    borderRadius: BorderRadius.circular(AppDefaults.sRadius),
-  );
-  static InputBorder enabledBorder = OutlineInputBorder(
-    borderSide: const BorderSide(color: AppColors.borderLightGrey, width: 1.4),
-    borderRadius: BorderRadius.circular(AppDefaults.sRadius),
-  );
-  static InputBorder focusBorder = OutlineInputBorder(
-    borderSide: const BorderSide(color: AppColors.borderGreen, width: 1.6),
-    borderRadius: BorderRadius.circular(AppDefaults.sRadius),
-  );
 
   //Shadow
   static BoxShadow boxShadow = BoxShadow(
