@@ -6,7 +6,7 @@ abstract class Failure extends Equatable {
   final String message;
 
   @override
-  List<Object?> get props => [message];
+  List<Object> get props => [message];
 }
 
 class ServerFailure extends Failure {

@@ -1,9 +1,12 @@
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:intl/date_symbol_data_local.dart';
 import 'package:siak_mobile/common/routes.dart';
+import 'package:siak_mobile/presentation/cubit/action_agenda/action_agenda_cubit.dart';
 import 'package:siak_mobile/presentation/cubit/all_agenda/all_agenda_cubit.dart';
 import 'package:siak_mobile/presentation/cubit/auth/authentication_cubit.dart';
+import 'package:siak_mobile/presentation/cubit/detail_agenda/detail_agenda_cubit.dart';
 import 'package:siak_mobile/presentation/cubit/sign_in/sign_in_cubit.dart';
 import 'package:siak_mobile/presentation/cubit/sign_out/sign_out_cubit.dart';
 import 'package:siak_mobile/presentation/pages/home/home_page.dart';
@@ -16,7 +19,8 @@ Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp();
   di.init();
-  runApp(const MyApp());
+  await initializeDateFormatting('id_ID', null)
+      .then((_) => runApp(const MyApp()));
 }
 
 class MyApp extends StatelessWidget {
@@ -37,6 +41,12 @@ class MyApp extends StatelessWidget {
         ),
         BlocProvider(
           create: (_) => di.locator<AllAgendaCubit>(),
+        ),
+        BlocProvider(
+          create: (_) => di.locator<DetailAgendaCubit>(),
+        ),
+        BlocProvider(
+          create: (_) => di.locator<ActionAgendaCubit>(),
         ),
       ],
       child: MaterialApp(

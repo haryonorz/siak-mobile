@@ -34,6 +34,7 @@ class AppColors {
   //Text
   static const Color textWhite = Color(0xFFFFFFFF);
   static const Color textGrey = Color(0xFFCDCFD8);
+  static const Color textRed = Color(0xFFec1e22);
 
   //Theme
   static const colorScheme = ColorScheme(

@@ -14,9 +14,13 @@ import 'package:siak_mobile/domain/repositories/user_repository.dart';
 import 'package:siak_mobile/domain/usecases/do_authentication.dart';
 import 'package:siak_mobile/domain/usecases/do_sign_in.dart';
 import 'package:siak_mobile/domain/usecases/do_sign_out.dart';
+import 'package:siak_mobile/domain/usecases/do_update_note_class.dart';
 import 'package:siak_mobile/domain/usecases/get_all_agenda.dart';
+import 'package:siak_mobile/domain/usecases/get_detail_agenda.dart';
+import 'package:siak_mobile/presentation/cubit/action_agenda/action_agenda_cubit.dart';
 import 'package:siak_mobile/presentation/cubit/all_agenda/all_agenda_cubit.dart';
 import 'package:siak_mobile/presentation/cubit/auth/authentication_cubit.dart';
+import 'package:siak_mobile/presentation/cubit/detail_agenda/detail_agenda_cubit.dart';
 import 'package:siak_mobile/presentation/cubit/sign_in/sign_in_cubit.dart';
 import 'package:siak_mobile/presentation/cubit/sign_out/sign_out_cubit.dart';
 
@@ -27,11 +31,15 @@ void init() {
   locator.registerFactory(() => SignOutCubit(locator()));
   locator.registerFactory(() => AuthenticationCubit(locator()));
   locator.registerFactory(() => AllAgendaCubit(locator()));
+  locator.registerFactory(() => DetailAgendaCubit(locator()));
+  locator.registerFactory(() => ActionAgendaCubit(locator()));
 
   locator.registerLazySingleton(() => DoSignIn(locator()));
   locator.registerLazySingleton(() => DoSignOut(locator()));
   locator.registerLazySingleton(() => DoAuthentication(locator()));
   locator.registerLazySingleton(() => GetAllAgenda(locator()));
+  locator.registerFactory(() => GetDetailAgenda(locator()));
+  locator.registerFactory(() => DoUpdateNoteClass(locator()));
 
   locator.registerLazySingleton<UserRepository>(() => UserRepositoryImpl(
         remoteDataSource: locator(),

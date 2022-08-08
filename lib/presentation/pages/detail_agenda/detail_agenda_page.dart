@@ -1,0 +1,121 @@
+import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:siak_mobile/common/app/app.dart';
+import 'package:siak_mobile/presentation/cubit/action_agenda/action_agenda_cubit.dart';
+import 'package:siak_mobile/presentation/cubit/detail_agenda/detail_agenda_cubit.dart';
+import 'package:siak_mobile/presentation/pages/detail_agenda/components/view_attendance_recap.dart';
+import 'package:siak_mobile/presentation/pages/detail_agenda/components/view_note_class.dart';
+import 'package:siak_mobile/presentation/pages/detail_agenda/components/view_detail_agenda.dart';
+import 'package:siak_mobile/presentation/pages/detail_agenda/components/view_potret_kelas.dart';
+
+class DetailAgendaPage extends StatefulWidget {
+  final String idAgenda;
+
+  const DetailAgendaPage({Key? key, required this.idAgenda}) : super(key: key);
+
+  @override
+  State<DetailAgendaPage> createState() => _DetailAgendaPageState();
+}
+
+class _DetailAgendaPageState extends State<DetailAgendaPage> {
+  @override
+  void initState() {
+    super.initState();
+    Future.microtask(
+        () => context.read<DetailAgendaCubit>().fetchData(widget.idAgenda));
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return BlocListener<ActionAgendaCubit, ActionAgendaState>(
+      listener: (context, state) {
+        if (state is ActionAgendaSuccess) {
+          context.read<DetailAgendaCubit>().fetchData(widget.idAgenda);
+        }
+        if (state is ActionAgendaMessage) {
+          ScaffoldMessenger.of(context).showSnackBar(
+            SnackBar(
+              content: Text(
+                state.message ?? "-",
+                style: Theme.of(context)
+                    .textTheme
+                    .bodyText2
+                    ?.copyWith(color: AppColors.textWhite),
+              ),
+              behavior: SnackBarBehavior.floating,
+              shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(AppDefaults.sRadius)),
+              elevation: 0,
+              backgroundColor: AppColors.error,
+            ),
+          );
+        }
+      },
+      child: Scaffold(
+        appBar: AppBar(
+          backgroundColor: Colors.transparent,
+          elevation: 0,
+          systemOverlayStyle: AppDefaults.statusBarDarkBlue,
+        ),
+        body: BlocBuilder<DetailAgendaCubit, DetailAgendaState>(
+          builder: (context, state) {
+            if (state is DetailAgendaLoading) {
+              return const Center(
+                child: CircularProgressIndicator(),
+              );
+            } else if (state is DetailAgendaHasData) {
+              return RefreshIndicator(
+                onRefresh: () async {
+                  context.read<DetailAgendaCubit>().fetchData(widget.idAgenda);
+                },
+                child: ListView(
+                  children: [
+                    ViewDetaiAgenda(
+                      agenda: state.detailAgenda.agenda,
+                      totalRequestJoin:
+                          state.detailAgenda.totalRequestJoin ?? 0,
+                    ),
+                    const SizedBox(height: AppDefaults.xlSpace),
+                    ViewAttendanceRecap(
+                      absensiRekap: state.detailAgenda.attendanceRecap,
+                    ),
+                    const SizedBox(height: AppDefaults.xlSpace),
+                    ViewPotretKelas(),
+                    const SizedBox(height: AppDefaults.xlSpace),
+                    ViewNoteClass(
+                      agenda: state.detailAgenda.agenda,
+                    ),
+                    const SizedBox(height: AppDefaults.xlSpace),
+                    Container(
+                      margin: const EdgeInsets.symmetric(
+                          horizontal: AppDefaults.margin),
+                      child: ElevatedButton(
+                        onPressed: () {},
+                        style: ElevatedButton.styleFrom(
+                          shape: RoundedRectangleBorder(
+                            borderRadius:
+                                BorderRadius.circular(AppDefaults.mRadius),
+                          ),
+                        ),
+                        child: Text(
+                          "Tutup Kelas".toUpperCase(),
+                        ),
+                      ),
+                    ),
+                    const SizedBox(height: AppDefaults.xlSpace),
+                  ],
+                ),
+              );
+            } else if (state is DetailAgendaError) {
+              return Center(
+                child: Text(state.message),
+              );
+            } else {
+              return Container();
+            }
+          },
+        ),
+      ),
+    );
+  }
+}

@@ -3,11 +3,11 @@ import 'package:siak_mobile/data/models/absensi_model.dart';
 import 'package:siak_mobile/domain/entities/agenda.dart';
 
 class AgendaResponse extends Equatable {
-  AgendaResponse({
+  const AgendaResponse({
     required this.idAgenda,
     required this.pokokBahasan,
     required this.bidangStudi,
-    required this.tutor,
+    this.tutor,
     required this.namaTutor,
     this.tutorPengganti,
     this.namaTutorPengganti,
@@ -30,7 +30,7 @@ class AgendaResponse extends Equatable {
   final String idAgenda;
   final String pokokBahasan;
   final String bidangStudi;
-  final String tutor;
+  final String? tutor;
   final String namaTutor;
   final String? tutorPengganti;
   final String? namaTutorPengganti;
@@ -107,7 +107,7 @@ class AgendaResponse extends Equatable {
       namaTutorPengganti: tutorPengganti,
       pilKelas: pilKelas,
       center: center,
-      namaCenter: '',
+      namaCenter: namaCenter,
       ruangan: ruangan,
       date: date,
       jamIn: jamIn,
