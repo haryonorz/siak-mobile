@@ -6,44 +6,58 @@ class Agenda extends Equatable {
     required this.idAgenda,
     required this.pokokBahasan,
     required this.bidangStudi,
-    required this.tutor,
-    required this.tutorPengganti,
+    required this.namaTutor,
+    this.namaTutorPengganti,
+    this.center,
+    required this.namaCenter,
     required this.pilKelas,
-    required this.center,
     required this.ruangan,
     required this.date,
     required this.jamIn,
     required this.jamOut,
+    this.aktivitas,
+    this.aktivitasDesc,
+    this.aktivitasLainnya,
+    this.catatanKelas,
+    this.status,
     required this.allStudent,
-    required this.totalStudent,
+    this.totalStudent,
   });
 
   final String idAgenda;
   final String pokokBahasan;
   final String bidangStudi;
-  final String tutor;
-  final String tutorPengganti;
+  final String namaTutor;
+  final String? namaTutorPengganti;
+  final String? center;
+  final String namaCenter;
   final String pilKelas;
-  final String center;
   final String ruangan;
   final String date;
   final String jamIn;
   final String jamOut;
+  final String? aktivitas;
+  final String? aktivitasDesc;
+  final String? aktivitasLainnya;
+  final String? catatanKelas;
+  final String? status;
   final List<Absensi> allStudent;
-  final int totalStudent;
+  final int? totalStudent;
 
   @override
   List<Object?> get props => [
         idAgenda,
         pokokBahasan,
         bidangStudi,
-        tutor,
-        tutorPengganti,
+        namaTutor,
+        namaTutorPengganti,
         pilKelas,
         center,
         ruangan,
         date,
         jamIn,
         jamOut,
+        allStudent,
+        totalStudent,
       ];
 }

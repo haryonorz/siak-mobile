@@ -13,6 +13,11 @@ abstract class AgendaRemoteDataSources {
     String userType,
     String getType,
   );
+
+  Future<AgendaResponse> detailAgenda(
+    String idAgenda,
+    String userType,
+  );
 }
 
 class AgendaRemoteDataSourcesImpl extends AgendaRemoteDataSources {
@@ -38,6 +43,25 @@ class AgendaRemoteDataSourcesImpl extends AgendaRemoteDataSources {
     );
     if (response.statusCode == 200) {
       return AgendaListResponse.fromJson(json.decode(response.body)).agendaList;
+    } else {
+      final error = ErrorResponse.fromJson(json.decode(response.body));
+      throw ServerException(
+          'Server Error [${response.statusCode}]: ${error.message}');
+    }
+  }
+
+  @override
+  Future<AgendaResponse> detailAgenda(String idAgenda, String userType) async {
+    final response = await client.post(
+      Uri.parse(EndPoints.getAllAgenda),
+      body: {
+        'key': EndPoints.key,
+        'id_agenda': idAgenda,
+        'user_type': userType,
+      },
+    );
+    if (response.statusCode == 200) {
+      return AgendaResponse.fromJson(json.decode(response.body));
     } else {
       final error = ErrorResponse.fromJson(json.decode(response.body));
       throw ServerException(

@@ -1,7 +1,11 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
+import 'package:octo_image/octo_image.dart';
 import 'package:siak_mobile/common/app/app.dart';
+import 'package:siak_mobile/data/datasources/remote/network/endpoints.dart';
 import 'package:siak_mobile/domain/entities/agenda.dart';
-import 'package:siak_mobile/domain/entities/student.dart';
+import 'package:siak_mobile/presentation/widget/default_user_photo.dart';
+import 'package:siak_mobile/presentation/widget/user_photo.dart';
 
 class AgendaCard extends StatelessWidget {
   final Agenda agenda;
@@ -28,7 +32,7 @@ class AgendaCard extends StatelessWidget {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Text(
-                      "Senin, 01 Aug 2022",
+                      agenda.date,
                       style: Theme.of(context)
                           .textTheme
                           .subtitle1
@@ -129,9 +133,9 @@ class AgendaCard extends StatelessWidget {
                   ),
                   const SizedBox(height: 2),
                   Text(
-                    agenda.tutorPengganti == ''
-                        ? agenda.tutor
-                        : agenda.tutorPengganti,
+                    agenda.namaTutorPengganti == null
+                        ? agenda.namaTutor
+                        : agenda.namaTutorPengganti,
                     style: Theme.of(context)
                         .textTheme
                         .subtitle1
@@ -149,17 +153,23 @@ class AgendaCard extends StatelessWidget {
                             left: index * 26,
                             child: Container(
                               decoration: BoxDecoration(
-                                shape: BoxShape.circle,
-                                border: Border.all(
-                                  width: 2,
-                                  color: AppColors.backgroundBlue,
-                                ),
-                              ),
-                              child: Image.asset(
-                                AppImages.defaultPhoto,
-                                width: 34,
-                                height: 34,
-                              ),
+                                  shape: BoxShape.circle,
+                                  border: Border.all(
+                                    width: 2,
+                                    color: AppColors.backgroundBlue,
+                                  ),
+                                  color: AppColors.backgroundLightGrey),
+                              child: student.fotoAbsen != null
+                                  ? UserPhoto(
+                                      width: 34,
+                                      height: 34,
+                                      url:
+                                          '${EndPoints.baseUrlPhoto}/absen/${student.fotoAbsen}',
+                                    )
+                                  : const DefaultUserPhoto(
+                                      width: 34,
+                                      height: 34,
+                                    ),
                             ),
                           );
                         } else if (index == 3) {
