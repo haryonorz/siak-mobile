@@ -6,6 +6,7 @@ class AbsensiResponse extends Equatable {
     required this.idAgenda,
     required this.noSiswa,
     required this.namaSiswa,
+    required this.foto,
     required this.pilKelas,
     this.tgl,
     this.jam,
@@ -14,12 +15,14 @@ class AbsensiResponse extends Equatable {
     required this.statusSiswa,
     this.verification,
     required this.statusAbsensi,
+    required this.terlambat,
     this.alasanTerlambat,
   });
 
   final String idAgenda;
   final String noSiswa;
   final String namaSiswa;
+  final String foto;
   final String pilKelas;
   final String? tgl;
   final String? jam;
@@ -28,6 +31,7 @@ class AbsensiResponse extends Equatable {
   final String statusSiswa;
   final String? verification;
   final String statusAbsensi;
+  final String terlambat;
   final String? alasanTerlambat;
 
   factory AbsensiResponse.fromJson(Map<String, dynamic> json) =>
@@ -35,6 +39,7 @@ class AbsensiResponse extends Equatable {
         idAgenda: json["id_agenda"],
         noSiswa: json["no_siswa"],
         namaSiswa: json["nama_siswa"],
+        foto: json["foto"],
         pilKelas: json["pil_kelas"],
         tgl: json["tgl"],
         jam: json["jam"],
@@ -43,6 +48,7 @@ class AbsensiResponse extends Equatable {
         statusSiswa: json["status_siswa"],
         verification: json["verification"],
         statusAbsensi: json["status_absensi"],
+        terlambat: json["terlambat"],
         alasanTerlambat: json["alasan_terlambat"],
       );
 
@@ -50,6 +56,7 @@ class AbsensiResponse extends Equatable {
         "id_agenda": idAgenda,
         "no_siswa": noSiswa,
         "nama_siswa": namaSiswa,
+        "foto": foto,
         "pil_kelas": pilKelas,
         "tgl": tgl,
         "jam": jam,
@@ -66,6 +73,7 @@ class AbsensiResponse extends Equatable {
       idAgenda: idAgenda,
       noSiswa: noSiswa,
       namaSiswa: namaSiswa,
+      foto: foto,
       pilKelas: pilKelas,
       tgl: tgl,
       jam: jam,
@@ -74,6 +82,7 @@ class AbsensiResponse extends Equatable {
       statusSiswa: statusSiswa,
       verification: verification,
       statusAbsensi: statusAbsensi,
+      terlambat: terlambat,
       alasanTerlambat: alasanTerlambat,
     );
   }
@@ -83,6 +92,7 @@ class AbsensiResponse extends Equatable {
         idAgenda,
         noSiswa,
         namaSiswa,
+        foto,
         pilKelas,
         tgl,
         jam,
@@ -91,6 +101,7 @@ class AbsensiResponse extends Equatable {
         statusSiswa,
         verification,
         statusAbsensi,
+        terlambat,
         alasanTerlambat,
       ];
 }

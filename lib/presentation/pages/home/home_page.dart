@@ -134,9 +134,7 @@ class _HomePageState extends State<HomePage> {
                                 bottom: index == state.agendas.length - 1
                                     ? AppDefaults.margin
                                     : 10),
-                            child: AgendaCard(
-                              agenda: agenda,
-                            ),
+                            child: AgendaCard(agenda: agenda),
                           );
                         },
                         itemCount: state.agendas.length,

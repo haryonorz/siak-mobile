@@ -8,6 +8,7 @@ import 'package:siak_mobile/data/models/agenda_list_response.dart';
 import 'package:siak_mobile/data/models/agenda_model.dart';
 import 'package:siak_mobile/data/models/detail_agenda_model.dart';
 import 'package:siak_mobile/data/models/error_response.dart';
+import 'package:siak_mobile/data/models/student_list_response.dart';
 
 abstract class AgendaRemoteDataSources {
   Future<List<AgendaResponse>> getAllAgenda(
@@ -22,6 +23,8 @@ abstract class AgendaRemoteDataSources {
   Future<List<AbsensiResponse>> getAllRequestJoin(String idAgenda);
   Future<bool> doUpdateNoteClass(String idAgenda, String note);
   Future<bool> doCloseAgenda(String idAgenda);
+  Future<List<AbsensiResponse>> getAllStudent(String idAgenda);
+  Future<List<AbsensiResponse>> getAllGuestStudent(String idAgenda);
 }
 
 class AgendaRemoteDataSourcesImpl extends AgendaRemoteDataSources {
@@ -79,14 +82,15 @@ class AgendaRemoteDataSourcesImpl extends AgendaRemoteDataSources {
   @override
   Future<List<AbsensiResponse>> getAllRequestJoin(String idAgenda) async {
     final response = await client.post(
-      Uri.parse(EndPoints.getAllAgenda),
+      Uri.parse(EndPoints.getAllRequestJoin),
       body: {
         'key': EndPoints.key,
         'id_agenda': idAgenda,
       },
     );
     if (response.statusCode == 200) {
-      return AgendaListResponse.fromJson(json.decode(response.body)).agendaList;
+      return StudentListResponse.fromJson(json.decode(response.body))
+          .studentList;
     } else {
       final error = ErrorResponse.fromJson(json.decode(response.body));
       throw ServerException(
@@ -114,8 +118,58 @@ class AgendaRemoteDataSourcesImpl extends AgendaRemoteDataSources {
   }
 
   @override
-  Future<bool> doCloseAgenda(String idAgenda) {
-    // TODO: implement closeAgenda
-    throw UnimplementedError();
+  Future<bool> doCloseAgenda(String idAgenda) async {
+    final response = await client.post(
+      Uri.parse(EndPoints.doCloseAgenda),
+      body: {
+        'key': EndPoints.key,
+        'id_agenda': idAgenda,
+      },
+    );
+    if (response.statusCode == 200) {
+      return true;
+    } else {
+      final error = ErrorResponse.fromJson(json.decode(response.body));
+      throw ServerException(
+          'Server Error [${response.statusCode}]: ${error.message}');
+    }
+  }
+
+  @override
+  Future<List<AbsensiResponse>> getAllStudent(String idAgenda) async {
+    final response = await client.post(
+      Uri.parse(EndPoints.getAllStudent),
+      body: {
+        'key': EndPoints.key,
+        'id_agenda': idAgenda,
+      },
+    );
+    if (response.statusCode == 200) {
+      return StudentListResponse.fromJson(json.decode(response.body))
+          .studentList;
+    } else {
+      final error = ErrorResponse.fromJson(json.decode(response.body));
+      throw ServerException(
+          'Server Error [${response.statusCode}]: ${error.message}');
+    }
+  }
+
+  @override
+  Future<List<AbsensiResponse>> getAllGuestStudent(String idAgenda) async {
+    final response = await client.post(
+      Uri.parse(EndPoints.getAllGuestStudent),
+      body: {
+        'key': EndPoints.key,
+        'id_agenda': idAgenda,
+      },
+    );
+    if (response.statusCode == 200) {
+      return StudentListResponse.fromJson(json.decode(response.body))
+          .studentList;
+    } else {
+      final error = ErrorResponse.fromJson(json.decode(response.body));
+      throw ServerException(
+          'Server Error [${response.statusCode}]: ${error.message}');
+    }
   }
 }

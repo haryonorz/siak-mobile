@@ -15,4 +15,6 @@ class EndPoints {
   static const String getAllRequestJoin = '$baseUrl/getAllRequestJoin';
   static const String doUpdateNoteClass = '$baseUrl/doUpdateNoteClass';
   static const String doCloseAgenda = '$baseUrl/doCloseAgenda';
+  static const String getAllStudent = '$baseUrl/getAllStudent';
+  static const String getAllGuestStudent = '$baseUrl/getAllGuestStudent';
 }

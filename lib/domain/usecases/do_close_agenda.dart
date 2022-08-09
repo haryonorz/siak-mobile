@@ -2,12 +2,12 @@ import 'package:dartz/dartz.dart';
 import 'package:siak_mobile/common/failure.dart';
 import 'package:siak_mobile/domain/repositories/agenda_repository.dart';
 
-class DoUpdateNoteClass {
+class DoCloseAgenda {
   final AgendaRepository repository;
 
-  DoUpdateNoteClass(this.repository);
+  DoCloseAgenda(this.repository);
 
-  Future<Either<Failure, bool>> execute(String idAgenda, String note) {
-    return repository.doUpdateNoteClass(idAgenda, note);
+  Future<Either<Failure, bool>> execute(String idAgenda) {
+    return repository.doCloseAgenda(idAgenda);
   }
 }

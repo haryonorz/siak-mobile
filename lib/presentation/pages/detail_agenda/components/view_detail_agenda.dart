@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:siak_mobile/common/app/app.dart';
 import 'package:siak_mobile/common/extensions/string_parsing.dart';
+import 'package:siak_mobile/common/routes.dart';
 import 'package:siak_mobile/domain/entities/agenda.dart';
 import 'package:siak_mobile/presentation/widget/custom_field.dart';
 
@@ -74,7 +75,11 @@ class ViewDetaiAgenda extends StatelessWidget {
                     Container(
                       margin: const EdgeInsets.only(top: 8, right: 8),
                       child: ElevatedButton(
-                        onPressed: () {},
+                        onPressed: () => Navigator.pushNamed(
+                          context,
+                          Routes.requestJoin,
+                          arguments: agenda.idAgenda,
+                        ),
                         style: ElevatedButton.styleFrom(
                           primary: AppColors.backgroundBlue,
                           shape: RoundedRectangleBorder(

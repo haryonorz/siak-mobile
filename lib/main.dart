@@ -5,6 +5,9 @@ import 'package:intl/date_symbol_data_local.dart';
 import 'package:siak_mobile/common/routes.dart';
 import 'package:siak_mobile/presentation/cubit/action_agenda/action_agenda_cubit.dart';
 import 'package:siak_mobile/presentation/cubit/all_agenda/all_agenda_cubit.dart';
+import 'package:siak_mobile/presentation/cubit/all_guest_student/all_guest_student_cubit.dart';
+import 'package:siak_mobile/presentation/cubit/all_request_join/all_request_join_cubit.dart';
+import 'package:siak_mobile/presentation/cubit/all_student/all_student_cubit.dart';
 import 'package:siak_mobile/presentation/cubit/auth/authentication_cubit.dart';
 import 'package:siak_mobile/presentation/cubit/detail_agenda/detail_agenda_cubit.dart';
 import 'package:siak_mobile/presentation/cubit/sign_in/sign_in_cubit.dart';
@@ -46,7 +49,16 @@ class MyApp extends StatelessWidget {
           create: (_) => di.locator<DetailAgendaCubit>(),
         ),
         BlocProvider(
+          create: (_) => di.locator<AllRequestJoinCubit>(),
+        ),
+        BlocProvider(
           create: (_) => di.locator<ActionAgendaCubit>(),
+        ),
+        BlocProvider(
+          create: (_) => di.locator<AllStudentCubit>(),
+        ),
+        BlocProvider(
+          create: (_) => di.locator<AllGuestStudentCubit>(),
         ),
       ],
       child: MaterialApp(

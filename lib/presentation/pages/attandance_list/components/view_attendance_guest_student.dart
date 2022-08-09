@@ -1,0 +1,68 @@
+import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:siak_mobile/presentation/cubit/all_guest_student/all_guest_student_cubit.dart';
+import 'package:siak_mobile/presentation/widget/item_attendance_student.dart';
+
+class ViewAttendanceGuestStudent extends StatefulWidget {
+  final String idAgenda;
+
+  const ViewAttendanceGuestStudent({Key? key, required this.idAgenda})
+      : super(key: key);
+
+  @override
+  State<ViewAttendanceGuestStudent> createState() =>
+      _ViewAttendanceGuestStudentState();
+}
+
+class _ViewAttendanceGuestStudentState
+    extends State<ViewAttendanceGuestStudent> {
+  @override
+  void initState() {
+    super.initState();
+    Future.microtask(
+        () => context.read<AllGuestStudentCubit>().fetchData(widget.idAgenda));
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return BlocBuilder<AllGuestStudentCubit, AllGuestStudentState>(
+      builder: (context, state) {
+        if (state is AllGuestStudentLoading) {
+          return const Center(
+            child: CircularProgressIndicator(),
+          );
+        } else if (state is AllGuestStudentEmpty) {
+          return const Center(
+            child: Text('No Data'),
+          );
+        } else if (state is AllGuestStudentHasData) {
+          return RefreshIndicator(
+            onRefresh: () async {
+              context.read<AllGuestStudentCubit>().fetchData(widget.idAgenda);
+            },
+            child: ListView.builder(
+              padding: EdgeInsets.zero,
+              itemBuilder: (context, index) {
+                final absensi = state.absensi[index];
+                return Container(
+                  margin: EdgeInsets.only(
+                    top: index == 0 ? 16 : 0,
+                    bottom: 16,
+                  ),
+                  child: ItemAttendanceStudent(absensi: absensi),
+                );
+              },
+              itemCount: state.absensi.length,
+            ),
+          );
+        } else if (state is AllGuestStudentError) {
+          return Center(
+            child: Text(state.message),
+          );
+        } else {
+          return Container();
+        }
+      },
+    );
+  }
+}

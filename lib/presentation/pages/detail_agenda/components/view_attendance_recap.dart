@@ -1,13 +1,16 @@
 import 'package:flutter/material.dart';
 import 'package:siak_mobile/common/app/app.dart';
+import 'package:siak_mobile/common/routes.dart';
 import 'package:siak_mobile/domain/entities/absensi_rekap.dart';
 import 'package:siak_mobile/presentation/widget/custom_field.dart';
 
 class ViewAttendanceRecap extends StatelessWidget {
+  final String idAgenda;
   final AbsensiRekap? absensiRekap;
 
   const ViewAttendanceRecap({
     Key? key,
+    required this.idAgenda,
     required this.absensiRekap,
   }) : super(key: key);
 
@@ -84,12 +87,16 @@ class ViewAttendanceRecap extends StatelessWidget {
           ),
           const SizedBox(height: AppDefaults.lSpace),
           Center(
-            child: Text(
-              'Detail >',
-              style: Theme.of(context)
-                  .textTheme
-                  .bodyText1
-                  ?.copyWith(color: AppColors.textRed),
+            child: GestureDetector(
+              onTap: () => Navigator.pushNamed(context, Routes.attendanceList,
+                  arguments: idAgenda),
+              child: Text(
+                'Detail >',
+                style: Theme.of(context)
+                    .textTheme
+                    .bodyText1
+                    ?.copyWith(color: AppColors.textRed),
+              ),
             ),
           )
         ],

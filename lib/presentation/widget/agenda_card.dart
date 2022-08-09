@@ -114,12 +114,12 @@ class AgendaCard extends StatelessWidget {
                                       color: AppColors.backgroundBlue,
                                     ),
                                     color: AppColors.backgroundLightGrey),
-                                child: student.fotoAbsen != null
+                                child: student.foto.isNotEmpty
                                     ? UserPhoto(
                                         width: 34,
                                         height: 34,
                                         url:
-                                            '${EndPoints.baseUrlPhoto}/absen/${student.fotoAbsen}',
+                                            '${EndPoints.baseUrlPhoto}/profile/${student.foto}',
                                       )
                                     : const DefaultUserPhoto(
                                         width: 34,

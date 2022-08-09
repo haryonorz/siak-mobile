@@ -1,6 +1,5 @@
 import 'package:equatable/equatable.dart';
 import 'package:siak_mobile/domain/entities/student.dart';
-import 'package:siak_mobile/domain/entities/user.dart';
 
 class StudentResponse extends Equatable {
   const StudentResponse({

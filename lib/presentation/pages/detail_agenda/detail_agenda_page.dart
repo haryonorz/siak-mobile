@@ -78,6 +78,7 @@ class _DetailAgendaPageState extends State<DetailAgendaPage> {
                     const SizedBox(height: AppDefaults.xlSpace),
                     ViewAttendanceRecap(
                       absensiRekap: state.detailAgenda.attendanceRecap,
+                      idAgenda: state.detailAgenda.agenda.idAgenda,
                     ),
                     const SizedBox(height: AppDefaults.xlSpace),
                     ViewPotretKelas(),
@@ -90,7 +91,9 @@ class _DetailAgendaPageState extends State<DetailAgendaPage> {
                       margin: const EdgeInsets.symmetric(
                           horizontal: AppDefaults.margin),
                       child: ElevatedButton(
-                        onPressed: () {},
+                        onPressed: () => context
+                            .read<ActionAgendaCubit>()
+                            .closeAgenda(state.detailAgenda.agenda.idAgenda),
                         style: ElevatedButton.styleFrom(
                           shape: RoundedRectangleBorder(
                             borderRadius:

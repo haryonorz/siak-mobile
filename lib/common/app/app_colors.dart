@@ -14,6 +14,7 @@ class AppColors {
   static const Color backgroundBlue = Color(0xFF0b2a60);
   static const Color backgroundLightBlue = Color(0xFF253E98);
   static const Color backgroundRed = Color(0xFFec1e22);
+  static const Color backgroundGrey = Color(0xFFE2E2E2);
   static const Color backgroundLightGrey = Color(0xFFCCCCCC);
 
   //Button
@@ -35,6 +36,8 @@ class AppColors {
   static const Color textWhite = Color(0xFFFFFFFF);
   static const Color textGrey = Color(0xFFCDCFD8);
   static const Color textRed = Color(0xFFec1e22);
+  static const Color textGreen = Color(0xFF56B161);
+  static const Color textYellow = Color(0xFFFFC000);
 
   //Theme
   static const colorScheme = ColorScheme(
