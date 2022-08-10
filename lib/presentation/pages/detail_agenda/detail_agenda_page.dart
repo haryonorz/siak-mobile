@@ -3,6 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:siak_mobile/common/app/app.dart';
 import 'package:siak_mobile/presentation/cubit/action_agenda/action_agenda_cubit.dart';
 import 'package:siak_mobile/presentation/cubit/detail_agenda/detail_agenda_cubit.dart';
+import 'package:siak_mobile/presentation/pages/detail_agenda/components/button_close_agenda.dart';
 import 'package:siak_mobile/presentation/pages/detail_agenda/components/view_attendance_recap.dart';
 import 'package:siak_mobile/presentation/pages/detail_agenda/components/view_note_class.dart';
 import 'package:siak_mobile/presentation/pages/detail_agenda/components/view_detail_agenda.dart';
@@ -81,30 +82,23 @@ class _DetailAgendaPageState extends State<DetailAgendaPage> {
                       idAgenda: state.detailAgenda.agenda.idAgenda,
                     ),
                     const SizedBox(height: AppDefaults.xlSpace),
-                    ViewPotretKelas(),
+                    ViewPotretKelas(
+                        idAgenda: state.detailAgenda.agenda.idAgenda),
                     const SizedBox(height: AppDefaults.xlSpace),
                     ViewNoteClass(
                       agenda: state.detailAgenda.agenda,
                     ),
-                    const SizedBox(height: AppDefaults.xlSpace),
-                    Container(
-                      margin: const EdgeInsets.symmetric(
-                          horizontal: AppDefaults.margin),
-                      child: ElevatedButton(
-                        onPressed: () => context
-                            .read<ActionAgendaCubit>()
-                            .closeAgenda(state.detailAgenda.agenda.idAgenda),
-                        style: ElevatedButton.styleFrom(
-                          shape: RoundedRectangleBorder(
-                            borderRadius:
-                                BorderRadius.circular(AppDefaults.mRadius),
+                    if (state.detailAgenda.agenda.status == '0')
+                      Column(
+                        children: [
+                          const SizedBox(height: AppDefaults.xlSpace),
+                          ButtonCloseAgenda(
+                            idAgenda: state.detailAgenda.agenda.idAgenda,
                           ),
-                        ),
-                        child: Text(
-                          "Tutup Kelas".toUpperCase(),
-                        ),
-                      ),
-                    ),
+                        ],
+                      )
+                    else
+                      Container(),
                     const SizedBox(height: AppDefaults.xlSpace),
                   ],
                 ),

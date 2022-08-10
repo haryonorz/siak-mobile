@@ -11,6 +11,7 @@ class EndPoints {
   static const String signOut = '$baseUrl/doLogout';
 
   static const String getAllAgenda = '$baseUrl/getAllAgenda';
+  static const String getAllAgendaHistory = '$baseUrl/getAllAgendaHistory';
   static const String getDetailAgenda = '$baseUrl/getDetailAgenda';
   static const String getAllRequestJoin = '$baseUrl/getAllRequestJoin';
   static const String doUpdateNoteClass = '$baseUrl/doUpdateNoteClass';

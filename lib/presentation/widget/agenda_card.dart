@@ -96,64 +96,89 @@ class AgendaCard extends StatelessWidget {
                       label: "Tutor: ",
                       value: agenda.namaTutorPengganti ?? agenda.namaTutor,
                     ),
-                    const SizedBox(height: 16),
-                    SizedBox(
-                      width: double.infinity,
-                      height: 36,
-                      child: Stack(
-                        children: agenda.allStudent.map((student) {
-                          int index = agenda.allStudent.indexOf(student);
-                          if (index < 3) {
-                            return Positioned(
-                              left: index * 26,
-                              child: Container(
-                                decoration: BoxDecoration(
-                                    shape: BoxShape.circle,
-                                    border: Border.all(
-                                      width: 2,
-                                      color: AppColors.backgroundBlue,
-                                    ),
-                                    color: AppColors.backgroundLightGrey),
-                                child: student.foto.isNotEmpty
-                                    ? UserPhoto(
-                                        width: 34,
-                                        height: 34,
-                                        url:
-                                            '${EndPoints.baseUrlPhoto}/profile/${student.foto}',
-                                      )
-                                    : const DefaultUserPhoto(
-                                        width: 34,
-                                        height: 34,
+                    agenda.allStudent.isNotEmpty
+                        ? Padding(
+                            padding:
+                                const EdgeInsets.only(top: AppDefaults.padding),
+                            child: SizedBox(
+                              width: double.infinity,
+                              height: 36,
+                              child: Stack(
+                                children: agenda.allStudent.map((student) {
+                                  int index =
+                                      agenda.allStudent.indexOf(student);
+                                  if (index < 3) {
+                                    return Positioned(
+                                      left: index * 26,
+                                      child: Container(
+                                        decoration: BoxDecoration(
+                                            shape: BoxShape.circle,
+                                            border: Border.all(
+                                              width: 2,
+                                              color: AppColors.backgroundBlue,
+                                            ),
+                                            color:
+                                                AppColors.backgroundLightGrey),
+                                        child: student.foto.isNotEmpty
+                                            ? UserPhoto(
+                                                width: 34,
+                                                height: 34,
+                                                url:
+                                                    '${EndPoints.baseUrlPhoto}/profile/${student.foto}',
+                                              )
+                                            : const DefaultUserPhoto(
+                                                width: 34,
+                                                height: 34,
+                                              ),
                                       ),
+                                    );
+                                  } else if (index == 3) {
+                                    return Positioned(
+                                      left: index * 26,
+                                      child: Container(
+                                        width: 36,
+                                        height: 36,
+                                        decoration: BoxDecoration(
+                                          shape: BoxShape.circle,
+                                          border: Border.all(
+                                            width: 2,
+                                            color: AppColors.backgroundBlue,
+                                          ),
+                                          color: AppColors.backgroundRed,
+                                        ),
+                                        child: Center(
+                                          child: Text(
+                                            "+${totalStudent - 3}",
+                                          ),
+                                        ),
+                                      ),
+                                    );
+                                  } else {
+                                    return Container();
+                                  }
+                                }).toList(),
                               ),
-                            );
-                          } else if (index == 3) {
-                            return Positioned(
-                              left: index * 26,
-                              child: Container(
-                                width: 36,
-                                height: 36,
-                                decoration: BoxDecoration(
-                                  shape: BoxShape.circle,
-                                  border: Border.all(
-                                    width: 2,
-                                    color: AppColors.backgroundBlue,
-                                  ),
-                                  color: AppColors.backgroundRed,
-                                ),
-                                child: Center(
-                                  child: Text(
-                                    "+${totalStudent - 3}",
-                                  ),
-                                ),
-                              ),
-                            );
-                          } else {
-                            return Container();
-                          }
-                        }).toList(),
-                      ),
-                    )
+                            ),
+                          )
+                        : Container(),
+                    const SizedBox(height: 16),
+                    agenda.status == '1'
+                        ? Container(
+                            padding: const EdgeInsets.symmetric(
+                              horizontal: AppDefaults.padding,
+                              vertical: AppDefaults.padding / 2,
+                            ),
+                            decoration: BoxDecoration(
+                              color: AppColors.backgroundRed,
+                              borderRadius:
+                                  BorderRadius.circular(AppDefaults.mRadius),
+                            ),
+                            child: Text(
+                              'Closed',
+                              style: Theme.of(context).textTheme.subtitle1,
+                            ),
+                          )
+                        : Container(),
                   ],
                 ),
               ),

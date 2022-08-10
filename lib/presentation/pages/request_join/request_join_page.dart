@@ -3,6 +3,8 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:siak_mobile/common/app/app.dart';
 import 'package:siak_mobile/presentation/cubit/all_request_join/all_request_join_cubit.dart';
 import 'package:siak_mobile/presentation/pages/request_join/components/item_request_join.dart';
+import 'package:siak_mobile/presentation/widget/view_empty.dart';
+import 'package:siak_mobile/presentation/widget/view_error.dart';
 
 class RequestJoinPage extends StatefulWidget {
   final String idAgenda;
@@ -30,22 +32,24 @@ class _RequestJoinPageState extends State<RequestJoinPage> {
         title: const Text('Permintaan Ikut Kelas'),
         systemOverlayStyle: AppDefaults.statusBarDarkBlue,
       ),
-      body: BlocBuilder<AllRequestJoinCubit, AllRequestJoinState>(
-        builder: (context, state) {
-          if (state is AllRequestJoinLoading) {
-            return const Center(
-              child: CircularProgressIndicator(),
-            );
-          } else if (state is AllRequestJoinEmpty) {
-            return const Center(
-              child: Text('No Data'),
-            );
-          } else if (state is AllRequestJoinHasData) {
-            return RefreshIndicator(
-              onRefresh: () async {
-                context.read<AllRequestJoinCubit>().fetchData(widget.idAgenda);
-              },
-              child: ListView.builder(
+      body: RefreshIndicator(
+        onRefresh: () async {
+          context.read<AllRequestJoinCubit>().fetchData(widget.idAgenda);
+        },
+        child: BlocBuilder<AllRequestJoinCubit, AllRequestJoinState>(
+          builder: (context, state) {
+            if (state is AllRequestJoinLoading) {
+              return const Center(
+                child: CircularProgressIndicator(),
+              );
+            } else if (state is AllRequestJoinEmpty) {
+              return const ViewEmpty(
+                title: 'Tidak ada permintaan!',
+                description:
+                    'Jika terdapat siswa tamu dikelas, silahkan memberitahukan siswa tamu yang ingin mengikuti kelas untuk ikut agenda kelas.',
+              );
+            } else if (state is AllRequestJoinHasData) {
+              return ListView.builder(
                 padding: EdgeInsets.zero,
                 itemBuilder: (context, index) {
                   final absensi = state.absensi[index];
@@ -58,16 +62,14 @@ class _RequestJoinPageState extends State<RequestJoinPage> {
                   );
                 },
                 itemCount: state.absensi.length,
-              ),
-            );
-          } else if (state is AllRequestJoinError) {
-            return Center(
-              child: Text(state.message),
-            );
-          } else {
-            return Container();
-          }
-        },
+              );
+            } else if (state is AllRequestJoinError) {
+              return ViewError(message: state.message);
+            } else {
+              return Container();
+            }
+          },
+        ),
       ),
     );
   }

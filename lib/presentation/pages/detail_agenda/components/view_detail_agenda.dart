@@ -68,60 +68,62 @@ class ViewDetaiAgenda extends StatelessWidget {
                 ),
               ),
               const SizedBox(width: AppDefaults.lSpace),
-              Expanded(
-                flex: 2,
-                child: Stack(
-                  children: [
-                    Container(
-                      margin: const EdgeInsets.only(top: 8, right: 8),
-                      child: ElevatedButton(
-                        onPressed: () => Navigator.pushNamed(
-                          context,
-                          Routes.requestJoin,
-                          arguments: agenda.idAgenda,
-                        ),
-                        style: ElevatedButton.styleFrom(
-                          primary: AppColors.backgroundBlue,
-                          shape: RoundedRectangleBorder(
-                            borderRadius:
-                                BorderRadius.circular(AppDefaults.mRadius),
-                          ),
-                          side: const BorderSide(
-                            width: 1.2,
-                            color: AppColors.borderRed,
-                          ),
-                        ),
-                        child: Text(
-                          "Permintaan".toUpperCase(),
-                          style: Theme.of(context)
-                              .textTheme
-                              .button
-                              ?.copyWith(color: AppColors.textRed),
-                        ),
-                      ),
-                    ),
-                    totalRequestJoin == 0
-                        ? Container()
-                        : Positioned.fill(
-                            child: Align(
-                              alignment: Alignment.topRight,
-                              child: Container(
-                                padding: const EdgeInsets.all(8),
-                                decoration: BoxDecoration(
-                                  shape: BoxShape.circle,
-                                  color: AppColors.backgroundRed,
-                                  border: Border.all(
-                                    color: AppColors.backgroundBlue,
-                                    width: 2,
-                                  ),
+              agenda.status == '0'
+                  ? Expanded(
+                      flex: 2,
+                      child: Stack(
+                        children: [
+                          Container(
+                            margin: const EdgeInsets.only(top: 8, right: 8),
+                            child: ElevatedButton(
+                              onPressed: () => Navigator.pushNamed(
+                                context,
+                                Routes.requestJoin,
+                                arguments: agenda.idAgenda,
+                              ),
+                              style: ElevatedButton.styleFrom(
+                                primary: AppColors.backgroundBlue,
+                                shape: RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(
+                                      AppDefaults.mRadius),
                                 ),
-                                child: Text(totalRequestJoin.toString()),
+                                side: const BorderSide(
+                                  width: 1.2,
+                                  color: AppColors.borderRed,
+                                ),
+                              ),
+                              child: Text(
+                                "Permintaan".toUpperCase(),
+                                style: Theme.of(context)
+                                    .textTheme
+                                    .button
+                                    ?.copyWith(color: AppColors.textRed),
                               ),
                             ),
                           ),
-                  ],
-                ),
-              ),
+                          totalRequestJoin == 0
+                              ? Container()
+                              : Positioned.fill(
+                                  child: Align(
+                                    alignment: Alignment.topRight,
+                                    child: Container(
+                                      padding: const EdgeInsets.all(8),
+                                      decoration: BoxDecoration(
+                                        shape: BoxShape.circle,
+                                        color: AppColors.backgroundRed,
+                                        border: Border.all(
+                                          color: AppColors.backgroundBlue,
+                                          width: 2,
+                                        ),
+                                      ),
+                                      child: Text(totalRequestJoin.toString()),
+                                    ),
+                                  ),
+                                ),
+                        ],
+                      ),
+                    )
+                  : Container(),
             ],
           ),
           const SizedBox(height: AppDefaults.xlSpace),
@@ -138,7 +140,7 @@ class ViewDetaiAgenda extends StatelessWidget {
                     const SizedBox(height: 16),
                     CustomField(
                       label: "Ruangan",
-                      value: agenda.ruangan,
+                      value: "${agenda.namaCenter}, ${agenda.ruangan}",
                     ),
                   ],
                 ),
@@ -150,7 +152,7 @@ class ViewDetaiAgenda extends StatelessWidget {
                   children: [
                     CustomField(
                       label: "Kelas",
-                      value: "${agenda.namaCenter},",
+                      value: "${agenda.namaCenter}, ${agenda.pilKelas}",
                     ),
                     const SizedBox(height: 16),
                     CustomField(

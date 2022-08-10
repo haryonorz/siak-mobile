@@ -2,8 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:siak_mobile/common/app/app.dart';
 import 'package:siak_mobile/presentation/widget/decorated_input_border.dart';
 
-class HomeSearchField extends StatelessWidget {
-  const HomeSearchField({Key? key}) : super(key: key);
+class SearchFormField extends StatelessWidget {
+  final String hintText;
+
+  const SearchFormField({Key? key, required this.hintText}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -11,7 +13,7 @@ class HomeSearchField extends StatelessWidget {
       keyboardType: TextInputType.text,
       autofocus: false,
       decoration: InputDecoration(
-        hintText: "Agenda Hari Ini",
+        hintText: hintText,
         prefixIcon: const Icon(Icons.search),
         border: DecoratedInputBorder(
           shadow: AppDefaults.boxShadowInput,

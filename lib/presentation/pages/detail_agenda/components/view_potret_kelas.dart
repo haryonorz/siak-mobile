@@ -1,9 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:siak_mobile/common/app/app_colors.dart';
 import 'package:siak_mobile/common/app/app_defaults.dart';
+import 'package:siak_mobile/common/routes.dart';
 
 class ViewPotretKelas extends StatelessWidget {
-  const ViewPotretKelas({Key? key}) : super(key: key);
+  final String idAgenda;
+
+  const ViewPotretKelas({Key? key, required this.idAgenda}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -26,7 +29,11 @@ class ViewPotretKelas extends StatelessWidget {
           ),
           const SizedBox(height: 16),
           ElevatedButton(
-            onPressed: () {},
+            onPressed: () => Navigator.pushNamed(
+              context,
+              Routes.situationClass,
+              arguments: idAgenda,
+            ),
             style: ElevatedButton.styleFrom(
               minimumSize: const Size(120, 45),
               primary: AppColors.backgroundBlue,

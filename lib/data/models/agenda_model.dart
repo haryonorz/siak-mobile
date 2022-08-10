@@ -22,7 +22,7 @@ class AgendaResponse extends Equatable {
     this.aktivitasDesc,
     this.aktivitasLainnya,
     this.catatanKelas,
-    this.status,
+    required this.status,
     required this.allStudent,
     this.totalStudent,
   });
@@ -45,7 +45,7 @@ class AgendaResponse extends Equatable {
   final String? aktivitasDesc;
   final String? aktivitasLainnya;
   final String? catatanKelas;
-  final String? status;
+  final String status;
   final List<AbsensiResponse> allStudent;
   final int? totalStudent;
 
@@ -104,7 +104,7 @@ class AgendaResponse extends Equatable {
       pokokBahasan: pokokBahasan,
       bidangStudi: bidangStudi,
       namaTutor: namaTutor,
-      namaTutorPengganti: tutorPengganti,
+      namaTutorPengganti: namaTutorPengganti,
       pilKelas: pilKelas,
       center: center,
       namaCenter: namaCenter,
@@ -112,6 +112,7 @@ class AgendaResponse extends Equatable {
       date: date,
       jamIn: jamIn,
       jamOut: jamOut,
+      status: status,
       allStudent: allStudent.map((absensi) => absensi.toEntity()).toList(),
       totalStudent: totalStudent,
     );

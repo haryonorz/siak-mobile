@@ -6,8 +6,8 @@ import 'package:siak_mobile/presentation/cubit/all_agenda/all_agenda_cubit.dart'
 import 'package:siak_mobile/presentation/cubit/auth/authentication_cubit.dart';
 import 'package:siak_mobile/presentation/cubit/sign_out/sign_out_cubit.dart';
 import 'package:siak_mobile/presentation/pages/home/components/home_drawer.dart';
-import 'package:siak_mobile/presentation/pages/home/components/home_search_field.dart';
 import 'package:siak_mobile/presentation/widget/agenda_card.dart';
+import 'package:siak_mobile/presentation/widget/form/search_form_field.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({Key? key}) : super(key: key);
@@ -101,7 +101,9 @@ class _HomePageState extends State<HomePage> {
                           left: AppDefaults.margin,
                           right: AppDefaults.margin * 6,
                         ),
-                        child: const HomeSearchField(),
+                        child: const SearchFormField(
+                          hintText: 'Agenda Hari Ini',
+                        ),
                       ),
                     ),
                   )

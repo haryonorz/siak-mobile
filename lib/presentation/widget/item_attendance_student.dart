@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:octo_image/octo_image.dart';
 import 'package:siak_mobile/common/app/app.dart';
 import 'package:siak_mobile/common/extensions/string_parsing.dart';
+import 'package:siak_mobile/common/routes.dart';
 import 'package:siak_mobile/data/datasources/remote/network/endpoints.dart';
 import 'package:siak_mobile/domain/entities/absensi.dart';
 import 'package:siak_mobile/presentation/widget/default_user_photo.dart';
@@ -21,6 +22,8 @@ class ItemAttendanceStudent extends StatelessWidget {
 
     String dateAttend = absensi.tgl ?? ' -';
     String timeAttend = absensi.jam ?? ' -';
+
+    String photoUrl = '${EndPoints.baseUrlPhoto}/absen/${absensi.fotoAbsen}';
 
     switch (absensi.statusAbsensi) {
       case '0':
@@ -148,14 +151,20 @@ class ItemAttendanceStudent extends StatelessWidget {
           ),
           const SizedBox(width: AppDefaults.lSpace),
           if (absensi.fotoAbsen != null)
-            OctoImage(
-              width: 70,
-              height: 90,
-              image: CachedNetworkImageProvider(
-                  '${EndPoints.baseUrlPhoto}/absen/${absensi.fotoAbsen}'),
-              placeholderBuilder: OctoPlaceholder.circularProgressIndicator(),
-              errorBuilder: OctoError.icon(color: AppColors.backgroundRed),
-              fit: BoxFit.cover,
+            GestureDetector(
+              onTap: () => Navigator.pushNamed(
+                context,
+                Routes.photoPreview,
+                arguments: photoUrl,
+              ),
+              child: OctoImage(
+                width: 70,
+                height: 90,
+                image: CachedNetworkImageProvider(photoUrl),
+                placeholderBuilder: OctoPlaceholder.circularProgressIndicator(),
+                errorBuilder: OctoError.icon(color: AppColors.backgroundRed),
+                fit: BoxFit.cover,
+              ),
             )
           else
             Container(

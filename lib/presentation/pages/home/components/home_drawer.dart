@@ -2,6 +2,7 @@ import 'package:adaptive_dialog/adaptive_dialog.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:siak_mobile/common/app/app.dart';
+import 'package:siak_mobile/common/routes.dart';
 import 'package:siak_mobile/presentation/cubit/sign_out/sign_out_cubit.dart';
 
 class HomeDrawer extends StatelessWidget {
@@ -28,6 +29,14 @@ class HomeDrawer extends StatelessWidget {
             title: const Text('Beranda'),
             onTap: () {
               Navigator.pop(context);
+            },
+          ),
+          ListTile(
+            leading: const Icon(Icons.history),
+            title: const Text('Riwayat Agenda'),
+            onTap: () {
+              Navigator.pop(context);
+              Navigator.pushNamed(context, Routes.agendaHistory);
             },
           ),
           ListTile(

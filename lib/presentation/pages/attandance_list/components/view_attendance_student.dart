@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:siak_mobile/presentation/cubit/all_student/all_student_cubit.dart';
 import 'package:siak_mobile/presentation/widget/item_attendance_student.dart';
+import 'package:siak_mobile/presentation/widget/view_empty.dart';
+import 'package:siak_mobile/presentation/widget/view_error.dart';
 
 class ViewAttendanceStudent extends StatefulWidget {
   final String idAgenda;
@@ -30,8 +32,14 @@ class _ViewAttendanceStudentState extends State<ViewAttendanceStudent> {
             child: CircularProgressIndicator(),
           );
         } else if (state is AllStudentEmpty) {
-          return const Center(
-            child: Text('No Data'),
+          return ViewEmpty(
+            title: 'Tidak ada siswa!',
+            description:
+                'Silahkan periksa data siswa pada kelas yang bersangkutan.',
+            showRefresh: true,
+            onRefresh: () {
+              context.read<AllStudentCubit>().fetchData(widget.idAgenda);
+            },
           );
         } else if (state is AllStudentHasData) {
           return RefreshIndicator(
@@ -54,8 +62,12 @@ class _ViewAttendanceStudentState extends State<ViewAttendanceStudent> {
             ),
           );
         } else if (state is AllStudentError) {
-          return Center(
-            child: Text(state.message),
+          return ViewError(
+            message: state.message,
+            showRefresh: true,
+            onRefresh: () {
+              context.read<AllStudentCubit>().fetchData(widget.idAgenda);
+            },
           );
         } else {
           return Container();

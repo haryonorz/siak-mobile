@@ -19,7 +19,7 @@ class Agenda extends Equatable {
     this.aktivitasDesc,
     this.aktivitasLainnya,
     this.catatanKelas,
-    this.status,
+    required this.status,
     required this.allStudent,
     this.totalStudent,
   });
@@ -40,7 +40,7 @@ class Agenda extends Equatable {
   final String? aktivitasDesc;
   final String? aktivitasLainnya;
   final String? catatanKelas;
-  final String? status;
+  final String status;
   final List<Absensi> allStudent;
   final int? totalStudent;
 
@@ -57,6 +57,7 @@ class Agenda extends Equatable {
         date,
         jamIn,
         jamOut,
+        status,
         allStudent,
         totalStudent,
       ];

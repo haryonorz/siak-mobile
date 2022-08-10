@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:siak_mobile/common/app/app.dart';
+import 'package:siak_mobile/common/routes.dart';
 
 class DefaultUserPhoto extends StatelessWidget {
   final double width;
@@ -13,10 +14,13 @@ class DefaultUserPhoto extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Image.asset(
-      AppImages.defaultPhoto,
-      width: width,
-      height: height,
+    return GestureDetector(
+      onTap: () => Navigator.pushNamed(context, Routes.photoPreview),
+      child: Image.asset(
+        AppImages.defaultPhoto,
+        width: width,
+        height: height,
+      ),
     );
   }
 }

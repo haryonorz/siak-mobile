@@ -40,6 +40,27 @@ class AgendaRepositoryImpl extends AgendaRepository {
   }
 
   @override
+  Future<Either<Failure, List<Agenda>>> getAllAgendaHistory(
+      String getType) async {
+    try {
+      final user = await localDataSource.getUser();
+      if (user != null) {
+        final result = await remoteDataSource.getAllAgendaHistory(
+          user.username,
+          user.type,
+          getType,
+        );
+        return Right(result.map((model) => model.toEntity()).toList());
+      }
+      return Left(ServerFailure('User tidak ditemukan.'));
+    } on ServerException catch (e) {
+      return Left(ServerFailure(e.message));
+    } on SocketException {
+      return Left(ConnectionFailure('Gagal terhubung ke jaringan.'));
+    }
+  }
+
+  @override
   Future<Either<Failure, DetailAgenda>> getDetailAgenda(String idAgenda) async {
     try {
       final user = await localDataSource.getUser();
@@ -118,6 +139,19 @@ class AgendaRepositoryImpl extends AgendaRepository {
       String idAgenda) async {
     try {
       final result = await remoteDataSource.getAllGuestStudent(idAgenda);
+      return Right(result.map((model) => model.toEntity()).toList());
+    } on ServerException catch (e) {
+      return Left(ServerFailure(e.message));
+    } on SocketException {
+      return Left(ConnectionFailure('Gagal terhubung ke jaringan.'));
+    }
+  }
+
+  @override
+  Future<Either<Failure, List<Absensi>>> getAllSituationClass(
+      String idAgenda) async {
+    try {
+      final result = await remoteDataSource.getAllSituationClass(idAgenda);
       return Right(result.map((model) => model.toEntity()).toList());
     } on ServerException catch (e) {
       return Left(ServerFailure(e.message));
