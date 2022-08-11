@@ -46,16 +46,19 @@ class ViewAttendanceRecap extends StatelessWidget {
                       CustomField(
                         label: "Siswa Kelas",
                         value: "$totalSiswaKelas Orang",
+                        direction: Axis.vertical,
                       ),
                       const SizedBox(height: 16),
                       CustomField(
                         label: "Belum Abesensi",
                         value: "$totalSiswaBelumAbsensi Orang",
+                        direction: Axis.vertical,
                       ),
                       const SizedBox(height: 16),
                       CustomField(
                         label: "Hadir",
                         value: "$totalSiswaHadir Orang",
+                        direction: Axis.vertical,
                       ),
                     ],
                   ),
@@ -68,16 +71,19 @@ class ViewAttendanceRecap extends StatelessWidget {
                       CustomField(
                         label: "Siswa Tamu",
                         value: "$totalSiswaTamu Orang",
+                        direction: Axis.vertical,
                       ),
                       const SizedBox(height: 16),
                       CustomField(
                         label: "Menunggu Verifikasi",
                         value: "$totalSiswaMenungguVerifikasi Orang",
+                        direction: Axis.vertical,
                       ),
                       const SizedBox(height: 16),
                       CustomField(
                         label: "Tidak Hadir",
                         value: "$totalSiswaTidakHadir Orang",
+                        direction: Axis.vertical,
                       ),
                     ],
                   ),

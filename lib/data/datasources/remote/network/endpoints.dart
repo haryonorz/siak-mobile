@@ -9,13 +9,17 @@ class EndPoints {
 
   static const String signIn = '$baseUrl/doLogin';
   static const String signOut = '$baseUrl/doLogout';
+  static const String doChangePassword = '$baseUrl/doChangePassword';
 
   static const String getAllAgenda = '$baseUrl/getAllAgenda';
   static const String getAllAgendaHistory = '$baseUrl/getAllAgendaHistory';
   static const String getDetailAgenda = '$baseUrl/getDetailAgenda';
   static const String getAllRequestJoin = '$baseUrl/getAllRequestJoin';
-  static const String doUpdateNoteClass = '$baseUrl/doUpdateNoteClass';
-  static const String doCloseAgenda = '$baseUrl/doCloseAgenda';
   static const String getAllStudent = '$baseUrl/getAllStudent';
   static const String getAllGuestStudent = '$baseUrl/getAllGuestStudent';
+  static const String getAllSituationClass = '$baseUrl/getAllSituationClass';
+
+  static const String doAcceptRequestJoin = '$baseUrl/doAcceptRequestJoin';
+  static const String doUpdateNoteClass = '$baseUrl/doUpdateNoteClass';
+  static const String doCloseAgenda = '$baseUrl/doCloseAgenda';
 }

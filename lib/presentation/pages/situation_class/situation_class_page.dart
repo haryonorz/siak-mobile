@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:siak_mobile/common/app/app.dart';
 import 'package:siak_mobile/presentation/cubit/all_situation_class/all_situation_class_cubit.dart';
+import 'package:siak_mobile/presentation/pages/situation_class/components/item_situation_class.dart';
 import 'package:siak_mobile/presentation/widget/view_empty.dart';
 import 'package:siak_mobile/presentation/widget/view_error.dart';
 
@@ -16,6 +17,13 @@ class SituationClassPage extends StatefulWidget {
 }
 
 class _SituationClassPageState extends State<SituationClassPage> {
+  @override
+  void initState() {
+    super.initState();
+    Future.microtask(() =>
+        context.read<AllSituationClassCubit>().fetchData(widget.idAgenda));
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -64,12 +72,7 @@ class _SituationClassPageState extends State<SituationClassPage> {
                       top: index == 0 ? 16 : 0,
                       bottom: 16,
                     ),
-                    child: Column(
-                      children: [
-                        Text(absensi.namaSiswa),
-                        Text(absensi.masalahSiswa ?? '-'),
-                      ],
-                    ),
+                    child: ItemSituationClass(absensi: absensi),
                   );
                 },
                 itemCount: state.absensi.length,

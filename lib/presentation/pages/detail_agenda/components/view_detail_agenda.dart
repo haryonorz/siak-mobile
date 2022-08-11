@@ -34,6 +34,7 @@ class ViewDetaiAgenda extends StatelessWidget {
               CustomField(
                 label: "Tutor: ",
                 value: agenda.namaTutorPengganti ?? agenda.namaTutor,
+                direction: Axis.vertical,
               ),
               const Spacer(),
               const SizedBox(width: AppDefaults.lSpace),
@@ -136,11 +137,13 @@ class ViewDetaiAgenda extends StatelessWidget {
                     CustomField(
                       label: "Waktu",
                       value: "${agenda.jamIn} - ${agenda.jamOut}",
+                      direction: Axis.vertical,
                     ),
                     const SizedBox(height: 16),
                     CustomField(
                       label: "Ruangan",
                       value: "${agenda.namaCenter}, ${agenda.ruangan}",
+                      direction: Axis.vertical,
                     ),
                   ],
                 ),
@@ -153,11 +156,13 @@ class ViewDetaiAgenda extends StatelessWidget {
                     CustomField(
                       label: "Kelas",
                       value: "${agenda.namaCenter}, ${agenda.pilKelas}",
+                      direction: Axis.vertical,
                     ),
                     const SizedBox(height: 16),
                     CustomField(
                       label: "Bid. Studi: ",
                       value: agenda.bidangStudi,
+                      direction: Axis.vertical,
                     ),
                   ],
                 ),

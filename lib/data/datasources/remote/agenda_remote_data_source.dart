@@ -26,11 +26,13 @@ abstract class AgendaRemoteDataSources {
     String userType,
   );
   Future<List<AbsensiResponse>> getAllRequestJoin(String idAgenda);
-  Future<bool> doUpdateNoteClass(String idAgenda, String note);
-  Future<bool> doCloseAgenda(String idAgenda);
   Future<List<AbsensiResponse>> getAllStudent(String idAgenda);
   Future<List<AbsensiResponse>> getAllGuestStudent(String idAgenda);
   Future<List<AbsensiResponse>> getAllSituationClass(String idAgenda);
+
+  Future<bool> doAcceptRequestJoin(String idAgenda, String noStudent);
+  Future<bool> doUpdateNoteClass(String idAgenda, String note);
+  Future<bool> doCloseAgenda(String idAgenda);
 }
 
 class AgendaRemoteDataSourcesImpl extends AgendaRemoteDataSources {
@@ -130,43 +132,6 @@ class AgendaRemoteDataSourcesImpl extends AgendaRemoteDataSources {
   }
 
   @override
-  Future<bool> doUpdateNoteClass(String idAgenda, String note) async {
-    final response = await client.post(
-      Uri.parse(EndPoints.doUpdateNoteClass),
-      body: {
-        'key': EndPoints.key,
-        'id_agenda': idAgenda,
-        'catatan_kelas': note,
-      },
-    );
-    if (response.statusCode == 200) {
-      return true;
-    } else {
-      final error = ErrorResponse.fromJson(json.decode(response.body));
-      throw ServerException(
-          'Server Error [${response.statusCode}]: ${error.message}');
-    }
-  }
-
-  @override
-  Future<bool> doCloseAgenda(String idAgenda) async {
-    final response = await client.post(
-      Uri.parse(EndPoints.doCloseAgenda),
-      body: {
-        'key': EndPoints.key,
-        'id_agenda': idAgenda,
-      },
-    );
-    if (response.statusCode == 200) {
-      return true;
-    } else {
-      final error = ErrorResponse.fromJson(json.decode(response.body));
-      throw ServerException(
-          'Server Error [${response.statusCode}]: ${error.message}');
-    }
-  }
-
-  @override
   Future<List<AbsensiResponse>> getAllStudent(String idAgenda) async {
     final response = await client.post(
       Uri.parse(EndPoints.getAllStudent),
@@ -207,7 +172,7 @@ class AgendaRemoteDataSourcesImpl extends AgendaRemoteDataSources {
   @override
   Future<List<AbsensiResponse>> getAllSituationClass(String idAgenda) async {
     final response = await client.post(
-      Uri.parse(EndPoints.getAllGuestStudent),
+      Uri.parse(EndPoints.getAllSituationClass),
       body: {
         'key': EndPoints.key,
         'id_agenda': idAgenda,
@@ -216,6 +181,62 @@ class AgendaRemoteDataSourcesImpl extends AgendaRemoteDataSources {
     if (response.statusCode == 200) {
       return StudentListResponse.fromJson(json.decode(response.body))
           .studentList;
+    } else {
+      final error = ErrorResponse.fromJson(json.decode(response.body));
+      throw ServerException(
+          'Server Error [${response.statusCode}]: ${error.message}');
+    }
+  }
+
+  @override
+  Future<bool> doAcceptRequestJoin(String idAgenda, String noStudent) async {
+    final response = await client.post(
+      Uri.parse(EndPoints.doAcceptRequestJoin),
+      body: {
+        'key': EndPoints.key,
+        'id_agenda': idAgenda,
+        'no_siswa': noStudent,
+      },
+    );
+    if (response.statusCode == 200) {
+      return true;
+    } else {
+      final error = ErrorResponse.fromJson(json.decode(response.body));
+      throw ServerException(
+          'Server Error [${response.statusCode}]: ${error.message}');
+    }
+  }
+
+  @override
+  Future<bool> doUpdateNoteClass(String idAgenda, String note) async {
+    final response = await client.post(
+      Uri.parse(EndPoints.doUpdateNoteClass),
+      body: {
+        'key': EndPoints.key,
+        'id_agenda': idAgenda,
+        'catatan_kelas': note,
+      },
+    );
+    if (response.statusCode == 200) {
+      return true;
+    } else {
+      final error = ErrorResponse.fromJson(json.decode(response.body));
+      throw ServerException(
+          'Server Error [${response.statusCode}]: ${error.message}');
+    }
+  }
+
+  @override
+  Future<bool> doCloseAgenda(String idAgenda) async {
+    final response = await client.post(
+      Uri.parse(EndPoints.doCloseAgenda),
+      body: {
+        'key': EndPoints.key,
+        'id_agenda': idAgenda,
+      },
+    );
+    if (response.statusCode == 200) {
+      return true;
     } else {
       final error = ErrorResponse.fromJson(json.decode(response.body));
       throw ServerException(

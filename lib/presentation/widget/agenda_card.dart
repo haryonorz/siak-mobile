@@ -54,6 +54,7 @@ class AgendaCard extends StatelessWidget {
                       CustomField(
                         label: "Kelas",
                         value: "${agenda.namaCenter},",
+                        direction: Axis.vertical,
                       ),
                       const SizedBox(height: AppDefaults.lSpace),
                       Text(
@@ -64,11 +65,13 @@ class AgendaCard extends StatelessWidget {
                       CustomField(
                         label: "Waktu",
                         value: "${agenda.jamIn} - ${agenda.jamOut}",
+                        direction: Axis.vertical,
                       ),
                       const SizedBox(height: AppDefaults.lSpace),
                       CustomField(
                         label: "Ruangan",
                         value: agenda.ruangan,
+                        direction: Axis.vertical,
                       ),
                     ],
                   ),
@@ -90,11 +93,13 @@ class AgendaCard extends StatelessWidget {
                     CustomField(
                       label: "Bid. Studi: ",
                       value: agenda.bidangStudi,
+                      direction: Axis.vertical,
                     ),
                     const SizedBox(height: AppDefaults.sSpace),
                     CustomField(
                       label: "Tutor: ",
                       value: agenda.namaTutorPengganti ?? agenda.namaTutor,
+                      direction: Axis.vertical,
                     ),
                     agenda.allStudent.isNotEmpty
                         ? Padding(

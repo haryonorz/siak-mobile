@@ -13,6 +13,12 @@ abstract class UserRemoteDataSources {
     String? fcmToken,
   );
   Future<bool> doSignOut(String username, String type);
+  Future<bool> doChangePassword(
+    String username,
+    String oldPassword,
+    String newPassword,
+    String userType,
+  );
 }
 
 class UserRemoteDataSourcesImpl extends UserRemoteDataSources {
@@ -52,6 +58,32 @@ class UserRemoteDataSourcesImpl extends UserRemoteDataSources {
         'key': EndPoints.key,
         'username': username,
         'type': type,
+      },
+    );
+    if (response.statusCode == 200) {
+      return true;
+    } else {
+      final error = ErrorResponse.fromJson(json.decode(response.body));
+      throw ServerException(
+          'Server Error [${response.statusCode}]: ${error.message}');
+    }
+  }
+
+  @override
+  Future<bool> doChangePassword(
+    String username,
+    String oldPassword,
+    String newPassword,
+    String userType,
+  ) async {
+    final response = await client.post(
+      Uri.parse(EndPoints.doChangePassword),
+      body: {
+        'key': EndPoints.key,
+        'username': username,
+        'password_lama': oldPassword,
+        'password_baru': newPassword,
+        'user_type': userType,
       },
     );
     if (response.statusCode == 200) {

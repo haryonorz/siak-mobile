@@ -54,4 +54,27 @@ class UserRepositoryImpl extends UserRepository {
       return Left(ConnectionFailure('Gagal terhubung ke jaringan.'));
     }
   }
+
+  @override
+  Future<Either<Failure, bool>> doChangePassword(
+      String oldPassword, String newPassword) async {
+    try {
+      final user = await localDataSource.getUser();
+      if (user != null) {
+        final result = await remoteDataSource.doChangePassword(
+          user.username,
+          oldPassword,
+          newPassword,
+          user.type,
+        );
+        return Right(result);
+      }
+      return Left(
+          ServerFailure('Gagal merubah password, user tidak ditemukan.'));
+    } on ServerException catch (e) {
+      return Left(ServerFailure(e.message));
+    } on SocketException {
+      return Left(ConnectionFailure('Gagal terhubung ke jaringan.'));
+    }
+  }
 }

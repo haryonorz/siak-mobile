@@ -6,6 +6,7 @@ import 'package:siak_mobile/common/extensions/string_parsing.dart';
 import 'package:siak_mobile/common/routes.dart';
 import 'package:siak_mobile/data/datasources/remote/network/endpoints.dart';
 import 'package:siak_mobile/domain/entities/absensi.dart';
+import 'package:siak_mobile/presentation/widget/custom_field.dart';
 import 'package:siak_mobile/presentation/widget/default_user_photo.dart';
 import 'package:siak_mobile/presentation/widget/user_photo.dart';
 
@@ -77,74 +78,35 @@ class ItemAttendanceStudent extends StatelessWidget {
                       ?.copyWith(color: AppColors.textGrey),
                 ),
                 const SizedBox(height: AppDefaults.sSpace),
-                RichText(
-                  text: TextSpan(
-                    text: 'Tanggal: ',
-                    children: [
-                      TextSpan(
-                        text: dateAttend != ' -'
-                            ? dateAttend.parseDate(
-                                fromFormat: "yyyy-MM-dd",
-                                toFormat: "EEEE, dd MMM yyyy",
-                              )
-                            : dateAttend,
-                        style: Theme.of(context)
-                            .textTheme
-                            .subtitle1
-                            ?.copyWith(color: Colors.white),
-                      ),
-                    ],
-                    style: Theme.of(context)
-                        .textTheme
-                        .caption
-                        ?.copyWith(color: AppColors.textGrey),
-                  ),
-                  textScaleFactor: .8,
+                CustomField(
+                  label: "Tanggal: ",
+                  value: dateAttend != ' -'
+                      ? dateAttend.parseDate(
+                          fromFormat: "yyyy-MM-dd",
+                          toFormat: "EEEE, dd MMM yyyy",
+                        )
+                      : dateAttend,
+                  valueStyle: Theme.of(context).textTheme.subtitle2,
                 ),
                 const SizedBox(height: 2),
-                RichText(
-                  text: TextSpan(
-                    text: 'Pukul: ',
-                    children: [
-                      TextSpan(
-                        text: timeAttend != ' -'
-                            ? timeAttend.parseDate(
-                                fromFormat: "HH:mm:ss",
-                                toFormat: "HH:mm",
-                              )
-                            : timeAttend,
-                        style: Theme.of(context)
-                            .textTheme
-                            .subtitle1
-                            ?.copyWith(color: Colors.white),
-                      ),
-                    ],
-                    style: Theme.of(context)
-                        .textTheme
-                        .caption
-                        ?.copyWith(color: AppColors.textGrey),
-                  ),
-                  textScaleFactor: .8,
+                CustomField(
+                  label: "Pukul: ",
+                  value: timeAttend != ' -'
+                      ? timeAttend.parseDate(
+                          fromFormat: "HH:mm:ss",
+                          toFormat: "HH:mm",
+                        )
+                      : timeAttend,
+                  valueStyle: Theme.of(context).textTheme.subtitle2,
                 ),
                 const SizedBox(height: 2),
-                RichText(
-                  text: TextSpan(
-                    text: 'Status: ',
-                    children: [
-                      TextSpan(
-                        text: statusAbsensi,
-                        style: Theme.of(context)
-                            .textTheme
-                            .subtitle1
-                            ?.copyWith(color: statusColor),
-                      ),
-                    ],
-                    style: Theme.of(context)
-                        .textTheme
-                        .caption
-                        ?.copyWith(color: AppColors.textGrey),
-                  ),
-                  textScaleFactor: .8,
+                CustomField(
+                  label: "Status: ",
+                  value: statusAbsensi,
+                  valueStyle: Theme.of(context)
+                      .textTheme
+                      .subtitle2
+                      ?.copyWith(color: statusColor),
                 ),
               ],
             ),

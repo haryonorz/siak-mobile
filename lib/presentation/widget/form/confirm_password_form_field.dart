@@ -2,15 +2,17 @@ import 'package:flutter/material.dart';
 import 'package:form_field_validator/form_field_validator.dart';
 import 'package:siak_mobile/common/app/app.dart';
 
-class PasswordFormField extends StatefulWidget {
+class ConfirmPasswordFormField extends StatefulWidget {
   final TextEditingController controller;
+  final TextEditingController passcontroller;
   final String hintText;
   final bool showLabel;
   final String? labelText;
   final bool roundedField;
 
-  const PasswordFormField({
+  const ConfirmPasswordFormField({
     required this.controller,
+    required this.passcontroller,
     this.hintText = 'Password',
     this.showLabel = false,
     this.labelText,
@@ -19,10 +21,11 @@ class PasswordFormField extends StatefulWidget {
   }) : super(key: key);
 
   @override
-  State<PasswordFormField> createState() => _PasswordFormFieldState();
+  State<ConfirmPasswordFormField> createState() =>
+      _ConfirmPasswordFormFieldState();
 }
 
-class _PasswordFormFieldState extends State<PasswordFormField> {
+class _ConfirmPasswordFormFieldState extends State<ConfirmPasswordFormField> {
   bool obsecurePassword = true;
 
   @override
@@ -37,13 +40,13 @@ class _PasswordFormFieldState extends State<PasswordFormField> {
               )
             : Container(),
         TextFormField(
-          validator: MultiValidator(
-            [
-              RequiredValidator(errorText: 'Password required'),
-              MinLengthValidator(6,
-                  errorText: 'Password must be at least 6 digits'),
-            ],
-          ),
+          validator: (value) {
+            if (value == null || value.isEmpty) {
+              return 'Password required';
+            }
+            return MatchValidator(errorText: 'Password tidak sama')
+                .validateMatch(value, widget.passcontroller.text);
+          },
           obscureText: obsecurePassword,
           controller: widget.controller,
           decoration: InputDecoration(

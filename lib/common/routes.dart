@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:siak_mobile/presentation/pages/agenda_history/agenda_history_page.dart';
 import 'package:siak_mobile/presentation/pages/attandance_list/attendance_list_page.dart';
+import 'package:siak_mobile/presentation/pages/change_password/change_password_page.dart';
 import 'package:siak_mobile/presentation/pages/detail_agenda/detail_agenda_page.dart';
 import 'package:siak_mobile/presentation/pages/photo_preview/photo_preview_page.dart';
+import 'package:siak_mobile/presentation/pages/profile/profile_page.dart';
 import 'package:siak_mobile/presentation/pages/request_join/request_join_page.dart';
 import 'package:siak_mobile/presentation/pages/sign_in/sign_in_page.dart';
 import 'package:siak_mobile/presentation/pages/situation_class/situation_class_page.dart';
@@ -19,6 +21,9 @@ abstract class Routes {
   static const photoPreview = '/photoPreview';
 
   static const agendaHistory = '/agendaHistory';
+
+  static const profile = '/profile';
+  static const changePassword = '/changePassword';
 }
 
 class RouteGenerator {
@@ -48,6 +53,10 @@ class RouteGenerator {
             builder: (_) => PhotoPreviewPage(url: args as String?));
       case Routes.agendaHistory:
         return MaterialPageRoute(builder: (_) => const AgendaHistoryPage());
+      case Routes.profile:
+        return MaterialPageRoute(builder: (_) => const ProfilePage());
+      case Routes.changePassword:
+        return MaterialPageRoute(builder: (_) => const ChangePasswordPage());
       default:
         return MaterialPageRoute(
           builder: (_) {

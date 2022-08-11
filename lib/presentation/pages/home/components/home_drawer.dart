@@ -44,6 +44,7 @@ class HomeDrawer extends StatelessWidget {
             title: const Text('Profil'),
             onTap: () {
               Navigator.pop(context);
+              Navigator.pushNamed(context, Routes.profile);
             },
           ),
           ListTile(

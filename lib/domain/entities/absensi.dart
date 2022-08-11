@@ -10,6 +10,8 @@ class Absensi extends Equatable {
     this.tgl,
     this.jam,
     this.fotoAbsen,
+    this.fotoAbsenTutor,
+    this.idProblem,
     this.masalahSiswa,
     required this.statusSiswa,
     this.verification,
@@ -26,6 +28,8 @@ class Absensi extends Equatable {
   final String? tgl;
   final String? jam;
   final String? fotoAbsen;
+  final String? fotoAbsenTutor;
+  final String? idProblem;
   final String? masalahSiswa;
   final String statusSiswa;
   final String? verification;
@@ -43,6 +47,8 @@ class Absensi extends Equatable {
         tgl,
         jam,
         fotoAbsen,
+        fotoAbsenTutor,
+        idProblem,
         masalahSiswa,
         statusSiswa,
         verification,

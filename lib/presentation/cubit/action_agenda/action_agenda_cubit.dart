@@ -21,7 +21,7 @@ class ActionAgendaCubit extends Cubit<ActionAgendaState> {
       (failure) {
         emit(ActionAgendaMessage(failure.message));
       },
-      (success) {
+      (_) {
         emit(ActionAgendaSuccess());
       },
     );
@@ -34,7 +34,7 @@ class ActionAgendaCubit extends Cubit<ActionAgendaState> {
       (failure) {
         emit(ActionAgendaMessage(failure.message));
       },
-      (success) {
+      (_) {
         emit(ActionAgendaSuccess());
       },
     );

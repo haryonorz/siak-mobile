@@ -93,36 +93,6 @@ class AgendaRepositoryImpl extends AgendaRepository {
   }
 
   @override
-  Future<Either<Failure, bool>> doUpdateNoteClass(
-    String idAgenda,
-    String note,
-  ) async {
-    try {
-      final result = await remoteDataSource.doUpdateNoteClass(
-        idAgenda,
-        note,
-      );
-      return Right(result);
-    } on ServerException catch (e) {
-      return Left(ServerFailure(e.message));
-    } on SocketException {
-      return Left(ConnectionFailure('Gagal terhubung ke jaringan.'));
-    }
-  }
-
-  @override
-  Future<Either<Failure, bool>> doCloseAgenda(String idAgenda) async {
-    try {
-      final result = await remoteDataSource.doCloseAgenda(idAgenda);
-      return Right(result);
-    } on ServerException catch (e) {
-      return Left(ServerFailure(e.message));
-    } on SocketException {
-      return Left(ConnectionFailure('Gagal terhubung ke jaringan.'));
-    }
-  }
-
-  @override
   Future<Either<Failure, List<Absensi>>> getAllStudent(String idAgenda) async {
     try {
       final result = await remoteDataSource.getAllStudent(idAgenda);
@@ -153,6 +123,54 @@ class AgendaRepositoryImpl extends AgendaRepository {
     try {
       final result = await remoteDataSource.getAllSituationClass(idAgenda);
       return Right(result.map((model) => model.toEntity()).toList());
+    } on ServerException catch (e) {
+      return Left(ServerFailure(e.message));
+    } on SocketException {
+      return Left(ConnectionFailure('Gagal terhubung ke jaringan.'));
+    }
+  }
+
+  @override
+  Future<Either<Failure, bool>> doAcceptRequestJoin(
+    String idAgenda,
+    String noStudent,
+  ) async {
+    try {
+      final result = await remoteDataSource.doAcceptRequestJoin(
+        idAgenda,
+        noStudent,
+      );
+      return Right(result);
+    } on ServerException catch (e) {
+      return Left(ServerFailure(e.message));
+    } on SocketException {
+      return Left(ConnectionFailure('Gagal terhubung ke jaringan.'));
+    }
+  }
+
+  @override
+  Future<Either<Failure, bool>> doUpdateNoteClass(
+    String idAgenda,
+    String note,
+  ) async {
+    try {
+      final result = await remoteDataSource.doUpdateNoteClass(
+        idAgenda,
+        note,
+      );
+      return Right(result);
+    } on ServerException catch (e) {
+      return Left(ServerFailure(e.message));
+    } on SocketException {
+      return Left(ConnectionFailure('Gagal terhubung ke jaringan.'));
+    }
+  }
+
+  @override
+  Future<Either<Failure, bool>> doCloseAgenda(String idAgenda) async {
+    try {
+      final result = await remoteDataSource.doCloseAgenda(idAgenda);
+      return Right(result);
     } on ServerException catch (e) {
       return Left(ServerFailure(e.message));
     } on SocketException {

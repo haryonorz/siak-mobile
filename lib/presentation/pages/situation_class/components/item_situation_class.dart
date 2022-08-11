@@ -1,23 +1,22 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:siak_mobile/common/app/app.dart';
 import 'package:siak_mobile/data/datasources/remote/network/endpoints.dart';
 import 'package:siak_mobile/domain/entities/absensi.dart';
-import 'package:siak_mobile/presentation/cubit/accept_request_join/accept_request_join_cubit.dart';
-import 'package:siak_mobile/presentation/cubit/action_agenda/action_agenda_cubit.dart';
+import 'package:siak_mobile/presentation/widget/custom_field.dart';
 import 'package:siak_mobile/presentation/widget/default_user_photo.dart';
 import 'package:siak_mobile/presentation/widget/user_photo.dart';
 
-class ItemRequestJoin extends StatelessWidget {
+class ItemSituationClass extends StatelessWidget {
   final Absensi absensi;
 
-  const ItemRequestJoin({Key? key, required this.absensi}) : super(key: key);
+  const ItemSituationClass({Key? key, required this.absensi}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return Container(
       padding: const EdgeInsets.symmetric(horizontal: AppDefaults.padding),
       child: Row(
+        crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           absensi.foto.isNotEmpty
               ? UserPhoto(
@@ -39,31 +38,13 @@ class ItemRequestJoin extends StatelessWidget {
                       ?.copyWith(fontWeight: FontWeight.bold),
                 ),
                 const SizedBox(height: AppDefaults.sSpace),
-                Text(
-                  absensi.pilKelas,
-                  style: Theme.of(context)
-                      .textTheme
-                      .subtitle2
-                      ?.copyWith(color: AppColors.textGrey),
+                CustomField(
+                  label: "Masalah: ",
+                  value: absensi.masalahSiswa ?? '-',
+                  valueStyle: Theme.of(context).textTheme.subtitle2,
                 ),
               ],
             ),
-          ),
-          const SizedBox(width: AppDefaults.lSpace),
-          ElevatedButton(
-            onPressed: () {
-              context
-                  .read<AcceptRequestJoinCubit>()
-                  .acceptRequestJoin(absensi.idAgenda, absensi.noSiswa);
-            },
-            style: ElevatedButton.styleFrom(
-              minimumSize: const Size(90, 38),
-              padding: EdgeInsets.zero,
-              shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(AppDefaults.mRadius),
-              ),
-            ),
-            child: const Text("Terima"),
           ),
         ],
       ),

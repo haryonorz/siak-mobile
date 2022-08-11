@@ -8,6 +8,8 @@ import 'package:siak_mobile/presentation/cubit/sign_out/sign_out_cubit.dart';
 import 'package:siak_mobile/presentation/pages/home/components/home_drawer.dart';
 import 'package:siak_mobile/presentation/widget/agenda_card.dart';
 import 'package:siak_mobile/presentation/widget/form/search_form_field.dart';
+import 'package:siak_mobile/presentation/widget/view_empty.dart';
+import 'package:siak_mobile/presentation/widget/view_error.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({Key? key}) : super(key: key);
@@ -118,8 +120,13 @@ class _HomePageState extends State<HomePage> {
                       child: CircularProgressIndicator(),
                     );
                   } else if (state is AllAgendaEmpty) {
-                    return const Center(
-                      child: Text('No Data'),
+                    return ViewEmpty(
+                      title: 'Agenda tidak ditemukan!',
+                      description: 'Silahkan buat agenda terlebih dahulu.',
+                      showRefresh: true,
+                      onRefresh: () {
+                        context.read<AllAgendaCubit>().fetchData('all');
+                      },
                     );
                   } else if (state is AllAgendaHasData) {
                     return RefreshIndicator(
@@ -143,8 +150,12 @@ class _HomePageState extends State<HomePage> {
                       ),
                     );
                   } else if (state is AllAgendaError) {
-                    return Center(
-                      child: Text(state.message),
+                    return ViewError(
+                      message: state.message,
+                      showRefresh: true,
+                      onRefresh: () {
+                        context.read<AllAgendaCubit>().fetchData('all');
+                      },
                     );
                   } else {
                     return Container();

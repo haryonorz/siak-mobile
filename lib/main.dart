@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:intl/date_symbol_data_local.dart';
 import 'package:siak_mobile/common/routes.dart';
+import 'package:siak_mobile/presentation/cubit/accept_request_join/accept_request_join_cubit.dart';
 import 'package:siak_mobile/presentation/cubit/action_agenda/action_agenda_cubit.dart';
 import 'package:siak_mobile/presentation/cubit/all_agenda/all_agenda_cubit.dart';
 import 'package:siak_mobile/presentation/cubit/all_agenda_history/all_agenda_history_cubit.dart';
@@ -11,6 +12,7 @@ import 'package:siak_mobile/presentation/cubit/all_request_join/all_request_join
 import 'package:siak_mobile/presentation/cubit/all_situation_class/all_situation_class_cubit.dart';
 import 'package:siak_mobile/presentation/cubit/all_student/all_student_cubit.dart';
 import 'package:siak_mobile/presentation/cubit/auth/authentication_cubit.dart';
+import 'package:siak_mobile/presentation/cubit/change_password/change_password_cubit.dart';
 import 'package:siak_mobile/presentation/cubit/detail_agenda/detail_agenda_cubit.dart';
 import 'package:siak_mobile/presentation/cubit/sign_in/sign_in_cubit.dart';
 import 'package:siak_mobile/presentation/cubit/sign_out/sign_out_cubit.dart';
@@ -42,6 +44,9 @@ class MyApp extends StatelessWidget {
           create: (_) => di.locator<SignOutCubit>(),
         ),
         BlocProvider(
+          create: (_) => di.locator<ChangePasswordCubit>(),
+        ),
+        BlocProvider(
           create: (_) => di.locator<AuthenticationCubit>()..appStated(),
         ),
         BlocProvider(
@@ -55,6 +60,9 @@ class MyApp extends StatelessWidget {
         ),
         BlocProvider(
           create: (_) => di.locator<AllRequestJoinCubit>(),
+        ),
+        BlocProvider(
+          create: (_) => di.locator<AcceptRequestJoinCubit>(),
         ),
         BlocProvider(
           create: (_) => di.locator<ActionAgendaCubit>(),

@@ -11,6 +11,8 @@ class AbsensiResponse extends Equatable {
     this.tgl,
     this.jam,
     this.fotoAbsen,
+    this.fotoAbsenTutor,
+    this.idProblem,
     this.masalahSiswa,
     required this.statusSiswa,
     this.verification,
@@ -27,6 +29,8 @@ class AbsensiResponse extends Equatable {
   final String? tgl;
   final String? jam;
   final String? fotoAbsen;
+  final String? fotoAbsenTutor;
+  final String? idProblem;
   final String? masalahSiswa;
   final String statusSiswa;
   final String? verification;
@@ -44,6 +48,8 @@ class AbsensiResponse extends Equatable {
         tgl: json["tgl"],
         jam: json["jam"],
         fotoAbsen: json["foto_absen"],
+        fotoAbsenTutor: json["foto_absen_tutor"],
+        idProblem: json["id_problem"],
         masalahSiswa: json["masalah_siswa"],
         statusSiswa: json["status_siswa"],
         verification: json["verification"],
@@ -61,6 +67,8 @@ class AbsensiResponse extends Equatable {
         "tgl": tgl,
         "jam": jam,
         "foto_absen": fotoAbsen,
+        "foto_absen_tutor": fotoAbsenTutor,
+        "id_problem": idProblem,
         "masalah_siswa": masalahSiswa,
         "status_siswa": statusSiswa,
         "verification": verification,
@@ -78,6 +86,8 @@ class AbsensiResponse extends Equatable {
       tgl: tgl,
       jam: jam,
       fotoAbsen: fotoAbsen,
+      fotoAbsenTutor: fotoAbsenTutor,
+      idProblem: idProblem,
       masalahSiswa: masalahSiswa,
       statusSiswa: statusSiswa,
       verification: verification,
@@ -97,6 +107,8 @@ class AbsensiResponse extends Equatable {
         tgl,
         jam,
         fotoAbsen,
+        fotoAbsenTutor,
+        idProblem,
         masalahSiswa,
         statusSiswa,
         verification,
