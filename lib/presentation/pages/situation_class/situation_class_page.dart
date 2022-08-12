@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:siak_mobile/common/app/app.dart';
+import 'package:siak_mobile/common/routes.dart';
 import 'package:siak_mobile/presentation/cubit/all_situation_class/all_situation_class_cubit.dart';
 import 'package:siak_mobile/presentation/pages/situation_class/components/item_situation_class.dart';
 import 'package:siak_mobile/presentation/widget/view_empty.dart';
@@ -34,7 +35,11 @@ class _SituationClassPageState extends State<SituationClassPage> {
         systemOverlayStyle: AppDefaults.statusBarDarkBlue,
       ),
       floatingActionButton: FloatingActionButton(
-        onPressed: () {},
+        onPressed: () => Navigator.pushNamed(
+          context,
+          Routes.addSituationClass,
+          arguments: widget.idAgenda,
+        ),
         backgroundColor: AppColors.backgroundRed,
         child: const Icon(Icons.add),
       ),
@@ -67,13 +72,7 @@ class _SituationClassPageState extends State<SituationClassPage> {
                 padding: EdgeInsets.zero,
                 itemBuilder: (context, index) {
                   final absensi = state.absensi[index];
-                  return Container(
-                    margin: EdgeInsets.only(
-                      top: index == 0 ? 16 : 0,
-                      bottom: 16,
-                    ),
-                    child: ItemSituationClass(absensi: absensi),
-                  );
+                  return ItemSituationClass(absensi: absensi);
                 },
                 itemCount: state.absensi.length,
               ),

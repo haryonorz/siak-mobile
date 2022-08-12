@@ -8,7 +8,7 @@ class DoChangePassword {
   DoChangePassword(this.repository);
 
   Future<Either<Failure, bool>> execute(
-      String oldPassword, String newPassword) async {
+      String oldPassword, String newPassword) {
     return repository.doChangePassword(oldPassword, newPassword);
   }
 }

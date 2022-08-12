@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:siak_mobile/presentation/pages/add_situation_class/add_situation_class_page.dart';
 import 'package:siak_mobile/presentation/pages/agenda_history/agenda_history_page.dart';
 import 'package:siak_mobile/presentation/pages/attandance_list/attendance_list_page.dart';
 import 'package:siak_mobile/presentation/pages/change_password/change_password_page.dart';
@@ -17,6 +18,7 @@ abstract class Routes {
   static const requestJoin = '/requestJoin';
   static const attendanceList = '/attendanceList';
   static const situationClass = '/situationClass';
+  static const addSituationClass = '/addSituationClass';
 
   static const photoPreview = '/photoPreview';
 
@@ -48,6 +50,9 @@ class RouteGenerator {
       case Routes.situationClass:
         return MaterialPageRoute(
             builder: (_) => SituationClassPage(idAgenda: args as String));
+      case Routes.addSituationClass:
+        return MaterialPageRoute(
+            builder: (_) => AddSituationClassPage(idAgenda: args as String));
       case Routes.photoPreview:
         return MaterialPageRoute(
             builder: (_) => PhotoPreviewPage(url: args as String?));

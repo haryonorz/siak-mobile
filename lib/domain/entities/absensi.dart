@@ -18,6 +18,7 @@ class Absensi extends Equatable {
     required this.statusAbsensi,
     required this.terlambat,
     this.alasanTerlambat,
+    this.selected = false,
   });
 
   final String idAgenda;
@@ -36,6 +37,23 @@ class Absensi extends Equatable {
   final String statusAbsensi;
   final String terlambat;
   final String? alasanTerlambat;
+  final bool selected;
+
+  Absensi copyWith({bool? selected}) {
+    return Absensi(
+      idAgenda: idAgenda,
+      noSiswa: noSiswa,
+      namaSiswa: namaSiswa,
+      foto: foto,
+      pilKelas: pilKelas,
+      statusSiswa: statusSiswa,
+      statusAbsensi: statusAbsensi,
+      terlambat: terlambat,
+      idProblem: idProblem,
+      masalahSiswa: masalahSiswa,
+      selected: selected ?? this.selected,
+    );
+  }
 
   @override
   List<Object?> get props => [
@@ -55,5 +73,6 @@ class Absensi extends Equatable {
         statusAbsensi,
         terlambat,
         alasanTerlambat,
+        selected,
       ];
 }

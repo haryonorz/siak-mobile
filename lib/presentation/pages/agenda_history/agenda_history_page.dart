@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:siak_mobile/common/app/app.dart';
 import 'package:siak_mobile/presentation/cubit/all_agenda_history/all_agenda_history_cubit.dart';
 import 'package:siak_mobile/presentation/widget/agenda_card.dart';

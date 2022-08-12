@@ -25,7 +25,6 @@ import 'package:siak_mobile/domain/usecases/get_all_request_join.dart';
 import 'package:siak_mobile/domain/usecases/get_all_situation_class.dart';
 import 'package:siak_mobile/domain/usecases/get_all_student.dart';
 import 'package:siak_mobile/domain/usecases/get_detail_agenda.dart';
-import 'package:siak_mobile/presentation/cubit/accept_request_join/accept_request_join_cubit.dart';
 import 'package:siak_mobile/presentation/cubit/action_agenda/action_agenda_cubit.dart';
 import 'package:siak_mobile/presentation/cubit/all_agenda/all_agenda_cubit.dart';
 import 'package:siak_mobile/presentation/cubit/all_agenda_history/all_agenda_history_cubit.dart';
@@ -50,8 +49,11 @@ void init() {
   locator.registerFactory(() => AllAgendaHistoryCubit(locator()));
   locator.registerFactory(() => DetailAgendaCubit(locator()));
   locator.registerFactory(() => AllRequestJoinCubit(locator()));
-  locator.registerFactory(() => AcceptRequestJoinCubit(locator()));
-  locator.registerFactory(() => ActionAgendaCubit(locator(), locator()));
+  locator.registerFactory(() => ActionAgendaCubit(
+        locator(),
+        locator(),
+        locator(),
+      ));
   locator.registerFactory(() => AllStudentCubit(locator()));
   locator.registerFactory(() => AllGuestStudentCubit(locator()));
   locator.registerFactory(() => AllSituationClassCubit(locator()));

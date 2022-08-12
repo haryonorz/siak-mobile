@@ -33,11 +33,11 @@ class _DetailAgendaPageState extends State<DetailAgendaPage> {
         if (state is ActionAgendaSuccess) {
           context.read<DetailAgendaCubit>().fetchData(widget.idAgenda);
         }
-        if (state is ActionAgendaMessage) {
+        if (state is ActionAgendaError) {
           ScaffoldMessenger.of(context).showSnackBar(
             SnackBar(
               content: Text(
-                state.message ?? "-",
+                state.message,
                 style: Theme.of(context)
                     .textTheme
                     .bodyText2

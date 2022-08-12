@@ -9,10 +9,12 @@ abstract class ActionAgendaState extends Equatable {
 
 class ActionAgendaInitial extends ActionAgendaState {}
 
-class ActionAgendaMessage extends ActionAgendaState {
-  final String? message;
+class ActionAgendaLoading extends ActionAgendaState {}
 
-  const ActionAgendaMessage(
+class ActionAgendaError extends ActionAgendaState {
+  final String message;
+
+  const ActionAgendaError(
     this.message,
   );
 

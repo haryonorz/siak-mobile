@@ -8,22 +8,26 @@ class UserPhoto extends StatelessWidget {
   final double width;
   final double height;
   final String url;
+  final bool photoPreview;
 
   const UserPhoto({
     Key? key,
     required this.width,
     required this.height,
     required this.url,
+    this.photoPreview = true,
   }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
-      onTap: () => Navigator.pushNamed(
-        context,
-        Routes.photoPreview,
-        arguments: url,
-      ),
+      onTap: photoPreview == true
+          ? () => Navigator.pushNamed(
+                context,
+                Routes.photoPreview,
+                arguments: url,
+              )
+          : null,
       child: OctoImage(
         width: width,
         height: height,

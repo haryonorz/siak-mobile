@@ -7,7 +7,7 @@ class DoSignOut {
 
   DoSignOut(this.repository);
 
-  Future<Either<Failure, bool>> execute() async {
+  Future<Either<Failure, bool>> execute() {
     return repository.doSignOut();
   }
 }

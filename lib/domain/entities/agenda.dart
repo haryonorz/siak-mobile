@@ -57,6 +57,7 @@ class Agenda extends Equatable {
         date,
         jamIn,
         jamOut,
+        catatanKelas,
         status,
         allStudent,
         totalStudent,

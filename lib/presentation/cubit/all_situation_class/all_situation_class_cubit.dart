@@ -27,4 +27,8 @@ class AllSituationClassCubit extends Cubit<AllSituationClassState> {
       },
     );
   }
+
+  void isSelected(Absensi absensi, bool selected) async {
+    absensi.copyWith(selected: selected);
+  }
 }

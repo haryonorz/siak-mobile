@@ -112,6 +112,7 @@ class AgendaResponse extends Equatable {
       date: date,
       jamIn: jamIn,
       jamOut: jamOut,
+      catatanKelas: catatanKelas,
       status: status,
       allStudent: allStudent.map((absensi) => absensi.toEntity()).toList(),
       totalStudent: totalStudent,

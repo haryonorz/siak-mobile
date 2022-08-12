@@ -65,7 +65,7 @@ class ChangePasswordForm extends StatelessWidget {
                         );
                   }
                 },
-                child: const Text("Save"),
+                child: const Text("Simpan"),
               ),
             ),
           ],
