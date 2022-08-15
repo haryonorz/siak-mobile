@@ -4,6 +4,8 @@ import 'package:siak_mobile/common/app/app.dart';
 import 'package:siak_mobile/presentation/cubit/all_agenda_history/all_agenda_history_cubit.dart';
 import 'package:siak_mobile/presentation/widget/agenda_card.dart';
 import 'package:siak_mobile/presentation/widget/form/search_form_field.dart';
+import 'package:siak_mobile/presentation/widget/view_empty.dart';
+import 'package:siak_mobile/presentation/widget/view_error.dart';
 
 class AgendaHistoryPage extends StatefulWidget {
   const AgendaHistoryPage({Key? key}) : super(key: key);
@@ -43,8 +45,14 @@ class _AgendaHistoryPageState extends State<AgendaHistoryPage> {
                     child: CircularProgressIndicator(),
                   );
                 } else if (state is AllAgendaHistoryEmpty) {
-                  return const Center(
-                    child: Text('No Data'),
+                  return ViewEmpty(
+                    title: 'Belum ada agenda yang selesai!',
+                    description:
+                        'Jika terdapat agenda yang selesai, silahkan close agenda tersebut.',
+                    showRefresh: true,
+                    onRefresh: () {
+                      context.read<AllAgendaHistoryCubit>().fetchData('all');
+                    },
                   );
                 } else if (state is AllAgendaHistoryHasData) {
                   return RefreshIndicator(
@@ -68,8 +76,12 @@ class _AgendaHistoryPageState extends State<AgendaHistoryPage> {
                     ),
                   );
                 } else if (state is AllAgendaHistoryError) {
-                  return Center(
-                    child: Text(state.message),
+                  return ViewError(
+                    message: state.message,
+                    showRefresh: true,
+                    onRefresh: () {
+                      context.read<AllAgendaHistoryCubit>().fetchData('all');
+                    },
                   );
                 } else {
                   return Container();

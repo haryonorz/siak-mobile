@@ -18,8 +18,11 @@ class EndPoints {
   static const String getAllStudent = '$baseUrl/getAllStudent';
   static const String getAllGuestStudent = '$baseUrl/getAllGuestStudent';
   static const String getAllSituationClass = '$baseUrl/getAllSituationClass';
+  static const String getInfoProblemClass = '$baseUrl/getInfoProblemClass';
+  static const String getStudentInClass = '$baseUrl/getStudentInClass';
 
   static const String doAcceptRequestJoin = '$baseUrl/doAcceptRequestJoin';
   static const String doUpdateNoteClass = '$baseUrl/doUpdateNoteClass';
+  static const String doAddSituationClass = '$baseUrl/doAddSituationClass';
   static const String doCloseAgenda = '$baseUrl/doCloseAgenda';
 }

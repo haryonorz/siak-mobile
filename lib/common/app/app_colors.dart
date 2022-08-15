@@ -31,6 +31,7 @@ class AppColors {
   //Icon
   static const Color iconWhite = Color(0xFFFFFFFF);
   static const Color iconGrey = Color(0xFF70778E);
+  static const Color iconRed = Color(0xFFec1e22);
 
   //Text
   static const Color textWhite = Color(0xFFFFFFFF);

@@ -1,6 +1,7 @@
 import 'package:equatable/equatable.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:siak_mobile/domain/usecases/do_accept_request_join.dart';
+import 'package:siak_mobile/domain/usecases/do_add_situation_class.dart';
 import 'package:siak_mobile/domain/usecases/do_close_agenda.dart';
 import 'package:siak_mobile/domain/usecases/do_update_note_class.dart';
 

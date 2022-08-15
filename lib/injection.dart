@@ -12,6 +12,7 @@ import 'package:siak_mobile/domain/repositories/agenda_repository.dart';
 import 'package:siak_mobile/domain/repositories/auth_repository.dart';
 import 'package:siak_mobile/domain/repositories/user_repository.dart';
 import 'package:siak_mobile/domain/usecases/do_accept_request_join.dart';
+import 'package:siak_mobile/domain/usecases/do_add_situation_class.dart';
 import 'package:siak_mobile/domain/usecases/do_authentication.dart';
 import 'package:siak_mobile/domain/usecases/do_change_password.dart';
 import 'package:siak_mobile/domain/usecases/do_close_agenda.dart';
@@ -25,7 +26,10 @@ import 'package:siak_mobile/domain/usecases/get_all_request_join.dart';
 import 'package:siak_mobile/domain/usecases/get_all_situation_class.dart';
 import 'package:siak_mobile/domain/usecases/get_all_student.dart';
 import 'package:siak_mobile/domain/usecases/get_detail_agenda.dart';
+import 'package:siak_mobile/domain/usecases/get_info_problem_class.dart';
+import 'package:siak_mobile/domain/usecases/get_student_in_class.dart';
 import 'package:siak_mobile/presentation/cubit/action_agenda/action_agenda_cubit.dart';
+import 'package:siak_mobile/presentation/cubit/action_situation_class/action_situation_class_cubit.dart';
 import 'package:siak_mobile/presentation/cubit/all_agenda/all_agenda_cubit.dart';
 import 'package:siak_mobile/presentation/cubit/all_agenda_history/all_agenda_history_cubit.dart';
 import 'package:siak_mobile/presentation/cubit/all_guest_student/all_guest_student_cubit.dart';
@@ -35,8 +39,10 @@ import 'package:siak_mobile/presentation/cubit/all_student/all_student_cubit.dar
 import 'package:siak_mobile/presentation/cubit/auth/authentication_cubit.dart';
 import 'package:siak_mobile/presentation/cubit/change_password/change_password_cubit.dart';
 import 'package:siak_mobile/presentation/cubit/detail_agenda/detail_agenda_cubit.dart';
+import 'package:siak_mobile/presentation/cubit/info_problem_class/info_problem_class_cubit.dart';
 import 'package:siak_mobile/presentation/cubit/sign_in/sign_in_cubit.dart';
 import 'package:siak_mobile/presentation/cubit/sign_out/sign_out_cubit.dart';
+import 'package:siak_mobile/presentation/cubit/student_in_class/student_in_class_cubit.dart';
 
 final locator = GetIt.instance;
 
@@ -54,9 +60,12 @@ void init() {
         locator(),
         locator(),
       ));
+  locator.registerFactory(() => ActionSituationClassCubit(locator()));
   locator.registerFactory(() => AllStudentCubit(locator()));
   locator.registerFactory(() => AllGuestStudentCubit(locator()));
   locator.registerFactory(() => AllSituationClassCubit(locator()));
+  locator.registerFactory(() => InfoProblemClassCubit(locator()));
+  locator.registerFactory(() => StudentInClassCubit(locator()));
 
   locator.registerLazySingleton(() => DoSignIn(locator()));
   locator.registerLazySingleton(() => DoSignOut(locator()));
@@ -72,6 +81,9 @@ void init() {
   locator.registerLazySingleton(() => GetAllStudent(locator()));
   locator.registerLazySingleton(() => GetAllGuestStudent(locator()));
   locator.registerLazySingleton(() => GetAllSituationClass(locator()));
+  locator.registerLazySingleton(() => GetInfoProblemClass(locator()));
+  locator.registerLazySingleton(() => DoAddSituationClass(locator()));
+  locator.registerLazySingleton(() => GetStudentInClass(locator()));
 
   locator.registerLazySingleton<UserRepository>(() => UserRepositoryImpl(
         remoteDataSource: locator(),

@@ -4,6 +4,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:intl/date_symbol_data_local.dart';
 import 'package:siak_mobile/common/routes.dart';
 import 'package:siak_mobile/presentation/cubit/action_agenda/action_agenda_cubit.dart';
+import 'package:siak_mobile/presentation/cubit/action_situation_class/action_situation_class_cubit.dart';
 import 'package:siak_mobile/presentation/cubit/all_agenda/all_agenda_cubit.dart';
 import 'package:siak_mobile/presentation/cubit/all_agenda_history/all_agenda_history_cubit.dart';
 import 'package:siak_mobile/presentation/cubit/all_guest_student/all_guest_student_cubit.dart';
@@ -13,8 +14,10 @@ import 'package:siak_mobile/presentation/cubit/all_student/all_student_cubit.dar
 import 'package:siak_mobile/presentation/cubit/auth/authentication_cubit.dart';
 import 'package:siak_mobile/presentation/cubit/change_password/change_password_cubit.dart';
 import 'package:siak_mobile/presentation/cubit/detail_agenda/detail_agenda_cubit.dart';
+import 'package:siak_mobile/presentation/cubit/info_problem_class/info_problem_class_cubit.dart';
 import 'package:siak_mobile/presentation/cubit/sign_in/sign_in_cubit.dart';
 import 'package:siak_mobile/presentation/cubit/sign_out/sign_out_cubit.dart';
+import 'package:siak_mobile/presentation/cubit/student_in_class/student_in_class_cubit.dart';
 import 'package:siak_mobile/presentation/pages/home/home_page.dart';
 import 'package:siak_mobile/presentation/pages/sign_in/sign_in_page.dart';
 import 'package:siak_mobile/presentation/pages/splash_screen/splash_screen_page.dart';
@@ -64,6 +67,9 @@ class MyApp extends StatelessWidget {
           create: (_) => di.locator<ActionAgendaCubit>(),
         ),
         BlocProvider(
+          create: (_) => di.locator<ActionSituationClassCubit>(),
+        ),
+        BlocProvider(
           create: (_) => di.locator<AllStudentCubit>(),
         ),
         BlocProvider(
@@ -71,6 +77,12 @@ class MyApp extends StatelessWidget {
         ),
         BlocProvider(
           create: (_) => di.locator<AllSituationClassCubit>(),
+        ),
+        BlocProvider(
+          create: (_) => di.locator<InfoProblemClassCubit>(),
+        ),
+        BlocProvider(
+          create: (_) => di.locator<StudentInClassCubit>(),
         ),
       ],
       child: MaterialApp(

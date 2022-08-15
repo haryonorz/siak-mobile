@@ -8,6 +8,7 @@ import 'package:siak_mobile/presentation/pages/detail_agenda/components/view_att
 import 'package:siak_mobile/presentation/pages/detail_agenda/components/view_note_class.dart';
 import 'package:siak_mobile/presentation/pages/detail_agenda/components/view_detail_agenda.dart';
 import 'package:siak_mobile/presentation/pages/detail_agenda/components/view_potret_kelas.dart';
+import 'package:siak_mobile/presentation/widget/view_error.dart';
 
 class DetailAgendaPage extends StatefulWidget {
   final String idAgenda;
@@ -104,8 +105,12 @@ class _DetailAgendaPageState extends State<DetailAgendaPage> {
                 ),
               );
             } else if (state is DetailAgendaError) {
-              return Center(
-                child: Text(state.message),
+              return ViewError(
+                message: state.message,
+                showRefresh: true,
+                onRefresh: () {
+                  context.read<DetailAgendaCubit>().fetchData(widget.idAgenda);
+                },
               );
             } else {
               return Container();
