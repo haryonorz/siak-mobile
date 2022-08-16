@@ -1,6 +1,5 @@
 import 'package:equatable/equatable.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:siak_mobile/domain/entities/info_problem_class.dart';
 import 'package:siak_mobile/domain/entities/problem_class.dart';
 import 'package:siak_mobile/domain/usecases/get_info_problem_class.dart';
 

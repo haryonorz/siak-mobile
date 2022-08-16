@@ -1,6 +1,6 @@
 class EndPoints {
   static const String protocol = 'http';
-  static const String host = '192.168.30.145';
+  static const String host = '192.168.1.6';
 
   static const String baseUrl =
       '$protocol://$host/agenda_belajar/index.php/api_v2';
@@ -18,9 +18,11 @@ class EndPoints {
   static const String getAllStudent = '$baseUrl/getAllStudent';
   static const String getAllGuestStudent = '$baseUrl/getAllGuestStudent';
   static const String getAllSituationClass = '$baseUrl/getAllSituationClass';
+  static const String getInfoActivityClass = '$baseUrl/getInfoActivityClass';
   static const String getInfoProblemClass = '$baseUrl/getInfoProblemClass';
   static const String getStudentInClass = '$baseUrl/getStudentInClass';
 
+  static const String doAddDailyActivity = '$baseUrl/doAddDailyActivity';
   static const String doAcceptRequestJoin = '$baseUrl/doAcceptRequestJoin';
   static const String doUpdateNoteClass = '$baseUrl/doUpdateNoteClass';
   static const String doAddSituationClass = '$baseUrl/doAddSituationClass';

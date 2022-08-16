@@ -55,7 +55,11 @@ class ViewDetaiAgenda extends StatelessWidget {
                 child: Container(
                   margin: const EdgeInsets.only(top: 8),
                   child: ElevatedButton(
-                    onPressed: () {},
+                    onPressed: () => Navigator.pushNamed(
+                      context,
+                      Routes.addActivityClass,
+                      arguments: agenda,
+                    ),
                     style: ElevatedButton.styleFrom(
                       shape: RoundedRectangleBorder(
                         borderRadius:

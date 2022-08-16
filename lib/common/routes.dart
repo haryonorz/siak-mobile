@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:siak_mobile/domain/entities/agenda.dart';
 import 'package:siak_mobile/domain/entities/arg_selected_student.dart';
+import 'package:siak_mobile/presentation/pages/add_activity_class/add_activity_class_page.dart';
 import 'package:siak_mobile/presentation/pages/add_situation_class/add_situation_class_page.dart';
 import 'package:siak_mobile/presentation/pages/agenda_history/agenda_history_page.dart';
 import 'package:siak_mobile/presentation/pages/all_selected_student/all_selected_student_page.dart';
@@ -17,6 +19,7 @@ abstract class Routes {
 
   static const home = '/home';
   static const detailAgenda = '/detailAgenda';
+  static const addActivityClass = '/dailyActivity';
   static const requestJoin = '/requestJoin';
   static const attendanceList = '/attendanceList';
   static const situationClass = '/situationClass';
@@ -44,6 +47,9 @@ class RouteGenerator {
             idAgenda: args as String,
           ),
         );
+      case Routes.addActivityClass:
+        return MaterialPageRoute(
+            builder: (_) => AddActivityClassPage(agenda: args as Agenda));
       case Routes.requestJoin:
         return MaterialPageRoute(
             builder: (_) => RequestJoinPage(idAgenda: args as String));

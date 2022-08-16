@@ -27,9 +27,7 @@ class _ItemSituationClassState extends State<ItemSituationClass> {
         _controller.toggleCard();
       },
       leading: FlipCard(
-        onFlipDone: (status) {
-          print(status);
-        },
+        onFlipDone: (status) {},
         direction: FlipDirection.HORIZONTAL,
         controller: _controller,
         front: widget.absensi.foto.isNotEmpty

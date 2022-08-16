@@ -23,21 +23,36 @@ class ActionSituationClassCubit extends Cubit<ActionSituationClassState> {
       emit(const ActionSituationClassError(
           'Permasalahan siswa tidak boleh kosong'));
     } else {
-      // final result = await _doAddSituationClass.execute(
-      //   idAgenda,
-      //   noStudent,
-      //   idAgenda,
-      //   noStudent,
-      // );
+      String idProblem = '';
+      String problemStudentText = '';
 
-      // result.fold(
-      //   (failure) {
-      //     emit(ActionSituationClassError(failure.message));
-      //   },
-      //   (_) {
-      //     emit(ActionSituationClassSuccess());
-      //   },
-      // );
+      problemStudent.asMap().forEach((key, value) {
+        idProblem = '$idProblem${value.idProblem}';
+
+        if (problemStudentText.isEmpty) {
+          problemStudentText = value.description;
+        } else {
+          problemStudentText = '$problemStudentText, ${value.description}';
+        }
+        if (value.idProblem == '-') {
+          problemStudentText = '$problemStudentText($note)';
+        }
+      });
+      final result = await _doAddSituationClass.execute(
+        idAgenda,
+        noStudent,
+        idProblem,
+        problemStudentText,
+      );
+
+      result.fold(
+        (failure) {
+          emit(ActionSituationClassError(failure.message));
+        },
+        (_) {
+          emit(ActionSituationClassSuccess());
+        },
+      );
     }
   }
 }

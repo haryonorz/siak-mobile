@@ -8,6 +8,7 @@ import 'package:siak_mobile/data/models/agenda_list_response.dart';
 import 'package:siak_mobile/data/models/agenda_model.dart';
 import 'package:siak_mobile/data/models/detail_agenda_model.dart';
 import 'package:siak_mobile/data/models/error_response.dart';
+import 'package:siak_mobile/data/models/info_activity_class_response.dart';
 import 'package:siak_mobile/data/models/info_problem_class_response.dart';
 import 'package:siak_mobile/data/models/student_list_response.dart';
 
@@ -30,9 +31,16 @@ abstract class AgendaRemoteDataSources {
   Future<List<AbsensiResponse>> getAllStudent(String idAgenda);
   Future<List<AbsensiResponse>> getAllGuestStudent(String idAgenda);
   Future<List<AbsensiResponse>> getAllSituationClass(String idAgenda);
+  Future<InfoActivityClassResponse> getInfoActivityClass();
   Future<InfoProblemClassResponse> getInfoProblemClass();
   Future<List<AbsensiResponse>> getStudentInClass(String idAgenda);
 
+  Future<bool> doAddDailyActivity(
+    String idAgenda,
+    String idActivity,
+    String activityText,
+    String otherActivity,
+  );
   Future<bool> doAcceptRequestJoin(String idAgenda, String noStudent);
   Future<bool> doAddSituationClass(
     String idAgenda,
@@ -198,6 +206,23 @@ class AgendaRemoteDataSourcesImpl extends AgendaRemoteDataSources {
   }
 
   @override
+  Future<InfoActivityClassResponse> getInfoActivityClass() async {
+    final response = await client.post(
+      Uri.parse(EndPoints.getInfoActivityClass),
+      body: {
+        'key': EndPoints.key,
+      },
+    );
+    if (response.statusCode == 200) {
+      return InfoActivityClassResponse.fromJson(json.decode(response.body));
+    } else {
+      final error = ErrorResponse.fromJson(json.decode(response.body));
+      throw ServerException(
+          'Server Error [${response.statusCode}]: ${error.message}');
+    }
+  }
+
+  @override
   Future<InfoProblemClassResponse> getInfoProblemClass() async {
     final response = await client.post(
       Uri.parse(EndPoints.getInfoProblemClass),
@@ -226,6 +251,32 @@ class AgendaRemoteDataSourcesImpl extends AgendaRemoteDataSources {
     if (response.statusCode == 200) {
       return StudentListResponse.fromJson(json.decode(response.body))
           .studentList;
+    } else {
+      final error = ErrorResponse.fromJson(json.decode(response.body));
+      throw ServerException(
+          'Server Error [${response.statusCode}]: ${error.message}');
+    }
+  }
+
+  @override
+  Future<bool> doAddDailyActivity(
+    String idAgenda,
+    String idActivity,
+    String activityText,
+    String otherActivity,
+  ) async {
+    final response = await client.post(
+      Uri.parse(EndPoints.doAddDailyActivity),
+      body: {
+        'key': EndPoints.key,
+        'id_agenda': idAgenda,
+        'aktivitas': idActivity,
+        'aktivitas_desc': activityText,
+        'aktivitas_lainnya': otherActivity,
+      },
+    );
+    if (response.statusCode == 200) {
+      return true;
     } else {
       final error = ErrorResponse.fromJson(json.decode(response.body));
       throw ServerException(

@@ -22,7 +22,7 @@ class AddSituationClassForm extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final studentController = TextEditingController();
-    final noteController = TextEditingController();
+    final otherController = TextEditingController();
 
     String? selectedStudent;
     late List<ProblemClass> selectedProblem;
@@ -106,6 +106,7 @@ class AddSituationClassForm extends StatelessWidget {
                                 title: Text(e.description),
                                 value: e.selected,
                                 dense: true,
+                                activeColor: AppColors.backgroundRed,
                                 onChanged: (value) {
                                   context
                                       .read<InfoProblemClassCubit>()
@@ -131,7 +132,7 @@ class AddSituationClassForm extends StatelessWidget {
                                 maxLines: 5,
                                 keyboardType: TextInputType.multiline,
                                 textInputAction: TextInputAction.done,
-                                controller: noteController,
+                                controller: otherController,
                                 decoration: InputDecoration(
                                   hintText: "Keterangan permasalahan lainnya..",
                                   border: OutlineInputBorder(
@@ -172,7 +173,7 @@ class AddSituationClassForm extends StatelessWidget {
                     context.read<ActionSituationClassCubit>().addSituationClass(
                           idAgenda,
                           selectedStudent ?? '',
-                          noteController.text,
+                          otherController.text,
                           selectedProblem,
                         );
                   }

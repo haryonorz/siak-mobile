@@ -8,6 +8,7 @@ import 'package:siak_mobile/data/datasources/remote/agenda_remote_data_source.da
 import 'package:siak_mobile/domain/entities/absensi.dart';
 import 'package:siak_mobile/domain/entities/agenda.dart';
 import 'package:siak_mobile/domain/entities/detail_agenda.dart';
+import 'package:siak_mobile/domain/entities/info_activity_class.dart';
 import 'package:siak_mobile/domain/entities/info_problem_class.dart';
 import 'package:siak_mobile/domain/repositories/agenda_repository.dart';
 
@@ -132,6 +133,18 @@ class AgendaRepositoryImpl extends AgendaRepository {
   }
 
   @override
+  Future<Either<Failure, InfoActivityClass>> getInfoActivityClass() async {
+    try {
+      final result = await remoteDataSource.getInfoActivityClass();
+      return Right(result.toEntity());
+    } on ServerException catch (e) {
+      return Left(ServerFailure(e.message));
+    } on SocketException {
+      return Left(ConnectionFailure('Gagal terhubung ke jaringan.'));
+    }
+  }
+
+  @override
   Future<Either<Failure, InfoProblemClass>> getInfoProblemClass() async {
     try {
       final result = await remoteDataSource.getInfoProblemClass();
@@ -150,6 +163,28 @@ class AgendaRepositoryImpl extends AgendaRepository {
     try {
       final result = await remoteDataSource.getStudentInClass(idAgenda);
       return Right(result.map((model) => model.toEntity()).toList());
+    } on ServerException catch (e) {
+      return Left(ServerFailure(e.message));
+    } on SocketException {
+      return Left(ConnectionFailure('Gagal terhubung ke jaringan.'));
+    }
+  }
+
+  @override
+  Future<Either<Failure, bool>> doAddDailyActivity(
+    String idAgenda,
+    String idActivity,
+    String activityText,
+    String otherActivity,
+  ) async {
+    try {
+      final result = await remoteDataSource.doAddDailyActivity(
+        idAgenda,
+        idActivity,
+        activityText,
+        otherActivity,
+      );
+      return Right(result);
     } on ServerException catch (e) {
       return Left(ServerFailure(e.message));
     } on SocketException {
