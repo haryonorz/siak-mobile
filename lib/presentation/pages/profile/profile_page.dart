@@ -97,7 +97,10 @@ class ProfilePage extends StatelessWidget {
                       const DefaultUserPhoto(width: 80, height: 80),
                       const SizedBox(height: AppDefaults.lSpace),
                       ElevatedButton(
-                        onPressed: () {},
+                        onPressed: () => Navigator.pushNamed(
+                          context,
+                          Routes.editProfile,
+                        ),
                         style: ElevatedButton.styleFrom(
                           minimumSize: const Size(90, 38),
                           padding: EdgeInsets.zero,

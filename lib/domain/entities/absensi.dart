@@ -5,7 +5,7 @@ class Absensi extends Equatable {
     required this.idAgenda,
     required this.noSiswa,
     required this.namaSiswa,
-    required this.foto,
+    this.foto,
     required this.pilKelas,
     this.tgl,
     this.jam,
@@ -24,7 +24,7 @@ class Absensi extends Equatable {
   final String idAgenda;
   final String noSiswa;
   final String namaSiswa;
-  final String foto;
+  final String? foto;
   final String pilKelas;
   final String? tgl;
   final String? jam;

@@ -30,6 +30,7 @@ import 'package:siak_mobile/domain/usecases/get_detail_agenda.dart';
 import 'package:siak_mobile/domain/usecases/get_info_activity_class.dart';
 import 'package:siak_mobile/domain/usecases/get_info_problem_class.dart';
 import 'package:siak_mobile/domain/usecases/get_student_in_class.dart';
+import 'package:siak_mobile/domain/usecases/get_user.dart';
 import 'package:siak_mobile/presentation/cubit/action_agenda/action_agenda_cubit.dart';
 import 'package:siak_mobile/presentation/cubit/action_situation_class/action_situation_class_cubit.dart';
 import 'package:siak_mobile/presentation/cubit/all_agenda/all_agenda_cubit.dart';
@@ -46,6 +47,7 @@ import 'package:siak_mobile/presentation/cubit/info_problem_class/info_problem_c
 import 'package:siak_mobile/presentation/cubit/sign_in/sign_in_cubit.dart';
 import 'package:siak_mobile/presentation/cubit/sign_out/sign_out_cubit.dart';
 import 'package:siak_mobile/presentation/cubit/student_in_class/student_in_class_cubit.dart';
+import 'package:siak_mobile/presentation/cubit/user/user_cubit.dart';
 
 final locator = GetIt.instance;
 
@@ -56,7 +58,7 @@ void init() {
   locator.registerFactory(() => AuthenticationCubit(locator()));
   locator.registerFactory(() => AllAgendaCubit(locator()));
   locator.registerFactory(() => AllAgendaHistoryCubit(locator()));
-  locator.registerFactory(() => DetailAgendaCubit(locator()));
+  locator.registerFactory(() => DetailAgendaCubit(locator(), locator()));
   locator.registerFactory(() => AllRequestJoinCubit(locator()));
   locator.registerFactory(() => ActionAgendaCubit(
         locator(),
@@ -65,12 +67,16 @@ void init() {
         locator(),
       ));
   locator.registerFactory(() => ActionSituationClassCubit(locator()));
-  locator.registerFactory(() => AllStudentCubit(locator()));
-  locator.registerFactory(() => AllGuestStudentCubit(locator()));
+  locator.registerFactory(() => AllStudentCubit(locator(), locator()));
+  locator.registerFactory(() => AllGuestStudentCubit(
+        locator(),
+        locator(),
+      ));
   locator.registerFactory(() => AllSituationClassCubit(locator()));
   locator.registerFactory(() => InfoActivityClassCubit(locator()));
   locator.registerFactory(() => InfoProblemClassCubit(locator()));
   locator.registerFactory(() => StudentInClassCubit(locator()));
+  locator.registerFactory(() => UserCubit(locator()));
 
   locator.registerLazySingleton(() => DoSignIn(locator()));
   locator.registerLazySingleton(() => DoSignOut(locator()));
@@ -91,6 +97,7 @@ void init() {
   locator.registerLazySingleton(() => GetInfoProblemClass(locator()));
   locator.registerLazySingleton(() => DoAddSituationClass(locator()));
   locator.registerLazySingleton(() => GetStudentInClass(locator()));
+  locator.registerLazySingleton(() => GetUser(locator()));
 
   locator.registerLazySingleton<UserRepository>(() => UserRepositoryImpl(
         remoteDataSource: locator(),

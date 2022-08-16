@@ -1,6 +1,7 @@
 import 'package:equatable/equatable.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:siak_mobile/domain/entities/activity_class.dart';
+import 'package:siak_mobile/domain/entities/agenda.dart';
 import 'package:siak_mobile/domain/usecases/get_info_activity_class.dart';
 
 part 'info_activity_class_state.dart';
@@ -12,7 +13,7 @@ class InfoActivityClassCubit extends Cubit<InfoActivityClassState> {
     this._getInfoActivityClass,
   ) : super(InfoActivityClassInitial());
 
-  void fetchData() async {
+  void fetchData(Agenda agenda) async {
     emit(InfoActivityClassLoading());
 
     final result = await _getInfoActivityClass.execute();
@@ -22,9 +23,18 @@ class InfoActivityClassCubit extends Cubit<InfoActivityClassState> {
         emit(InfoActivityClassError(failure.message));
       },
       (infoActivityClass) {
+        String aktivitas = agenda.aktivitas ?? '';
+        infoActivityClass.activityList.asMap().forEach((key, value) {
+          if (aktivitas.contains(value.idActivity) == true) {
+            infoActivityClass.activityList[key] =
+                value.copywith(selected: true);
+          }
+        });
+
         emit(InfoActivityClassHasData(
           activityList: infoActivityClass.activityList,
           inputDuration: infoActivityClass.inputDuration,
+          otherSelected: aktivitas.contains('-'),
         ));
       },
     );

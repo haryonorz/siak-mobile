@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:siak_mobile/domain/entities/absensi.dart';
 import 'package:siak_mobile/presentation/cubit/all_guest_student/all_guest_student_cubit.dart';
 import 'package:siak_mobile/presentation/widget/item_attendance_student.dart';
 import 'package:siak_mobile/presentation/widget/view_empty.dart';
@@ -7,9 +8,13 @@ import 'package:siak_mobile/presentation/widget/view_error.dart';
 
 class ViewAttendanceGuestStudent extends StatefulWidget {
   final String idAgenda;
+  final Absensi? absensiUser;
 
-  const ViewAttendanceGuestStudent({Key? key, required this.idAgenda})
-      : super(key: key);
+  const ViewAttendanceGuestStudent({
+    Key? key,
+    required this.idAgenda,
+    this.absensiUser,
+  }) : super(key: key);
 
   @override
   State<ViewAttendanceGuestStudent> createState() =>
@@ -57,7 +62,12 @@ class _ViewAttendanceGuestStudentState
                     top: index == 0 ? 16 : 0,
                     bottom: 16,
                   ),
-                  child: ItemAttendanceStudent(absensi: absensi),
+                  child: ItemAttendanceStudent(
+                    absensi: absensi,
+                    showPhotoAbsensi: state.user.type == 'tutor'
+                        ? true
+                        : absensi.noSiswa == widget.absensiUser?.noSiswa,
+                  ),
                 );
               },
               itemCount: state.absensi.length,

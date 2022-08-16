@@ -25,6 +25,7 @@ abstract class AgendaRemoteDataSources {
   );
   Future<DetailAgendaResponse> getDetailAgenda(
     String idAgenda,
+    String username,
     String userType,
   );
   Future<List<AbsensiResponse>> getAllRequestJoin(String idAgenda);
@@ -110,6 +111,7 @@ class AgendaRemoteDataSourcesImpl extends AgendaRemoteDataSources {
   @override
   Future<DetailAgendaResponse> getDetailAgenda(
     String idAgenda,
+    String username,
     String userType,
   ) async {
     final response = await client.post(
@@ -117,6 +119,7 @@ class AgendaRemoteDataSourcesImpl extends AgendaRemoteDataSources {
       body: {
         'key': EndPoints.key,
         'id_agenda': idAgenda,
+        'username': username,
         'user_type': userType,
       },
     );

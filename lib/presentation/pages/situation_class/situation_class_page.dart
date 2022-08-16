@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:siak_mobile/common/app/app.dart';
 import 'package:siak_mobile/common/routes.dart';
+import 'package:siak_mobile/domain/entities/agenda.dart';
 import 'package:siak_mobile/presentation/cubit/action_situation_class/action_situation_class_cubit.dart';
 import 'package:siak_mobile/presentation/cubit/all_situation_class/all_situation_class_cubit.dart';
 import 'package:siak_mobile/presentation/pages/situation_class/components/item_situation_class.dart';
@@ -9,10 +10,9 @@ import 'package:siak_mobile/presentation/widget/view_empty.dart';
 import 'package:siak_mobile/presentation/widget/view_error.dart';
 
 class SituationClassPage extends StatefulWidget {
-  final String idAgenda;
+  final Agenda agenda;
 
-  const SituationClassPage({Key? key, required this.idAgenda})
-      : super(key: key);
+  const SituationClassPage({Key? key, required this.agenda}) : super(key: key);
 
   @override
   State<SituationClassPage> createState() => _SituationClassPageState();
@@ -22,8 +22,9 @@ class _SituationClassPageState extends State<SituationClassPage> {
   @override
   void initState() {
     super.initState();
-    Future.microtask(() =>
-        context.read<AllSituationClassCubit>().fetchData(widget.idAgenda));
+    Future.microtask(() => context
+        .read<AllSituationClassCubit>()
+        .fetchData(widget.agenda.idAgenda));
   }
 
   @override
@@ -31,7 +32,9 @@ class _SituationClassPageState extends State<SituationClassPage> {
     return BlocListener<ActionSituationClassCubit, ActionSituationClassState>(
       listener: (context, state) {
         if (state is ActionSituationClassSuccess) {
-          context.read<AllSituationClassCubit>().fetchData(widget.idAgenda);
+          context
+              .read<AllSituationClassCubit>()
+              .fetchData(widget.agenda.idAgenda);
         }
         if (state is ActionSituationClassError) {
           ScaffoldMessenger.of(context).showSnackBar(
@@ -59,15 +62,17 @@ class _SituationClassPageState extends State<SituationClassPage> {
           title: const Text('Potret Kelas'),
           systemOverlayStyle: AppDefaults.statusBarDarkBlue,
         ),
-        floatingActionButton: FloatingActionButton(
-          onPressed: () => Navigator.pushNamed(
-            context,
-            Routes.addSituationClass,
-            arguments: widget.idAgenda,
-          ),
-          backgroundColor: AppColors.backgroundRed,
-          child: const Icon(Icons.add),
-        ),
+        floatingActionButton: widget.agenda.status == '0'
+            ? FloatingActionButton(
+                onPressed: () => Navigator.pushNamed(
+                  context,
+                  Routes.addSituationClass,
+                  arguments: widget.agenda.idAgenda,
+                ),
+                backgroundColor: AppColors.backgroundRed,
+                child: const Icon(Icons.add),
+              )
+            : null,
         body: BlocBuilder<AllSituationClassCubit, AllSituationClassState>(
           builder: (context, state) {
             if (state is AllSituationClassLoading) {
@@ -83,7 +88,7 @@ class _SituationClassPageState extends State<SituationClassPage> {
                 onRefresh: () {
                   context
                       .read<AllSituationClassCubit>()
-                      .fetchData(widget.idAgenda);
+                      .fetchData(widget.agenda.idAgenda);
                 },
               );
             } else if (state is AllSituationClassHasData) {
@@ -91,7 +96,7 @@ class _SituationClassPageState extends State<SituationClassPage> {
                 onRefresh: () async {
                   context
                       .read<AllSituationClassCubit>()
-                      .fetchData(widget.idAgenda);
+                      .fetchData(widget.agenda.idAgenda);
                 },
                 child: ListView.builder(
                   padding: EdgeInsets.zero,
@@ -109,7 +114,7 @@ class _SituationClassPageState extends State<SituationClassPage> {
                 onRefresh: () {
                   context
                       .read<AllSituationClassCubit>()
-                      .fetchData(widget.idAgenda);
+                      .fetchData(widget.agenda.idAgenda);
                 },
               );
             } else {

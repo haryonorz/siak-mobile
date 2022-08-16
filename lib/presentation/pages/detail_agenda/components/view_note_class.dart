@@ -30,32 +30,34 @@ class ViewNoteClass extends StatelessWidget {
             style: Theme.of(context).textTheme.bodyText1,
           ),
           const SizedBox(height: 16),
-          Align(
-            alignment: Alignment.bottomRight,
-            child: ElevatedButton(
-              onPressed: () {
-                showDialog(
-                  context: context,
-                  builder: (context) =>
-                      DialogNoteClass(idAgenda: agenda.idAgenda),
-                );
-              },
-              style: ElevatedButton.styleFrom(
-                minimumSize: const Size(120, 45),
-                primary: AppColors.backgroundRed,
-                shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(AppDefaults.mRadius),
+          if (agenda.status == '0')
+            Align(
+              alignment: Alignment.bottomRight,
+              child: ElevatedButton(
+                onPressed: () {
+                  showDialog(
+                    context: context,
+                    builder: (context) => DialogNoteClass(agenda: agenda),
+                  );
+                },
+                style: ElevatedButton.styleFrom(
+                  minimumSize: const Size(120, 45),
+                  primary: AppColors.backgroundRed,
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(AppDefaults.mRadius),
+                  ),
+                ),
+                child: Text(
+                  "+ Tambahkan Catatan",
+                  style: Theme.of(context)
+                      .textTheme
+                      .button
+                      ?.copyWith(color: Colors.white),
                 ),
               ),
-              child: Text(
-                "+ Tambahkan Catatan",
-                style: Theme.of(context)
-                    .textTheme
-                    .button
-                    ?.copyWith(color: Colors.white),
-              ),
-            ),
-          ),
+            )
+          else
+            Container(),
         ],
       ),
     );

@@ -2,11 +2,12 @@ import 'package:flutter/material.dart';
 import 'package:siak_mobile/common/app/app_colors.dart';
 import 'package:siak_mobile/common/app/app_defaults.dart';
 import 'package:siak_mobile/common/routes.dart';
+import 'package:siak_mobile/domain/entities/agenda.dart';
 
 class ViewPotretKelas extends StatelessWidget {
-  final String idAgenda;
+  final Agenda agenda;
 
-  const ViewPotretKelas({Key? key, required this.idAgenda}) : super(key: key);
+  const ViewPotretKelas({Key? key, required this.agenda}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -32,7 +33,7 @@ class ViewPotretKelas extends StatelessWidget {
             onPressed: () => Navigator.pushNamed(
               context,
               Routes.situationClass,
-              arguments: idAgenda,
+              arguments: agenda,
             ),
             style: ElevatedButton.styleFrom(
               minimumSize: const Size(120, 45),
@@ -46,7 +47,7 @@ class ViewPotretKelas extends StatelessWidget {
               ),
             ),
             child: Text(
-              "Buat Laporan",
+              agenda.status == '0' ? 'Buat Laporan' : 'Lihat Laporan',
               style: Theme.of(context)
                   .textTheme
                   .button

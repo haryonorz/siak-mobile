@@ -6,6 +6,7 @@ import 'package:siak_mobile/common/exceptions.dart';
 import 'package:siak_mobile/common/failure.dart';
 import 'package:siak_mobile/data/datasources/db/user_local_data_source.dart';
 import 'package:siak_mobile/data/datasources/remote/user_remote_data_source.dart';
+import 'package:siak_mobile/domain/entities/profile.dart';
 import 'package:siak_mobile/domain/entities/user.dart';
 import 'package:siak_mobile/domain/repositories/user_repository.dart';
 
@@ -71,6 +72,38 @@ class UserRepositoryImpl extends UserRepository {
       }
       return Left(
           ServerFailure('Gagal merubah password, user tidak ditemukan.'));
+    } on ServerException catch (e) {
+      return Left(ServerFailure(e.message));
+    } on SocketException {
+      return Left(ConnectionFailure('Gagal terhubung ke jaringan.'));
+    }
+  }
+
+  @override
+  Future<Either<Failure, Profile>> getProfile() async {
+    try {
+      final user = await localDataSource.getUser();
+      if (user != null) {
+        final result =
+            await remoteDataSource.getProfile(user.username, user.type);
+        return Right(result.toEntity());
+      }
+      return Left(ServerFailure('Gagal keluar akun, user tidak ditemukan.'));
+    } on ServerException catch (e) {
+      return Left(ServerFailure(e.message));
+    } on SocketException {
+      return Left(ConnectionFailure('Gagal terhubung ke jaringan.'));
+    }
+  }
+
+  @override
+  Future<Either<Failure, User>> getUser() async {
+    try {
+      final user = await localDataSource.getUser();
+      if (user != null) {
+        return Right(user.toEntity());
+      }
+      return Left(DatabaseFailure('User tidak ditemukan.'));
     } on ServerException catch (e) {
       return Left(ServerFailure(e.message));
     } on SocketException {

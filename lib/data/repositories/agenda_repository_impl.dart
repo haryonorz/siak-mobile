@@ -69,6 +69,7 @@ class AgendaRepositoryImpl extends AgendaRepository {
       if (user != null) {
         final result = await remoteDataSource.getDetailAgenda(
           idAgenda,
+          user.username,
           user.type,
         );
         return Right(result.toEntity());

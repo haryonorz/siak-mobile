@@ -19,7 +19,7 @@ class ItemSelectedStudent extends StatelessWidget {
     return ListTile(
       onTap: onTap,
       dense: true,
-      leading: absensi.foto.isNotEmpty
+      leading: absensi.foto != null && absensi.foto != ''
           ? UserPhoto(
               width: 42,
               height: 42,

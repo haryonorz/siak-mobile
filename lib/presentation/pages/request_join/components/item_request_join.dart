@@ -18,7 +18,7 @@ class ItemRequestJoin extends StatelessWidget {
       padding: const EdgeInsets.symmetric(horizontal: AppDefaults.padding),
       child: Row(
         children: [
-          absensi.foto.isNotEmpty
+          absensi.foto != null && absensi.foto != ''
               ? UserPhoto(
                   width: 42,
                   height: 42,

@@ -32,6 +32,7 @@ class ActionAgendaCubit extends Cubit<ActionAgendaState> {
     } else {
       String idActivity = '';
       String activityText = '';
+      String otherActivityText = '';
 
       activity.asMap().forEach((key, value) {
         idActivity = '$idActivity${value.idActivity}';
@@ -41,12 +42,13 @@ class ActionAgendaCubit extends Cubit<ActionAgendaState> {
         } else {
           activityText = '$activityText, ${value.description}';
         }
+        if (value.idActivity == '-') otherActivityText = otherActivity;
       });
       final result = await _doAddDailyActivity.execute(
         idAgenda,
         idActivity,
         activityText,
-        otherActivity,
+        otherActivityText,
       );
 
       result.fold(

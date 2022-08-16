@@ -22,9 +22,10 @@ class DetailAgendaError extends DetailAgendaState {
 
 class DetailAgendaHasData extends DetailAgendaState {
   final DetailAgenda detailAgenda;
+  final User user;
 
-  const DetailAgendaHasData(this.detailAgenda);
+  const DetailAgendaHasData(this.detailAgenda, this.user);
 
   @override
-  List<Object?> get props => [detailAgenda];
+  List<Object?> get props => [detailAgenda, user];
 }

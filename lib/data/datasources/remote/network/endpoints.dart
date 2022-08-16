@@ -1,6 +1,6 @@
 class EndPoints {
   static const String protocol = 'http';
-  static const String host = '192.168.1.6';
+  static const String host = '192.168.30.145';
 
   static const String baseUrl =
       '$protocol://$host/agenda_belajar/index.php/api_v2';
@@ -9,6 +9,7 @@ class EndPoints {
 
   static const String signIn = '$baseUrl/doLogin';
   static const String signOut = '$baseUrl/doLogout';
+  static const String getProfile = '$baseUrl/getProfile';
   static const String doChangePassword = '$baseUrl/doChangePassword';
 
   static const String getAllAgenda = '$baseUrl/getAllAgenda';

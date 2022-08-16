@@ -124,7 +124,8 @@ class AgendaCard extends StatelessWidget {
                                             ),
                                             color:
                                                 AppColors.backgroundLightGrey),
-                                        child: student.foto.isNotEmpty
+                                        child: student.foto != null &&
+                                                student.foto != ''
                                             ? UserPhoto(
                                                 width: 34,
                                                 height: 34,

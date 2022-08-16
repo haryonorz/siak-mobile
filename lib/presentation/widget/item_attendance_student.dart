@@ -12,9 +12,13 @@ import 'package:siak_mobile/presentation/widget/user_photo.dart';
 
 class ItemAttendanceStudent extends StatelessWidget {
   final Absensi absensi;
+  final bool showPhotoAbsensi;
 
-  const ItemAttendanceStudent({Key? key, required this.absensi})
-      : super(key: key);
+  const ItemAttendanceStudent({
+    Key? key,
+    required this.absensi,
+    this.showPhotoAbsensi = true,
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -37,7 +41,12 @@ class ItemAttendanceStudent extends StatelessWidget {
         break;
       case '2':
         statusAbsensi = 'Hadir';
-        if (absensi.terlambat == 'X') statusAbsensi = 'Terlambat';
+        if (absensi.terlambat == 'X') {
+          statusAbsensi = 'Terlambat';
+          if (absensi.alasanTerlambat != null) {
+            statusAbsensi = '$statusAbsensi (${absensi.alasanTerlambat})';
+          }
+        }
         statusColor = AppColors.textGreen;
         break;
       default:
@@ -50,7 +59,7 @@ class ItemAttendanceStudent extends StatelessWidget {
       child: Row(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          absensi.foto.isNotEmpty
+          absensi.foto != null && absensi.foto != ''
               ? UserPhoto(
                   width: 42,
                   height: 42,
@@ -112,48 +121,52 @@ class ItemAttendanceStudent extends StatelessWidget {
             ),
           ),
           const SizedBox(width: AppDefaults.lSpace),
-          if (absensi.fotoAbsen != null)
-            GestureDetector(
-              onTap: () => Navigator.pushNamed(
-                context,
-                Routes.photoPreview,
-                arguments: photoUrl,
-              ),
-              child: OctoImage(
-                width: 70,
-                height: 90,
-                image: CachedNetworkImageProvider(photoUrl),
-                placeholderBuilder: OctoPlaceholder.circularProgressIndicator(),
-                errorBuilder: OctoError.icon(color: AppColors.backgroundRed),
-                fit: BoxFit.cover,
-              ),
-            )
-          else
-            Container(
-              width: 70,
-              height: 90,
-              color: AppColors.backgroundGrey,
-              child: Stack(
-                children: [
-                  const Center(
-                    child: Icon(
-                      Icons.hide_image_outlined,
-                      size: 36,
-                      color: AppColors.backgroundLightGrey,
-                    ),
-                  ),
-                  Center(
-                    child: Text(
-                      'NO IMAGE',
-                      style: Theme.of(context).textTheme.caption?.copyWith(
-                            color: Colors.black,
-                            fontWeight: FontWeight.w600,
+          showPhotoAbsensi
+              ? (absensi.fotoAbsen != null)
+                  ? GestureDetector(
+                      onTap: () => Navigator.pushNamed(
+                        context,
+                        Routes.photoPreview,
+                        arguments: photoUrl,
+                      ),
+                      child: OctoImage(
+                        width: 70,
+                        height: 90,
+                        image: CachedNetworkImageProvider(photoUrl),
+                        placeholderBuilder:
+                            OctoPlaceholder.circularProgressIndicator(),
+                        errorBuilder:
+                            OctoError.icon(color: AppColors.backgroundRed),
+                        fit: BoxFit.cover,
+                      ),
+                    )
+                  : Container(
+                      width: 70,
+                      height: 90,
+                      color: AppColors.backgroundGrey,
+                      child: Stack(
+                        children: [
+                          const Center(
+                            child: Icon(
+                              Icons.hide_image_outlined,
+                              size: 36,
+                              color: AppColors.backgroundLightGrey,
+                            ),
                           ),
-                    ),
-                  ),
-                ],
-              ),
-            ),
+                          Center(
+                            child: Text(
+                              'NO IMAGE',
+                              style:
+                                  Theme.of(context).textTheme.caption?.copyWith(
+                                        color: Colors.black,
+                                        fontWeight: FontWeight.w600,
+                                      ),
+                            ),
+                          ),
+                        ],
+                      ),
+                    )
+              : Container(),
         ],
       ),
     );

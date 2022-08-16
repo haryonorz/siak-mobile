@@ -30,7 +30,7 @@ class _ItemSituationClassState extends State<ItemSituationClass> {
         onFlipDone: (status) {},
         direction: FlipDirection.HORIZONTAL,
         controller: _controller,
-        front: widget.absensi.foto.isNotEmpty
+        front: widget.absensi.foto != null && widget.absensi.foto != ''
             ? UserPhoto(
                 width: 42,
                 height: 42,

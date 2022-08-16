@@ -1,13 +1,18 @@
 import 'package:flutter/material.dart';
 import 'package:siak_mobile/common/app/app.dart';
+import 'package:siak_mobile/domain/entities/absensi.dart';
 import 'package:siak_mobile/presentation/pages/attandance_list/components/view_attendance_guest_student.dart';
 import 'package:siak_mobile/presentation/pages/attandance_list/components/view_attendance_student.dart';
 
 class AttendanceListPage extends StatelessWidget {
   final String idAgenda;
+  final Absensi? absensi;
 
-  const AttendanceListPage({Key? key, required this.idAgenda})
-      : super(key: key);
+  const AttendanceListPage({
+    Key? key,
+    required this.idAgenda,
+    this.absensi,
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -31,8 +36,14 @@ class AttendanceListPage extends StatelessWidget {
         ),
         body: TabBarView(
           children: [
-            ViewAttendanceStudent(idAgenda: idAgenda),
-            ViewAttendanceGuestStudent(idAgenda: idAgenda),
+            ViewAttendanceStudent(
+              idAgenda: idAgenda,
+              absensiUser: absensi,
+            ),
+            ViewAttendanceGuestStudent(
+              idAgenda: idAgenda,
+              absensiUser: absensi,
+            ),
           ],
         ),
       ),

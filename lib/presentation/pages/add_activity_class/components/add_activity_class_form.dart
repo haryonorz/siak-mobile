@@ -20,6 +20,7 @@ class AddActivityClassForm extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final otherController = TextEditingController();
+    otherController.text = agenda.aktivitasLainnya ?? '';
 
     late List<ActivityClass> selectedActivity;
 
@@ -39,35 +40,32 @@ class AddActivityClassForm extends StatelessWidget {
                   selectedActivity = state.activityList
                       .where((element) => element.selected)
                       .toList();
-                  otherController.text = agenda.aktivitasLainnya ?? '';
 
                   return Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
-                        children: state.activityList.map(
-                          (e) {
-                            String aktivitas = agenda.aktivitas ?? '';
-                            if (aktivitas.contains(e.idActivity) == true) {
-                              // context
-                              //     .read<InfoActivityClassCubit>()
-                              //     .selectedItem(e.copywith(selected: true));
-                            }
-                            return CheckboxListTile(
-                              title: Text(e.description),
-                              value: e.selected,
-                              dense: true,
-                              activeColor: AppColors.backgroundRed,
-                              onChanged: (value) {
-                                context
-                                    .read<InfoActivityClassCubit>()
-                                    .selectedItem(e.copywith(selected: value));
-                              },
-                              controlAffinity: ListTileControlAffinity.leading,
-                            );
-                          },
-                        ).toList(),
+                        children: state.activityList
+                            .map(
+                              (e) => CheckboxListTile(
+                                title: Text(e.description),
+                                value: e.selected,
+                                dense: true,
+                                activeColor: AppColors.backgroundRed,
+                                onChanged: (value) {
+                                  if (agenda.status == '0') {
+                                    context
+                                        .read<InfoActivityClassCubit>()
+                                        .selectedItem(
+                                            e.copywith(selected: value));
+                                  }
+                                },
+                                controlAffinity:
+                                    ListTileControlAffinity.leading,
+                              ),
+                            )
+                            .toList(),
                       ),
                       state.otherSelected
                           ? Container(
@@ -82,6 +80,7 @@ class AddActivityClassForm extends StatelessWidget {
                                 maxLines: 5,
                                 keyboardType: TextInputType.multiline,
                                 textInputAction: TextInputAction.done,
+                                readOnly: agenda.status == '1',
                                 controller: otherController,
                                 decoration: InputDecoration(
                                   hintText: "Keterangan akitvitas lainnya..",
@@ -108,28 +107,31 @@ class AddActivityClassForm extends StatelessWidget {
               },
             ),
             const SizedBox(height: AppDefaults.xxlSpace),
-            Align(
-              alignment: Alignment.topRight,
-              child: ElevatedButton(
-                style: ElevatedButton.styleFrom(
-                  minimumSize: const Size(110, 40),
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(AppDefaults.mRadius),
-                  ),
-                ),
-                onPressed: () {
-                  if (_formKey.currentState!.validate()) {
-                    _formKey.currentState!.save();
-                    context.read<ActionAgendaCubit>().addDailyActivity(
-                          agenda.idAgenda,
-                          selectedActivity,
-                          otherController.text,
-                        );
-                  }
-                },
-                child: const Text("Simpan"),
-              ),
-            ),
+            agenda.status == '0'
+                ? Align(
+                    alignment: Alignment.topRight,
+                    child: ElevatedButton(
+                      style: ElevatedButton.styleFrom(
+                        minimumSize: const Size(110, 40),
+                        shape: RoundedRectangleBorder(
+                          borderRadius:
+                              BorderRadius.circular(AppDefaults.mRadius),
+                        ),
+                      ),
+                      onPressed: () {
+                        if (_formKey.currentState!.validate()) {
+                          _formKey.currentState!.save();
+                          context.read<ActionAgendaCubit>().addDailyActivity(
+                                agenda.idAgenda,
+                                selectedActivity,
+                                otherController.text,
+                              );
+                        }
+                      },
+                      child: const Text("Simpan"),
+                    ),
+                  )
+                : Container(),
           ],
         ),
       ),

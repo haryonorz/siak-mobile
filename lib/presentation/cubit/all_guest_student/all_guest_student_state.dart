@@ -22,9 +22,10 @@ class AllGuestStudentError extends AllGuestStudentState {
 
 class AllGuestStudentHasData extends AllGuestStudentState {
   final List<Absensi> absensi;
+  final User user;
 
-  const AllGuestStudentHasData(this.absensi);
+  const AllGuestStudentHasData(this.absensi, this.user);
 
   @override
-  List<Object?> get props => [absensi];
+  List<Object?> get props => [absensi, user];
 }

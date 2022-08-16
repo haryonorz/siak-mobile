@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:siak_mobile/common/app/app.dart';
 import 'package:siak_mobile/common/routes.dart';
 import 'package:siak_mobile/domain/entities/absensi_rekap.dart';
+import 'package:siak_mobile/domain/entities/arg_attendance_list.dart';
 import 'package:siak_mobile/presentation/widget/custom_field.dart';
 
 class ViewAttendanceRecap extends StatelessWidget {
@@ -94,8 +95,13 @@ class ViewAttendanceRecap extends StatelessWidget {
           const SizedBox(height: AppDefaults.lSpace),
           Center(
             child: GestureDetector(
-              onTap: () => Navigator.pushNamed(context, Routes.attendanceList,
-                  arguments: idAgenda),
+              onTap: () => Navigator.pushNamed(
+                context,
+                Routes.attendanceList,
+                arguments: ArgAttendanceList(
+                  idAgenda: idAgenda,
+                ),
+              ),
               child: Text(
                 'Detail >',
                 style: Theme.of(context)

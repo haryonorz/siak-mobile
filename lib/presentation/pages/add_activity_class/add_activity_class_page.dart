@@ -22,7 +22,8 @@ class _AddActivityClassPageState extends State<AddActivityClassPage> {
   @override
   void initState() {
     super.initState();
-    Future.microtask(() => context.read<InfoActivityClassCubit>().fetchData());
+    Future.microtask(
+        () => context.read<InfoActivityClassCubit>().fetchData(widget.agenda));
   }
 
   @override
@@ -55,41 +56,47 @@ class _AddActivityClassPageState extends State<AddActivityClassPage> {
         appBar: AppBar(
           backgroundColor: Colors.transparent,
           elevation: 0,
-          title: const Text('Tambah Aktifitas Harian'),
+          title: const Text('Aktifitas Harian'),
           systemOverlayStyle: AppDefaults.statusBarDarkBlue,
         ),
         body: RefreshIndicator(
           onRefresh: () async {
-            context.read<InfoActivityClassCubit>().fetchData();
+            context.read<InfoActivityClassCubit>().fetchData(widget.agenda);
           },
           child: ListView(
             padding: const EdgeInsets.symmetric(horizontal: 20),
             children: [
-              const SizedBox(height: AppDefaults.lSpace),
-              BlocBuilder<InfoActivityClassCubit, InfoActivityClassState>(
-                builder: (context, state) {
-                  if (state is InfoActivityClassLoading) {
-                    return const Center(
-                      child: CircularProgressIndicator(),
-                    );
-                  } else if (state is InfoActivityClassHasData) {
-                    return Material(
-                      color: AppColors.backgroundLightBlue,
-                      borderRadius: BorderRadius.circular(AppDefaults.sRadius),
-                      child: ListTile(
-                        leading: const Icon(Icons.info_outline_rounded),
-                        title: Text(
-                            'Aktifitas kelas hanya bisa di tambahkan sampai ${state.inputDuration} setelah agenda kelas dimulai.'),
-                        dense: true,
-                        minLeadingWidth: 10,
-                      ),
-                    );
-                  } else {
-                    return Container();
-                  }
-                },
-              ),
-              const SizedBox(height: AppDefaults.xlSpace),
+              if (widget.agenda.status == '0')
+                Padding(
+                  padding: const EdgeInsets.only(top: 10, bottom: 20),
+                  child: BlocBuilder<InfoActivityClassCubit,
+                      InfoActivityClassState>(
+                    builder: (context, state) {
+                      if (state is InfoActivityClassLoading) {
+                        return const Center(
+                          child: CircularProgressIndicator(),
+                        );
+                      } else if (state is InfoActivityClassHasData) {
+                        return Material(
+                          color: AppColors.backgroundLightBlue,
+                          borderRadius:
+                              BorderRadius.circular(AppDefaults.sRadius),
+                          child: ListTile(
+                            leading: const Icon(Icons.info_outline_rounded),
+                            title: Text(
+                                'Aktifitas kelas hanya bisa di tambahkan sampai ${state.inputDuration} setelah agenda kelas dimulai.'),
+                            dense: true,
+                            minLeadingWidth: 10,
+                          ),
+                        );
+                      } else {
+                        return Container();
+                      }
+                    },
+                  ),
+                )
+              else
+                Container(),
               AddActivityClassForm(
                 agenda: widget.agenda,
               ),

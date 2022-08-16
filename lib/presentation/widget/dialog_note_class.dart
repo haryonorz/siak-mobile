@@ -2,18 +2,20 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:form_field_validator/form_field_validator.dart';
 import 'package:siak_mobile/common/app/app.dart';
+import 'package:siak_mobile/domain/entities/agenda.dart';
 import 'package:siak_mobile/presentation/cubit/action_agenda/action_agenda_cubit.dart';
 
 class DialogNoteClass extends StatelessWidget {
   final _formKey = GlobalKey<FormState>();
 
-  final String idAgenda;
+  final Agenda agenda;
 
-  DialogNoteClass({Key? key, required this.idAgenda}) : super(key: key);
+  DialogNoteClass({Key? key, required this.agenda}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     final noteController = TextEditingController();
+    noteController.text = agenda.catatanKelas ?? '';
 
     return Dialog(
       shape: RoundedRectangleBorder(
@@ -64,9 +66,8 @@ class DialogNoteClass extends StatelessWidget {
                   onPressed: () {
                     if (_formKey.currentState!.validate()) {
                       _formKey.currentState!.save();
-                      context
-                          .read<ActionAgendaCubit>()
-                          .updateNoteClass(idAgenda, noteController.text);
+                      context.read<ActionAgendaCubit>().updateNoteClass(
+                          agenda.idAgenda, noteController.text);
                       Navigator.pop(context, true);
                     }
                   },

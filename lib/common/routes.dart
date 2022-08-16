@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:siak_mobile/domain/entities/agenda.dart';
+import 'package:siak_mobile/domain/entities/arg_attendance_list.dart';
 import 'package:siak_mobile/domain/entities/arg_selected_student.dart';
 import 'package:siak_mobile/presentation/pages/add_activity_class/add_activity_class_page.dart';
 import 'package:siak_mobile/presentation/pages/add_situation_class/add_situation_class_page.dart';
@@ -8,6 +9,7 @@ import 'package:siak_mobile/presentation/pages/all_selected_student/all_selected
 import 'package:siak_mobile/presentation/pages/attandance_list/attendance_list_page.dart';
 import 'package:siak_mobile/presentation/pages/change_password/change_password_page.dart';
 import 'package:siak_mobile/presentation/pages/detail_agenda/detail_agenda_page.dart';
+import 'package:siak_mobile/presentation/pages/edit_profile/edit_profile.dart';
 import 'package:siak_mobile/presentation/pages/photo_preview/photo_preview_page.dart';
 import 'package:siak_mobile/presentation/pages/profile/profile_page.dart';
 import 'package:siak_mobile/presentation/pages/request_join/request_join_page.dart';
@@ -31,6 +33,7 @@ abstract class Routes {
   static const agendaHistory = '/agendaHistory';
 
   static const profile = '/profile';
+  static const editProfile = '/editProfile';
   static const changePassword = '/changePassword';
 }
 
@@ -54,11 +57,15 @@ class RouteGenerator {
         return MaterialPageRoute(
             builder: (_) => RequestJoinPage(idAgenda: args as String));
       case Routes.attendanceList:
+        final data = args as ArgAttendanceList;
         return MaterialPageRoute(
-            builder: (_) => AttendanceListPage(idAgenda: args as String));
+            builder: (_) => AttendanceListPage(
+                  idAgenda: data.idAgenda,
+                  absensi: data.absensi,
+                ));
       case Routes.situationClass:
         return MaterialPageRoute(
-            builder: (_) => SituationClassPage(idAgenda: args as String));
+            builder: (_) => SituationClassPage(agenda: args as Agenda));
       case Routes.addSituationClass:
         return MaterialPageRoute(
             builder: (_) => AddSituationClassPage(idAgenda: args as String));
@@ -76,6 +83,8 @@ class RouteGenerator {
         return MaterialPageRoute(builder: (_) => const AgendaHistoryPage());
       case Routes.profile:
         return MaterialPageRoute(builder: (_) => const ProfilePage());
+      case Routes.editProfile:
+        return MaterialPageRoute(builder: (_) => const EditProfilePage());
       case Routes.changePassword:
         return MaterialPageRoute(builder: (_) => const ChangePasswordPage());
       default:

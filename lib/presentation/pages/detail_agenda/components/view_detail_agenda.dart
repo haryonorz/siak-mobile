@@ -1,18 +1,24 @@
 import 'package:flutter/material.dart';
 import 'package:siak_mobile/common/app/app.dart';
 import 'package:siak_mobile/common/extensions/string_parsing.dart';
-import 'package:siak_mobile/common/routes.dart';
+import 'package:siak_mobile/domain/entities/absensi.dart';
 import 'package:siak_mobile/domain/entities/agenda.dart';
+import 'package:siak_mobile/presentation/pages/detail_agenda/components/button_student_agenda.dart';
+import 'package:siak_mobile/presentation/pages/detail_agenda/components/button_tutor_agenda.dart';
 import 'package:siak_mobile/presentation/widget/custom_field.dart';
 
 class ViewDetaiAgenda extends StatelessWidget {
   final Agenda agenda;
   final int totalRequestJoin;
+  final String userType;
+  final Absensi? absensi;
 
   const ViewDetaiAgenda({
     Key? key,
     required this.agenda,
     required this.totalRequestJoin,
+    required this.userType,
+    this.absensi,
   }) : super(key: key);
 
   @override
@@ -48,89 +54,10 @@ class ViewDetaiAgenda extends StatelessWidget {
             ],
           ),
           const SizedBox(height: 14),
-          Row(
-            children: [
-              Expanded(
-                flex: 3,
-                child: Container(
-                  margin: const EdgeInsets.only(top: 8),
-                  child: ElevatedButton(
-                    onPressed: () => Navigator.pushNamed(
-                      context,
-                      Routes.addActivityClass,
-                      arguments: agenda,
-                    ),
-                    style: ElevatedButton.styleFrom(
-                      shape: RoundedRectangleBorder(
-                        borderRadius:
-                            BorderRadius.circular(AppDefaults.mRadius),
-                      ),
-                    ),
-                    child: Text(
-                      "Aktifitas Harian".toUpperCase(),
-                    ),
-                  ),
-                ),
-              ),
-              const SizedBox(width: AppDefaults.lSpace),
-              agenda.status == '0'
-                  ? Expanded(
-                      flex: 2,
-                      child: Stack(
-                        children: [
-                          Container(
-                            margin: const EdgeInsets.only(top: 8, right: 8),
-                            child: ElevatedButton(
-                              onPressed: () => Navigator.pushNamed(
-                                context,
-                                Routes.requestJoin,
-                                arguments: agenda.idAgenda,
-                              ),
-                              style: ElevatedButton.styleFrom(
-                                primary: AppColors.backgroundBlue,
-                                shape: RoundedRectangleBorder(
-                                  borderRadius: BorderRadius.circular(
-                                      AppDefaults.mRadius),
-                                ),
-                                side: const BorderSide(
-                                  width: 1.2,
-                                  color: AppColors.borderRed,
-                                ),
-                              ),
-                              child: Text(
-                                "Permintaan".toUpperCase(),
-                                style: Theme.of(context)
-                                    .textTheme
-                                    .button
-                                    ?.copyWith(color: AppColors.textRed),
-                              ),
-                            ),
-                          ),
-                          totalRequestJoin == 0
-                              ? Container()
-                              : Positioned.fill(
-                                  child: Align(
-                                    alignment: Alignment.topRight,
-                                    child: Container(
-                                      padding: const EdgeInsets.all(8),
-                                      decoration: BoxDecoration(
-                                        shape: BoxShape.circle,
-                                        color: AppColors.backgroundRed,
-                                        border: Border.all(
-                                          color: AppColors.backgroundBlue,
-                                          width: 2,
-                                        ),
-                                      ),
-                                      child: Text(totalRequestJoin.toString()),
-                                    ),
-                                  ),
-                                ),
-                        ],
-                      ),
-                    )
-                  : Container(),
-            ],
-          ),
+          userType == 'tutor'
+              ? ButtonTutorAgenda(
+                  agenda: agenda, totalRequestJoin: totalRequestJoin)
+              : ButtonStudentAgenda(absensi: absensi),
           const SizedBox(height: AppDefaults.xlSpace),
           Row(
             children: [
