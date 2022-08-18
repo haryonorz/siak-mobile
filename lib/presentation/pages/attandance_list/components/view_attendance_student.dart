@@ -65,6 +65,7 @@ class _ViewAttendanceStudentState extends State<ViewAttendanceStudent> {
                     showPhotoAbsensi: state.user.type == 'tutor'
                         ? true
                         : absensi.noSiswa == widget.absensiUser?.noSiswa,
+                    userType: state.user.type,
                   ),
                 );
               },

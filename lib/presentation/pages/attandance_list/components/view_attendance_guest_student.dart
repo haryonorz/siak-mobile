@@ -67,6 +67,7 @@ class _ViewAttendanceGuestStudentState
                     showPhotoAbsensi: state.user.type == 'tutor'
                         ? true
                         : absensi.noSiswa == widget.absensiUser?.noSiswa,
+                    userType: state.user.type,
                   ),
                 );
               },

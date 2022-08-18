@@ -1,7 +1,9 @@
+import 'package:camera/camera.dart';
 import 'package:flutter/material.dart';
 import 'package:siak_mobile/domain/entities/agenda.dart';
 import 'package:siak_mobile/domain/entities/arg_attendance_list.dart';
 import 'package:siak_mobile/domain/entities/arg_selected_student.dart';
+import 'package:siak_mobile/presentation/cubit/camera_attendance/camera_attendance_page.dart';
 import 'package:siak_mobile/presentation/pages/add_activity_class/add_activity_class_page.dart';
 import 'package:siak_mobile/presentation/pages/add_situation_class/add_situation_class_page.dart';
 import 'package:siak_mobile/presentation/pages/agenda_history/agenda_history_page.dart';
@@ -28,6 +30,8 @@ abstract class Routes {
   static const addSituationClass = '/addSituationClass';
   static const listSelectedStudent = '/listSelectedStudent';
 
+  static const cameraAttendance = '/cameraAttendance';
+
   static const photoPreview = '/photoPreview';
 
   static const agendaHistory = '/agendaHistory';
@@ -38,7 +42,10 @@ abstract class Routes {
 }
 
 class RouteGenerator {
-  static Route<dynamic> generateRoute(RouteSettings settings) {
+  static Route<dynamic> generateRoute(
+    RouteSettings settings,
+    List<CameraDescription> cameras,
+  ) {
     final args = settings.arguments;
 
     switch (settings.name) {
@@ -79,6 +86,9 @@ class RouteGenerator {
       case Routes.photoPreview:
         return MaterialPageRoute(
             builder: (_) => PhotoPreviewPage(url: args as String?));
+      case Routes.cameraAttendance:
+        return MaterialPageRoute(
+            builder: (_) => CameraAttendancePage(cameras: cameras));
       case Routes.agendaHistory:
         return MaterialPageRoute(builder: (_) => const AgendaHistoryPage());
       case Routes.profile:

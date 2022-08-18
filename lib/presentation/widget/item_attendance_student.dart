@@ -8,16 +8,20 @@ import 'package:siak_mobile/data/datasources/remote/network/endpoints.dart';
 import 'package:siak_mobile/domain/entities/absensi.dart';
 import 'package:siak_mobile/presentation/widget/custom_field.dart';
 import 'package:siak_mobile/presentation/widget/default_user_photo.dart';
+import 'package:siak_mobile/presentation/widget/dialog_attendance.dart';
+import 'package:siak_mobile/presentation/widget/dialog_attendance_verification.dart';
 import 'package:siak_mobile/presentation/widget/user_photo.dart';
 
 class ItemAttendanceStudent extends StatelessWidget {
   final Absensi absensi;
   final bool showPhotoAbsensi;
+  final String userType;
 
   const ItemAttendanceStudent({
     Key? key,
     required this.absensi,
     this.showPhotoAbsensi = true,
+    required this.userType,
   }) : super(key: key);
 
   @override
@@ -42,7 +46,7 @@ class ItemAttendanceStudent extends StatelessWidget {
       case '2':
         statusAbsensi = 'Hadir';
         if (absensi.terlambat == 'X') {
-          statusAbsensi = 'Terlambat';
+          statusAbsensi = '$statusAbsensi, Terlambat';
           if (absensi.alasanTerlambat != null) {
             statusAbsensi = '$statusAbsensi (${absensi.alasanTerlambat})';
           }
@@ -124,11 +128,21 @@ class ItemAttendanceStudent extends StatelessWidget {
           showPhotoAbsensi
               ? (absensi.fotoAbsen != null)
                   ? GestureDetector(
-                      onTap: () => Navigator.pushNamed(
-                        context,
-                        Routes.photoPreview,
-                        arguments: photoUrl,
-                      ),
+                      onTap: () {
+                        if (absensi.statusAbsensi == '0') {
+                          showDialog(
+                            context: context,
+                            builder: (context) =>
+                                DialogAttendanceVerification(absensi: absensi),
+                          );
+                        } else {
+                          Navigator.pushNamed(
+                            context,
+                            Routes.photoPreview,
+                            arguments: photoUrl,
+                          );
+                        }
+                      },
                       child: OctoImage(
                         width: 70,
                         height: 90,
@@ -140,30 +154,50 @@ class ItemAttendanceStudent extends StatelessWidget {
                         fit: BoxFit.cover,
                       ),
                     )
-                  : Container(
-                      width: 70,
-                      height: 90,
-                      color: AppColors.backgroundGrey,
-                      child: Stack(
-                        children: [
-                          const Center(
-                            child: Icon(
-                              Icons.hide_image_outlined,
-                              size: 36,
-                              color: AppColors.backgroundLightGrey,
+                  : GestureDetector(
+                      onTap: () {
+                        if (absensi.statusAbsensi == '1') {
+                          showDialog(
+                            context: context,
+                            builder: (context) =>
+                                DialogAttendance(absensi: absensi),
+                          );
+                        }
+                        if (absensi.statusAbsensi == '0') {
+                          showDialog(
+                            context: context,
+                            builder: (context) =>
+                                DialogAttendanceVerification(absensi: absensi),
+                          );
+                        }
+                      },
+                      child: Container(
+                        width: 70,
+                        height: 90,
+                        color: AppColors.backgroundGrey,
+                        child: Stack(
+                          children: [
+                            const Center(
+                              child: Icon(
+                                Icons.hide_image_outlined,
+                                size: 36,
+                                color: AppColors.backgroundLightGrey,
+                              ),
                             ),
-                          ),
-                          Center(
-                            child: Text(
-                              'NO IMAGE',
-                              style:
-                                  Theme.of(context).textTheme.caption?.copyWith(
-                                        color: Colors.black,
-                                        fontWeight: FontWeight.w600,
-                                      ),
+                            Center(
+                              child: Text(
+                                'NO IMAGE',
+                                style: Theme.of(context)
+                                    .textTheme
+                                    .caption
+                                    ?.copyWith(
+                                      color: Colors.black,
+                                      fontWeight: FontWeight.w600,
+                                    ),
+                              ),
                             ),
-                          ),
-                        ],
+                          ],
+                        ),
                       ),
                     )
               : Container(),

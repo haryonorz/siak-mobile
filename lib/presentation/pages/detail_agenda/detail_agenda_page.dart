@@ -133,7 +133,7 @@ class _DetailAgendaPageState extends State<DetailAgendaPage> {
                                   style: Theme.of(context).textTheme.headline5,
                                 ),
                               ),
-                              state.detailAgenda.agenda.allStudent.length != 0
+                              state.detailAgenda.agenda.allStudent.isNotEmpty
                                   ? ListView.builder(
                                       shrinkWrap: true,
                                       physics:
@@ -152,6 +152,7 @@ class _DetailAgendaPageState extends State<DetailAgendaPage> {
                                             showPhotoAbsensi: absensi.noSiswa ==
                                                 state.detailAgenda.absensi
                                                     ?.noSiswa,
+                                            userType: state.user.type,
                                           ),
                                         );
                                       },

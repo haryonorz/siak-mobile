@@ -1,3 +1,4 @@
+import 'package:camera/camera.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -26,10 +27,14 @@ import 'package:siak_mobile/presentation/pages/splash_screen/splash_screen_page.
 import 'package:siak_mobile/theme/app_theme.dart';
 import 'package:siak_mobile/injection.dart' as di;
 
+late List<CameraDescription> _cameras;
+
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp();
   di.init();
+
+  _cameras = await availableCameras();
   await initializeDateFormatting('id_ID', null)
       .then((_) => runApp(const MyApp()));
 }
@@ -97,7 +102,9 @@ class MyApp extends StatelessWidget {
         debugShowCheckedModeBanner: false,
         title: 'Semut',
         theme: appTheme(context),
-        onGenerateRoute: RouteGenerator.generateRoute,
+        onGenerateRoute: (settings) {
+          return RouteGenerator.generateRoute(settings, _cameras);
+        },
         home: BlocBuilder<AuthenticationCubit, AuthenticationState>(
           builder: (context, state) {
             if (state is AuthenticationAuthenticated) {
