@@ -1,8 +1,11 @@
+import 'dart:io';
+
 import 'package:equatable/equatable.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:siak_mobile/domain/entities/activity_class.dart';
 import 'package:siak_mobile/domain/usecases/do_accept_request_join.dart';
 import 'package:siak_mobile/domain/usecases/do_add_daily_activity.dart';
+import 'package:siak_mobile/domain/usecases/do_attendance.dart';
 import 'package:siak_mobile/domain/usecases/do_close_agenda.dart';
 import 'package:siak_mobile/domain/usecases/do_update_note_class.dart';
 import 'package:siak_mobile/domain/usecases/do_verification_attends.dart';
@@ -10,6 +13,7 @@ import 'package:siak_mobile/domain/usecases/do_verification_attends.dart';
 part 'action_agenda_state.dart';
 
 class ActionAgendaCubit extends Cubit<ActionAgendaState> {
+  final DoAttendance _doAttendance;
   final DoVerificationAttends _doVerificationAttends;
   final DoAddDailyActivity _doAddDailyActivity;
   final DoAcceptRequestJoin _doAcceptRequestJoin;
@@ -17,12 +21,44 @@ class ActionAgendaCubit extends Cubit<ActionAgendaState> {
   final DoCloseAgenda _doCloseAgenda;
 
   ActionAgendaCubit(
+    this._doAttendance,
     this._doVerificationAttends,
     this._doAddDailyActivity,
     this._doAcceptRequestJoin,
     this._doUpdateNoteClass,
     this._doCloseAgenda,
   ) : super(ActionAgendaInitial());
+
+  void doAttendance(
+    String idAgenda,
+    File photo,
+    String noStudent,
+    String date,
+    String time,
+    String latitude,
+    String longitude,
+  ) async {
+    emit(ActionAgendaLoading());
+
+    final result = await _doAttendance.execute(
+      idAgenda,
+      photo,
+      noStudent,
+      date,
+      time,
+      latitude,
+      longitude,
+    );
+
+    result.fold(
+      (failure) {
+        emit(ActionAgendaError(failure.message));
+      },
+      (_) {
+        emit(ActionAgendaSuccess());
+      },
+    );
+  }
 
   void verificationAttends(
     String idAgenda,

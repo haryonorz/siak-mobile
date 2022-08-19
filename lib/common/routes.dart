@@ -1,6 +1,7 @@
 import 'package:camera/camera.dart';
 import 'package:flutter/material.dart';
 import 'package:siak_mobile/domain/entities/agenda.dart';
+import 'package:siak_mobile/domain/entities/arg_attandance.dart';
 import 'package:siak_mobile/domain/entities/arg_attendance_list.dart';
 import 'package:siak_mobile/domain/entities/arg_selected_student.dart';
 import 'package:siak_mobile/domain/entities/user.dart';
@@ -88,8 +89,13 @@ class RouteGenerator {
         return MaterialPageRoute(
             builder: (_) => PhotoPreviewPage(url: args as String?));
       case Routes.cameraAttendance:
+        final data = args as ArgCameraAttendance;
         return MaterialPageRoute(
-            builder: (_) => CameraAttendancePage(cameras: cameras));
+            builder: (_) => CameraAttendancePage(
+                  cameras: cameras,
+                  absensi: data.absensi,
+                  frontCamera: data.userType == 'turor',
+                ));
       case Routes.agendaHistory:
         return MaterialPageRoute(builder: (_) => const AgendaHistoryPage());
       case Routes.profile:

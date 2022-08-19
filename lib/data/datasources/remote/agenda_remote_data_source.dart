@@ -1,6 +1,9 @@
 import 'dart:convert';
+import 'dart:io';
 
 import 'package:http/http.dart' as http;
+import 'package:http_parser/http_parser.dart';
+import 'package:path/path.dart';
 import 'package:siak_mobile/common/exceptions.dart';
 import 'package:siak_mobile/data/datasources/remote/network/endpoints.dart';
 import 'package:siak_mobile/data/models/absensi_model.dart';
@@ -36,6 +39,16 @@ abstract class AgendaRemoteDataSources {
   Future<InfoProblemClassResponse> getInfoProblemClass();
   Future<List<AbsensiResponse>> getStudentInClass(String idAgenda);
 
+  Future<bool> doAttendance(
+    String idAgenda,
+    String userType,
+    File photo,
+    String noStudent,
+    String date,
+    String time,
+    String latitude,
+    String longitude,
+  );
   Future<bool> doVerificationAttends(
     String idAgenda,
     String noStudent,
@@ -261,6 +274,53 @@ class AgendaRemoteDataSourcesImpl extends AgendaRemoteDataSources {
           .studentList;
     } else {
       final error = ErrorResponse.fromJson(json.decode(response.body));
+      throw ServerException(
+          'Server Error [${response.statusCode}]: ${error.message}');
+    }
+  }
+
+  @override
+  Future<bool> doAttendance(
+    String idAgenda,
+    String userType,
+    File photo,
+    String noStudent,
+    String date,
+    String time,
+    String latitude,
+    String longitude,
+  ) async {
+    var request =
+        http.MultipartRequest("POST", Uri.parse(EndPoints.doAttendance));
+    Map<String, String> headers = {"Content-type": "multipart/form-data"};
+
+    request.files.add(
+      http.MultipartFile(
+        'photo',
+        photo.readAsBytes().asStream(),
+        photo.lengthSync(),
+        filename: basename(photo.path),
+        contentType: MediaType('image', 'jpeg'),
+      ),
+    );
+    request.headers.addAll(headers);
+    request.fields.addAll({
+      'key': EndPoints.key,
+      'id_agenda': idAgenda,
+      'user_type': userType,
+      'no_siswa': noStudent,
+      'tgl': date,
+      'jam': time,
+      'latitude': latitude,
+      'longitude': longitude,
+    });
+    var response = await request.send();
+
+    if (response.statusCode == 200) {
+      return true;
+    } else {
+      var responseError = await http.Response.fromStream(response);
+      final error = ErrorResponse.fromJson(json.decode(responseError.body));
       throw ServerException(
           'Server Error [${response.statusCode}]: ${error.message}');
     }

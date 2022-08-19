@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:dartz/dartz.dart';
 import 'package:siak_mobile/common/failure.dart';
 import 'package:siak_mobile/domain/entities/absensi.dart';
@@ -18,6 +20,15 @@ abstract class AgendaRepository {
   Future<Either<Failure, InfoProblemClass>> getInfoProblemClass();
   Future<Either<Failure, List<Absensi>>> getStudentInClass(String idAgenda);
 
+  Future<Either<Failure, bool>> doAttendance(
+    String idAgenda,
+    File photo,
+    String noStudent,
+    String date,
+    String time,
+    String latitude,
+    String longitude,
+  );
   Future<Either<Failure, bool>> doVerificationAttends(
     String idAgenda,
     String noStudent,

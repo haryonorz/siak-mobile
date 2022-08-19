@@ -14,6 +14,7 @@ import 'package:siak_mobile/domain/repositories/user_repository.dart';
 import 'package:siak_mobile/domain/usecases/do_accept_request_join.dart';
 import 'package:siak_mobile/domain/usecases/do_add_daily_activity.dart';
 import 'package:siak_mobile/domain/usecases/do_add_situation_class.dart';
+import 'package:siak_mobile/domain/usecases/do_attendance.dart';
 import 'package:siak_mobile/domain/usecases/do_authentication.dart';
 import 'package:siak_mobile/domain/usecases/do_change_password.dart';
 import 'package:siak_mobile/domain/usecases/do_close_agenda.dart';
@@ -69,6 +70,7 @@ void init() {
         locator(),
         locator(),
         locator(),
+        locator(),
       ));
   locator.registerFactory(() => ActionSituationClassCubit(locator()));
   locator.registerFactory(() => AllStudentCubit(locator(), locator()));
@@ -89,6 +91,7 @@ void init() {
   locator.registerLazySingleton(() => DoAuthentication(locator()));
   locator.registerLazySingleton(() => GetAllAgenda(locator()));
   locator.registerLazySingleton(() => GetAllAgendaHistory(locator()));
+  locator.registerLazySingleton(() => DoAttendance(locator()));
   locator.registerLazySingleton(() => DoVerificationAttends(locator()));
   locator.registerLazySingleton(() => GetDetailAgenda(locator()));
   locator.registerLazySingleton(() => DoAddDailyActivity(locator()));

@@ -172,6 +172,39 @@ class AgendaRepositoryImpl extends AgendaRepository {
   }
 
   @override
+  Future<Either<Failure, bool>> doAttendance(
+    String idAgenda,
+    File photo,
+    String noStudent,
+    String date,
+    String time,
+    String latitude,
+    String longitude,
+  ) async {
+    try {
+      final user = await localDataSource.getUser();
+      if (user != null) {
+        final result = await remoteDataSource.doAttendance(
+          idAgenda,
+          user.type,
+          photo,
+          noStudent,
+          date,
+          time,
+          latitude,
+          longitude,
+        );
+        return Right(result);
+      }
+      return Left(ServerFailure('User tidak ditemukan.'));
+    } on ServerException catch (e) {
+      return Left(ServerFailure(e.message));
+    } on SocketException {
+      return Left(ConnectionFailure('Gagal terhubung ke jaringan.'));
+    }
+  }
+
+  @override
   Future<Either<Failure, bool>> doVerificationAttends(
     String idAgenda,
     String noStudent,

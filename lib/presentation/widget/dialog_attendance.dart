@@ -2,13 +2,16 @@ import 'package:flutter/material.dart';
 import 'package:siak_mobile/common/app/app.dart';
 import 'package:siak_mobile/common/routes.dart';
 import 'package:siak_mobile/domain/entities/absensi.dart';
+import 'package:siak_mobile/domain/entities/arg_attandance.dart';
 
 class DialogAttendance extends StatelessWidget {
   final Absensi absensi;
+  final String userType;
 
   const DialogAttendance({
     Key? key,
     required this.absensi,
+    required this.userType,
   }) : super(key: key);
 
   @override
@@ -60,8 +63,17 @@ class DialogAttendance extends StatelessWidget {
                 const SizedBox(width: 12),
                 Expanded(
                   child: ElevatedButton(
-                    onPressed: () =>
-                        Navigator.pushNamed(context, Routes.cameraAttendance),
+                    onPressed: () {
+                      Navigator.pop(context);
+                      Navigator.pushNamed(
+                        context,
+                        Routes.cameraAttendance,
+                        arguments: ArgCameraAttendance(
+                          absensi: absensi,
+                          userType: userType,
+                        ),
+                      );
+                    },
                     style: ElevatedButton.styleFrom(
                       minimumSize: const Size(80, 38),
                       primary: AppColors.backgroundRed,

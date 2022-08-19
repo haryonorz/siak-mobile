@@ -159,8 +159,10 @@ class ItemAttendanceStudent extends StatelessWidget {
                         if (absensi.statusAbsensi == '1') {
                           showDialog(
                             context: context,
-                            builder: (context) =>
-                                DialogAttendance(absensi: absensi),
+                            builder: (context) => DialogAttendance(
+                              absensi: absensi,
+                              userType: userType,
+                            ),
                           );
                         }
                         if (absensi.statusAbsensi == '0') {

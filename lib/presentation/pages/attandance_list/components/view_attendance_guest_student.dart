@@ -4,7 +4,6 @@ import 'package:siak_mobile/common/app/app.dart';
 import 'package:siak_mobile/domain/entities/absensi.dart';
 import 'package:siak_mobile/presentation/cubit/action_agenda/action_agenda_cubit.dart';
 import 'package:siak_mobile/presentation/cubit/all_guest_student/all_guest_student_cubit.dart';
-import 'package:siak_mobile/presentation/cubit/all_student/all_student_cubit.dart';
 import 'package:siak_mobile/presentation/widget/item_attendance_student.dart';
 import 'package:siak_mobile/presentation/widget/view_empty.dart';
 import 'package:siak_mobile/presentation/widget/view_error.dart';
