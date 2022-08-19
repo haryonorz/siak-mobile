@@ -17,6 +17,7 @@ import 'package:siak_mobile/presentation/cubit/change_password/change_password_c
 import 'package:siak_mobile/presentation/cubit/detail_agenda/detail_agenda_cubit.dart';
 import 'package:siak_mobile/presentation/cubit/info_activity_class/info_activity_class_cubit.dart';
 import 'package:siak_mobile/presentation/cubit/info_problem_class/info_problem_class_cubit.dart';
+import 'package:siak_mobile/presentation/cubit/profile/profile_cubit.dart';
 import 'package:siak_mobile/presentation/cubit/sign_in/sign_in_cubit.dart';
 import 'package:siak_mobile/presentation/cubit/sign_out/sign_out_cubit.dart';
 import 'package:siak_mobile/presentation/cubit/student_in_class/student_in_class_cubit.dart';
@@ -96,6 +97,9 @@ class MyApp extends StatelessWidget {
         ),
         BlocProvider(
           create: (_) => di.locator<UserCubit>(),
+        ),
+        BlocProvider(
+          create: (_) => di.locator<ProfileCubit>(),
         ),
       ],
       child: MaterialApp(

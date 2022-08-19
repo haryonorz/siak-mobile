@@ -36,6 +36,11 @@ abstract class AgendaRemoteDataSources {
   Future<InfoProblemClassResponse> getInfoProblemClass();
   Future<List<AbsensiResponse>> getStudentInClass(String idAgenda);
 
+  Future<bool> doVerificationAttends(
+    String idAgenda,
+    String noStudent,
+    String statusAttends,
+  );
   Future<bool> doAddDailyActivity(
     String idAgenda,
     String idActivity,
@@ -254,6 +259,30 @@ class AgendaRemoteDataSourcesImpl extends AgendaRemoteDataSources {
     if (response.statusCode == 200) {
       return StudentListResponse.fromJson(json.decode(response.body))
           .studentList;
+    } else {
+      final error = ErrorResponse.fromJson(json.decode(response.body));
+      throw ServerException(
+          'Server Error [${response.statusCode}]: ${error.message}');
+    }
+  }
+
+  @override
+  Future<bool> doVerificationAttends(
+    String idAgenda,
+    String noStudent,
+    String statusAttends,
+  ) async {
+    final response = await client.post(
+      Uri.parse(EndPoints.doVerificationAttends),
+      body: {
+        'key': EndPoints.key,
+        'id_agenda': idAgenda,
+        'no_siswa': noStudent,
+        'status_absensi': statusAttends,
+      },
+    );
+    if (response.statusCode == 200) {
+      return true;
     } else {
       final error = ErrorResponse.fromJson(json.decode(response.body));
       throw ServerException(

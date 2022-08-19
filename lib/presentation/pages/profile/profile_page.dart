@@ -1,12 +1,11 @@
-import 'package:adaptive_dialog/adaptive_dialog.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:siak_mobile/common/app/app.dart';
-import 'package:siak_mobile/common/routes.dart';
 import 'package:siak_mobile/presentation/cubit/auth/authentication_cubit.dart';
 import 'package:siak_mobile/presentation/cubit/sign_out/sign_out_cubit.dart';
-import 'package:siak_mobile/presentation/widget/custom_field.dart';
-import 'package:siak_mobile/presentation/widget/default_user_photo.dart';
+import 'package:siak_mobile/presentation/pages/profile/components/header_profile.dart';
+import 'package:siak_mobile/presentation/pages/profile/components/list_menu_profile.dart';
+import 'package:siak_mobile/presentation/pages/profile/components/version_app.dart';
 
 class ProfilePage extends StatelessWidget {
   const ProfilePage({Key? key}) : super(key: key);
@@ -48,112 +47,13 @@ class ProfilePage extends StatelessWidget {
         body: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Container(
-              margin: const EdgeInsets.all(AppDefaults.margin),
-              child: Row(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Expanded(
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Text(
-                          'Hasda',
-                          style: Theme.of(context)
-                              .textTheme
-                              .subtitle1
-                              ?.copyWith(fontWeight: FontWeight.bold),
-                        ),
-                        const SizedBox(height: AppDefaults.lSpace),
-                        CustomField(
-                          label: "Kode Tutor: ",
-                          value: '-',
-                          valueStyle: Theme.of(context).textTheme.subtitle2,
-                        ),
-                        const SizedBox(height: 2),
-                        CustomField(
-                          label: "No Hp: ",
-                          value: '-',
-                          valueStyle: Theme.of(context).textTheme.subtitle2,
-                        ),
-                        const SizedBox(height: 2),
-                        CustomField(
-                          label: "Kelas: ",
-                          value: '-',
-                          valueStyle: Theme.of(context).textTheme.subtitle2,
-                        ),
-                        const SizedBox(height: 2),
-                        CustomField(
-                          label: "Mata Pelajaran: ",
-                          value: '-',
-                          valueStyle: Theme.of(context).textTheme.subtitle2,
-                        ),
-                      ],
-                    ),
-                  ),
-                  const SizedBox(width: AppDefaults.lSpace),
-                  Column(
-                    children: [
-                      const DefaultUserPhoto(width: 80, height: 80),
-                      const SizedBox(height: AppDefaults.lSpace),
-                      ElevatedButton(
-                        onPressed: () => Navigator.pushNamed(
-                          context,
-                          Routes.editProfile,
-                        ),
-                        style: ElevatedButton.styleFrom(
-                          minimumSize: const Size(90, 38),
-                          padding: EdgeInsets.zero,
-                          shape: RoundedRectangleBorder(
-                            borderRadius:
-                                BorderRadius.circular(AppDefaults.mRadius),
-                          ),
-                        ),
-                        child: const Text("Edit Profil"),
-                      ),
-                    ],
-                  ),
-                ],
-              ),
-            ),
+            const HeaderProfile(),
             const SizedBox(width: AppDefaults.xlSpace),
             Expanded(
               child: Container(
                 padding: const EdgeInsets.only(top: AppDefaults.padding),
                 color: AppColors.backgroundDarkBlue,
-                child: Column(
-                  children: [
-                    Material(
-                      color: AppColors.backgroundBlue,
-                      child: ListTile(
-                        leading: const Icon(Icons.key_rounded),
-                        title: const Text('Ubah Password'),
-                        onTap: () =>
-                            Navigator.pushNamed(context, Routes.changePassword),
-                      ),
-                    ),
-                    Material(
-                      color: AppColors.backgroundBlue,
-                      child: ListTile(
-                        leading: const Icon(Icons.exit_to_app),
-                        title: const Text('Keluar'),
-                        tileColor: AppColors.backgroundBlue,
-                        onTap: () async {
-                          final result = await showOkCancelAlertDialog(
-                            context: context,
-                            title: 'Keluar',
-                            message: 'Anda yakin ingin keluar dari aplikasi?',
-                            okLabel: 'Yes',
-                            cancelLabel: 'No',
-                          );
-                          if (result == OkCancelResult.ok) {
-                            context.read<SignOutCubit>().doSignOut();
-                          }
-                        },
-                      ),
-                    ),
-                  ],
-                ),
+                child: const ListMenuProfile(),
               ),
             ),
             Container(
@@ -162,7 +62,7 @@ class ProfilePage extends StatelessWidget {
                   const EdgeInsets.symmetric(vertical: AppDefaults.padding),
               color: AppColors.backgroundDarkBlue,
               child: const Center(
-                child: Text('Version v1.0.0'),
+                child: VersionApp(),
               ),
             ),
           ],

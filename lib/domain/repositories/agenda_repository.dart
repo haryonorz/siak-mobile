@@ -18,6 +18,11 @@ abstract class AgendaRepository {
   Future<Either<Failure, InfoProblemClass>> getInfoProblemClass();
   Future<Either<Failure, List<Absensi>>> getStudentInClass(String idAgenda);
 
+  Future<Either<Failure, bool>> doVerificationAttends(
+    String idAgenda,
+    String noStudent,
+    String verification,
+  );
   Future<Either<Failure, bool>> doAddDailyActivity(
     String idAgenda,
     String idActivity,
@@ -25,7 +30,9 @@ abstract class AgendaRepository {
     String otherActivity,
   );
   Future<Either<Failure, bool>> doAcceptRequestJoin(
-      String idAgenda, String noStudent);
+    String idAgenda,
+    String noStudent,
+  );
   Future<Either<Failure, bool>> doAddSituationClass(
     String idAgenda,
     String noStudent,

@@ -3,12 +3,13 @@ import 'package:flutter/material.dart';
 import 'package:siak_mobile/domain/entities/agenda.dart';
 import 'package:siak_mobile/domain/entities/arg_attendance_list.dart';
 import 'package:siak_mobile/domain/entities/arg_selected_student.dart';
-import 'package:siak_mobile/presentation/cubit/camera_attendance/camera_attendance_page.dart';
+import 'package:siak_mobile/domain/entities/user.dart';
 import 'package:siak_mobile/presentation/pages/add_activity_class/add_activity_class_page.dart';
 import 'package:siak_mobile/presentation/pages/add_situation_class/add_situation_class_page.dart';
 import 'package:siak_mobile/presentation/pages/agenda_history/agenda_history_page.dart';
 import 'package:siak_mobile/presentation/pages/all_selected_student/all_selected_student_page.dart';
 import 'package:siak_mobile/presentation/pages/attandance_list/attendance_list_page.dart';
+import 'package:siak_mobile/presentation/pages/camera_attendance/camera_attendance_page.dart';
 import 'package:siak_mobile/presentation/pages/change_password/change_password_page.dart';
 import 'package:siak_mobile/presentation/pages/detail_agenda/detail_agenda_page.dart';
 import 'package:siak_mobile/presentation/pages/edit_profile/edit_profile.dart';
@@ -94,7 +95,11 @@ class RouteGenerator {
       case Routes.profile:
         return MaterialPageRoute(builder: (_) => const ProfilePage());
       case Routes.editProfile:
-        return MaterialPageRoute(builder: (_) => const EditProfilePage());
+        return MaterialPageRoute(
+          builder: (_) => EditProfilePage(
+            user: args as User,
+          ),
+        );
       case Routes.changePassword:
         return MaterialPageRoute(builder: (_) => const ChangePasswordPage());
       default:

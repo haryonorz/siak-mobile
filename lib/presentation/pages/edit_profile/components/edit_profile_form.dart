@@ -1,11 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:siak_mobile/common/app/app.dart';
+import 'package:siak_mobile/domain/entities/user.dart';
 import 'package:siak_mobile/presentation/widget/form/phone_form_field.dart';
 
 class EditProfileForm extends StatelessWidget {
-  final _formKey = GlobalKey<FormState>();
+  final User user;
 
-  EditProfileForm({Key? key}) : super(key: key);
+  EditProfileForm({Key? key, required this.user}) : super(key: key);
+
+  final _formKey = GlobalKey<FormState>();
 
   @override
   Widget build(BuildContext context) {
@@ -24,12 +27,14 @@ class EditProfileForm extends StatelessWidget {
             labelText: 'No Handphone',
           ),
           const SizedBox(height: AppDefaults.xlSpace),
-          PhoneFormField(
-            controller: newPasswordController,
-            hintText: 'Max. 12 karakter',
-            showLabel: true,
-            labelText: 'No Handphone Orangtua',
-          ),
+          user.type == 'tutor'
+              ? Container()
+              : PhoneFormField(
+                  controller: newPasswordController,
+                  hintText: 'Max. 12 karakter',
+                  showLabel: true,
+                  labelText: 'No Handphone Orangtua',
+                ),
           const SizedBox(height: AppDefaults.xxlSpace),
           Align(
             alignment: Alignment.topRight,

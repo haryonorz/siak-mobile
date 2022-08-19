@@ -21,10 +21,10 @@ class ProfileError extends ProfileState {
 }
 
 class ProfileHasData extends ProfileState {
-  final Profile profile;
+  final User user;
 
-  const ProfileHasData(this.profile);
+  const ProfileHasData(this.user);
 
   @override
-  List<Object?> get props => [profile];
+  List<Object?> get props => [user];
 }

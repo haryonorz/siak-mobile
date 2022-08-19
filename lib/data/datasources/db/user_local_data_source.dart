@@ -12,17 +12,6 @@ class UserLocalDataSourceImpl implements UserLocalDataSource {
   final DatabaseHelper databaseHelper;
 
   UserLocalDataSourceImpl({required this.databaseHelper});
-
-  @override
-  Future<UserResponse?> getUser() async {
-    final result = await databaseHelper.getUser();
-    if (result != null) {
-      return UserResponse.fromJson(result);
-    } else {
-      return null;
-    }
-  }
-
   @override
   Future<String> insertUser(UserResponse user) async {
     try {
@@ -40,6 +29,16 @@ class UserLocalDataSourceImpl implements UserLocalDataSource {
       return 'Remove success';
     } catch (e) {
       throw DatabaseException(e.toString());
+    }
+  }
+
+  @override
+  Future<UserResponse?> getUser() async {
+    final result = await databaseHelper.getUser();
+    if (result != null) {
+      return UserResponse.fromJson(result);
+    } else {
+      return null;
     }
   }
 }

@@ -5,21 +5,44 @@ import 'package:siak_mobile/domain/usecases/do_accept_request_join.dart';
 import 'package:siak_mobile/domain/usecases/do_add_daily_activity.dart';
 import 'package:siak_mobile/domain/usecases/do_close_agenda.dart';
 import 'package:siak_mobile/domain/usecases/do_update_note_class.dart';
+import 'package:siak_mobile/domain/usecases/do_verification_attends.dart';
 
 part 'action_agenda_state.dart';
 
 class ActionAgendaCubit extends Cubit<ActionAgendaState> {
+  final DoVerificationAttends _doVerificationAttends;
   final DoAddDailyActivity _doAddDailyActivity;
   final DoAcceptRequestJoin _doAcceptRequestJoin;
   final DoUpdateNoteClass _doUpdateNoteClass;
   final DoCloseAgenda _doCloseAgenda;
 
   ActionAgendaCubit(
+    this._doVerificationAttends,
     this._doAddDailyActivity,
     this._doAcceptRequestJoin,
     this._doUpdateNoteClass,
     this._doCloseAgenda,
   ) : super(ActionAgendaInitial());
+
+  void verificationAttends(
+    String idAgenda,
+    String noStudent,
+    String verification,
+  ) async {
+    emit(ActionAgendaLoading());
+
+    final result =
+        await _doVerificationAttends.execute(idAgenda, noStudent, verification);
+
+    result.fold(
+      (failure) {
+        emit(ActionAgendaError(failure.message));
+      },
+      (_) {
+        emit(ActionAgendaSuccess());
+      },
+    );
+  }
 
   void addDailyActivity(
     String idAgenda,

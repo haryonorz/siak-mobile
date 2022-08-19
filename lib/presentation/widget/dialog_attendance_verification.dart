@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:siak_mobile/common/app/app.dart';
 import 'package:siak_mobile/domain/entities/absensi.dart';
+import 'package:siak_mobile/presentation/cubit/action_agenda/action_agenda_cubit.dart';
 
 class DialogAttendanceVerification extends StatelessWidget {
   final Absensi absensi;
@@ -62,7 +64,14 @@ class DialogAttendanceVerification extends StatelessWidget {
               children: [
                 Expanded(
                   child: ElevatedButton(
-                    onPressed: () => Navigator.pop(context),
+                    onPressed: () {
+                      context.read<ActionAgendaCubit>().verificationAttends(
+                            absensi.idAgenda,
+                            absensi.noSiswa,
+                            '3',
+                          );
+                      Navigator.pop(context);
+                    },
                     style: ElevatedButton.styleFrom(
                       minimumSize: const Size(80, 38),
                       primary: AppColors.backgroundRed,
@@ -77,7 +86,14 @@ class DialogAttendanceVerification extends StatelessWidget {
                 const SizedBox(width: 12),
                 Expanded(
                   child: ElevatedButton(
-                    onPressed: () => Navigator.pop(context),
+                    onPressed: () {
+                      context.read<ActionAgendaCubit>().verificationAttends(
+                            absensi.idAgenda,
+                            absensi.noSiswa,
+                            '2',
+                          );
+                      Navigator.pop(context);
+                    },
                     style: ElevatedButton.styleFrom(
                       minimumSize: const Size(80, 38),
                       primary: AppColors.backgroundRed,

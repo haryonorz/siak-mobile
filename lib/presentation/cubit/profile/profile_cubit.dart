@@ -1,6 +1,6 @@
 import 'package:equatable/equatable.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:siak_mobile/domain/entities/profile.dart';
+import 'package:siak_mobile/domain/entities/user.dart';
 import 'package:siak_mobile/domain/usecases/get_profile.dart';
 
 part 'profile_state.dart';

@@ -172,6 +172,26 @@ class AgendaRepositoryImpl extends AgendaRepository {
   }
 
   @override
+  Future<Either<Failure, bool>> doVerificationAttends(
+    String idAgenda,
+    String noStudent,
+    String verification,
+  ) async {
+    try {
+      final result = await remoteDataSource.doVerificationAttends(
+        idAgenda,
+        noStudent,
+        verification,
+      );
+      return Right(result);
+    } on ServerException catch (e) {
+      return Left(ServerFailure(e.message));
+    } on SocketException {
+      return Left(ConnectionFailure('Gagal terhubung ke jaringan.'));
+    }
+  }
+
+  @override
   Future<Either<Failure, bool>> doAddDailyActivity(
     String idAgenda,
     String idActivity,

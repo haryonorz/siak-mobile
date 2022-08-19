@@ -20,7 +20,7 @@ abstract class UserRemoteDataSources {
     String newPassword,
     String userType,
   );
-  Future<ProfileResponse> getProfile(String username, String type);
+  Future<ProfileResponse> getProfile(String username, String userType);
 }
 
 class UserRemoteDataSourcesImpl extends UserRemoteDataSources {
@@ -98,13 +98,13 @@ class UserRemoteDataSourcesImpl extends UserRemoteDataSources {
   }
 
   @override
-  Future<ProfileResponse> getProfile(String username, String type) async {
+  Future<ProfileResponse> getProfile(String username, String userType) async {
     final response = await client.post(
       Uri.parse(EndPoints.getProfile),
       body: {
         'key': EndPoints.key,
         'username': username,
-        'type': type,
+        'user_type': userType,
       },
     );
     if (response.statusCode == 200) {

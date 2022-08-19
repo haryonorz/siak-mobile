@@ -14,8 +14,12 @@ class ProfileResponse extends Equatable {
 
   factory ProfileResponse.fromJson(Map<String, dynamic> json) =>
       ProfileResponse(
-        tutor: TutorResponse.fromJson(json["tutor"]),
-        student: StudentResponse.fromJson(json["student"]),
+        tutor: json["tutor"] != null
+            ? TutorResponse.fromJson(json["tutor"])
+            : null,
+        student: json["student"] != null
+            ? StudentResponse.fromJson(json["student"])
+            : null,
       );
 
   Map<String, dynamic> toJson() => {
