@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:siak_mobile/common/app/app.dart';
-import 'package:siak_mobile/presentation/cubit/action_agenda/action_agenda_cubit.dart';
+import 'package:siak_mobile/presentation/cubit/action_detail_agenda/action_detail_agenda_cubit.dart';
 
 class ButtonCloseAgenda extends StatelessWidget {
   final String idAgenda;
@@ -14,7 +14,7 @@ class ButtonCloseAgenda extends StatelessWidget {
       margin: const EdgeInsets.symmetric(horizontal: AppDefaults.margin),
       child: ElevatedButton(
         onPressed: () =>
-            context.read<ActionAgendaCubit>().closeAgenda(idAgenda),
+            context.read<ActionDetailAgendaCubit>().closeAgenda(idAgenda),
         style: ElevatedButton.styleFrom(
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(AppDefaults.mRadius),

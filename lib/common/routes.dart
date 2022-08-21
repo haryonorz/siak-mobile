@@ -1,8 +1,9 @@
 import 'package:camera/camera.dart';
 import 'package:flutter/material.dart';
 import 'package:siak_mobile/domain/entities/agenda.dart';
-import 'package:siak_mobile/domain/entities/arg_attandance.dart';
+import 'package:siak_mobile/domain/entities/arg_camera_attandance.dart';
 import 'package:siak_mobile/domain/entities/arg_attendance_list.dart';
+import 'package:siak_mobile/domain/entities/arg_display_camera_attandance.dart';
 import 'package:siak_mobile/domain/entities/arg_selected_student.dart';
 import 'package:siak_mobile/domain/entities/user.dart';
 import 'package:siak_mobile/presentation/pages/add_activity_class/add_activity_class_page.dart';
@@ -13,6 +14,7 @@ import 'package:siak_mobile/presentation/pages/attandance_list/attendance_list_p
 import 'package:siak_mobile/presentation/pages/camera_attendance/camera_attendance_page.dart';
 import 'package:siak_mobile/presentation/pages/change_password/change_password_page.dart';
 import 'package:siak_mobile/presentation/pages/detail_agenda/detail_agenda_page.dart';
+import 'package:siak_mobile/presentation/pages/display_camera_attendance/display_camera_attendance.dart';
 import 'package:siak_mobile/presentation/pages/edit_profile/edit_profile.dart';
 import 'package:siak_mobile/presentation/pages/photo_preview/photo_preview_page.dart';
 import 'package:siak_mobile/presentation/pages/profile/profile_page.dart';
@@ -33,6 +35,7 @@ abstract class Routes {
   static const listSelectedStudent = '/listSelectedStudent';
 
   static const cameraAttendance = '/cameraAttendance';
+  static const displayCameraAttendance = '/displayCameraAttendance';
 
   static const photoPreview = '/photoPreview';
 
@@ -94,8 +97,17 @@ class RouteGenerator {
             builder: (_) => CameraAttendancePage(
                   cameras: cameras,
                   absensi: data.absensi,
-                  frontCamera: data.userType == 'turor',
+                  userType: data.userType,
+                  photoReset: data.photoReset,
                 ));
+      case Routes.displayCameraAttendance:
+        return MaterialPageRoute(builder: (_) {
+          final data = args as ArgDisplayCameraAttendance;
+          return DisplayCameraAttendance(
+            absensi: data.absensi,
+            photoReset: data.photoReset,
+          );
+        });
       case Routes.agendaHistory:
         return MaterialPageRoute(builder: (_) => const AgendaHistoryPage());
       case Routes.profile:

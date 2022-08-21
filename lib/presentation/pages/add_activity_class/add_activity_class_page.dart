@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:siak_mobile/common/app/app.dart';
 import 'package:siak_mobile/domain/entities/agenda.dart';
-import 'package:siak_mobile/presentation/cubit/action_agenda/action_agenda_cubit.dart';
+import 'package:siak_mobile/presentation/cubit/action_activity_class/action_activity_class_cubit.dart';
 import 'package:siak_mobile/presentation/cubit/info_activity_class/info_activity_class_cubit.dart';
 import 'package:siak_mobile/presentation/pages/add_activity_class/components/add_activity_class_form.dart';
 
@@ -28,12 +28,12 @@ class _AddActivityClassPageState extends State<AddActivityClassPage> {
 
   @override
   Widget build(BuildContext context) {
-    return BlocListener<ActionAgendaCubit, ActionAgendaState>(
+    return BlocListener<ActionActivityClassCubit, ActionActivityClassState>(
       listener: (context, state) {
-        if (state is ActionAgendaSuccess) {
+        if (state is ActionActivityClassSuccess) {
           Navigator.pop(context);
         }
-        if (state is ActionAgendaError) {
+        if (state is ActionActivityClassError) {
           ScaffoldMessenger.of(context).showSnackBar(
             SnackBar(
               content: Text(

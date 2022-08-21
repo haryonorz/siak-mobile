@@ -8,7 +8,10 @@ class GetAllAgenda {
 
   GetAllAgenda(this.repository);
 
-  Future<Either<Failure, List<Agenda>>> execute(String getType) {
-    return repository.getAllAgenda(getType);
+  Future<Either<Failure, List<Agenda>>> execute(
+    String getType, {
+    String keyword = '',
+  }) {
+    return repository.getAllAgenda(getType, keyword: keyword);
   }
 }

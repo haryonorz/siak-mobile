@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:siak_mobile/common/app/app.dart';
-import 'package:siak_mobile/presentation/cubit/all_agenda_history/all_agenda_history_cubit.dart';
+import 'package:siak_mobile/presentation/bloc/all_agenda_history/all_agenda_history_bloc.dart';
 import 'package:siak_mobile/presentation/widget/agenda_card.dart';
 import 'package:siak_mobile/presentation/widget/form/search_form_field.dart';
 import 'package:siak_mobile/presentation/widget/view_empty.dart';
@@ -15,11 +15,13 @@ class AgendaHistoryPage extends StatefulWidget {
 }
 
 class _AgendaHistoryPageState extends State<AgendaHistoryPage> {
+  final searchController = TextEditingController();
+
   @override
   void initState() {
     super.initState();
     Future.microtask(
-        () => context.read<AllAgendaHistoryCubit>().fetchData('all'));
+        () => context.read<AllAgendaHistoryBloc>().add(OnFetchData()));
   }
 
   @override
@@ -35,10 +37,16 @@ class _AgendaHistoryPageState extends State<AgendaHistoryPage> {
         children: [
           Container(
             margin: const EdgeInsets.symmetric(horizontal: AppDefaults.margin),
-            child: const SearchFormField(hintText: 'Cari agenda'),
+            child: SearchFormField(
+              hintText: 'Cari agenda',
+              controller: searchController,
+              onChanged: (query) {
+                context.read<AllAgendaHistoryBloc>().add(OnQueryChanged(query));
+              },
+            ),
           ),
           Expanded(
-            child: BlocBuilder<AllAgendaHistoryCubit, AllAgendaHistoryState>(
+            child: BlocBuilder<AllAgendaHistoryBloc, AllAgendaHistoryState>(
               builder: (context, state) {
                 if (state is AllAgendaHistoryLoading) {
                   return const Center(
@@ -46,18 +54,32 @@ class _AgendaHistoryPageState extends State<AgendaHistoryPage> {
                   );
                 } else if (state is AllAgendaHistoryEmpty) {
                   return ViewEmpty(
-                    title: 'Belum ada agenda yang selesai!',
+                    title: searchController.text.isEmpty
+                        ? 'Belum ada agenda yang selesai!'
+                        : 'Tidak ada agenda dengan keyword "${searchController.text}"',
                     description:
                         'Jika terdapat agenda yang selesai, silahkan close agenda tersebut.',
                     showRefresh: true,
                     onRefresh: () {
-                      context.read<AllAgendaHistoryCubit>().fetchData('all');
+                      if (searchController.text.isEmpty) {
+                        context.read<AllAgendaHistoryBloc>().add(OnFetchData());
+                      } else {
+                        context
+                            .read<AllAgendaHistoryBloc>()
+                            .add(OnQueryChanged(searchController.text));
+                      }
                     },
                   );
                 } else if (state is AllAgendaHistoryHasData) {
                   return RefreshIndicator(
                     onRefresh: () async {
-                      context.read<AllAgendaHistoryCubit>().fetchData('all');
+                      if (searchController.text.isEmpty) {
+                        context.read<AllAgendaHistoryBloc>().add(OnFetchData());
+                      } else {
+                        context
+                            .read<AllAgendaHistoryBloc>()
+                            .add(OnQueryChanged(searchController.text));
+                      }
                     },
                     child: ListView.builder(
                       padding: EdgeInsets.zero,
@@ -80,7 +102,13 @@ class _AgendaHistoryPageState extends State<AgendaHistoryPage> {
                     message: state.message,
                     showRefresh: true,
                     onRefresh: () {
-                      context.read<AllAgendaHistoryCubit>().fetchData('all');
+                      if (searchController.text.isEmpty) {
+                        context.read<AllAgendaHistoryBloc>().add(OnFetchData());
+                      } else {
+                        context
+                            .read<AllAgendaHistoryBloc>()
+                            .add(OnQueryChanged(searchController.text));
+                      }
                     },
                   );
                 } else {

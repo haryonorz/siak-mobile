@@ -1,4 +1,4 @@
-part of 'all_agenda_history_cubit.dart';
+part of 'all_agenda_history_bloc.dart';
 
 abstract class AllAgendaHistoryState extends Equatable {
   const AllAgendaHistoryState();

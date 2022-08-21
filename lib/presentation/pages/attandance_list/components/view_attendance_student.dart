@@ -1,9 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:siak_mobile/common/app/app.dart';
+import 'package:siak_mobile/common/utils.dart';
 import 'package:siak_mobile/domain/entities/absensi.dart';
-import 'package:siak_mobile/presentation/cubit/action_agenda/action_agenda_cubit.dart';
 import 'package:siak_mobile/presentation/cubit/all_student/all_student_cubit.dart';
+import 'package:siak_mobile/presentation/cubit/verification_attendance_cubit/action_attendance_cubit.dart';
 import 'package:siak_mobile/presentation/widget/item_attendance_student.dart';
 import 'package:siak_mobile/presentation/widget/view_empty.dart';
 import 'package:siak_mobile/presentation/widget/view_error.dart';
@@ -22,7 +23,8 @@ class ViewAttendanceStudent extends StatefulWidget {
   State<ViewAttendanceStudent> createState() => _ViewAttendanceStudentState();
 }
 
-class _ViewAttendanceStudentState extends State<ViewAttendanceStudent> {
+class _ViewAttendanceStudentState extends State<ViewAttendanceStudent>
+    with RouteAware {
   @override
   void initState() {
     super.initState();
@@ -31,13 +33,25 @@ class _ViewAttendanceStudentState extends State<ViewAttendanceStudent> {
   }
 
   @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+    routeObserver.subscribe(this, ModalRoute.of(context)!);
+  }
+
+  @override
+  void didPopNext() {
+    context.read<AllStudentCubit>().fetchData(widget.idAgenda);
+  }
+
+  @override
   Widget build(BuildContext context) {
-    return BlocListener<ActionAgendaCubit, ActionAgendaState>(
+    return BlocListener<VerificationAttendanceCubit,
+        VerificationAttendanceState>(
       listener: (context, state) {
-        if (state is ActionAgendaSuccess) {
+        if (state is VerificationAttendanceSuccess) {
           context.read<AllStudentCubit>().fetchData(widget.idAgenda);
         }
-        if (state is ActionAgendaError) {
+        if (state is VerificationAttendanceError) {
           ScaffoldMessenger.of(context).showSnackBar(
             SnackBar(
               content: Text(
@@ -112,5 +126,11 @@ class _ViewAttendanceStudentState extends State<ViewAttendanceStudent> {
         },
       ),
     );
+  }
+
+  @override
+  void dispose() {
+    routeObserver.unsubscribe(this);
+    super.dispose();
   }
 }

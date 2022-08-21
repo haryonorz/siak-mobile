@@ -4,7 +4,7 @@ import 'package:form_field_validator/form_field_validator.dart';
 import 'package:siak_mobile/common/app/app.dart';
 import 'package:siak_mobile/domain/entities/activity_class.dart';
 import 'package:siak_mobile/domain/entities/agenda.dart';
-import 'package:siak_mobile/presentation/cubit/action_agenda/action_agenda_cubit.dart';
+import 'package:siak_mobile/presentation/cubit/action_activity_class/action_activity_class_cubit.dart';
 import 'package:siak_mobile/presentation/cubit/info_activity_class/info_activity_class_cubit.dart';
 
 class AddActivityClassForm extends StatelessWidget {
@@ -121,7 +121,9 @@ class AddActivityClassForm extends StatelessWidget {
                       onPressed: () {
                         if (_formKey.currentState!.validate()) {
                           _formKey.currentState!.save();
-                          context.read<ActionAgendaCubit>().addDailyActivity(
+                          context
+                              .read<ActionActivityClassCubit>()
+                              .addDailyActivity(
                                 agenda.idAgenda,
                                 selectedActivity,
                                 otherController.text,

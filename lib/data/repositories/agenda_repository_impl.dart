@@ -22,7 +22,10 @@ class AgendaRepositoryImpl extends AgendaRepository {
   });
 
   @override
-  Future<Either<Failure, List<Agenda>>> getAllAgenda(String getType) async {
+  Future<Either<Failure, List<Agenda>>> getAllAgenda(
+    String getType, {
+    String keyword = '',
+  }) async {
     try {
       final user = await localDataSource.getUser();
       if (user != null) {
@@ -30,6 +33,7 @@ class AgendaRepositoryImpl extends AgendaRepository {
           user.username,
           user.type,
           getType,
+          keyword: keyword,
         );
         return Right(result.map((model) => model.toEntity()).toList());
       }
@@ -43,7 +47,9 @@ class AgendaRepositoryImpl extends AgendaRepository {
 
   @override
   Future<Either<Failure, List<Agenda>>> getAllAgendaHistory(
-      String getType) async {
+    String getType, {
+    String keyword = '',
+  }) async {
     try {
       final user = await localDataSource.getUser();
       if (user != null) {
@@ -51,6 +57,7 @@ class AgendaRepositoryImpl extends AgendaRepository {
           user.username,
           user.type,
           getType,
+          keyword: keyword,
         );
         return Right(result.map((model) => model.toEntity()).toList());
       }
@@ -160,9 +167,15 @@ class AgendaRepositoryImpl extends AgendaRepository {
   @override
   Future<Either<Failure, List<Absensi>>> getStudentInClass(
     String idAgenda,
-  ) async {
+    String getType, {
+    String keyword = '',
+  }) async {
     try {
-      final result = await remoteDataSource.getStudentInClass(idAgenda);
+      final result = await remoteDataSource.getStudentInClass(
+        idAgenda,
+        getType,
+        keyword: keyword,
+      );
       return Right(result.map((model) => model.toEntity()).toList());
     } on ServerException catch (e) {
       return Left(ServerFailure(e.message));
@@ -193,6 +206,35 @@ class AgendaRepositoryImpl extends AgendaRepository {
           time,
           latitude,
           longitude,
+        );
+        return Right(result);
+      }
+      return Left(ServerFailure('User tidak ditemukan.'));
+    } on ServerException catch (e) {
+      return Left(ServerFailure(e.message));
+    } on SocketException {
+      return Left(ConnectionFailure('Gagal terhubung ke jaringan.'));
+    }
+  }
+
+  @override
+  Future<Either<Failure, bool>> doPhotoResetTutor(
+    String idAgenda,
+    File photo,
+    String noStudent,
+    String date,
+    String time,
+  ) async {
+    try {
+      final user = await localDataSource.getUser();
+      if (user != null) {
+        final result = await remoteDataSource.doPhotoResetTutor(
+          idAgenda,
+          user.type,
+          photo,
+          noStudent,
+          date,
+          time,
         );
         return Right(result);
       }

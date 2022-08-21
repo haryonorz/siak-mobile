@@ -3,7 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:form_field_validator/form_field_validator.dart';
 import 'package:siak_mobile/common/app/app.dart';
 import 'package:siak_mobile/domain/entities/agenda.dart';
-import 'package:siak_mobile/presentation/cubit/action_agenda/action_agenda_cubit.dart';
+import 'package:siak_mobile/presentation/cubit/action_detail_agenda/action_detail_agenda_cubit.dart';
 
 class DialogNoteClass extends StatelessWidget {
   final _formKey = GlobalKey<FormState>();
@@ -66,7 +66,7 @@ class DialogNoteClass extends StatelessWidget {
                   onPressed: () {
                     if (_formKey.currentState!.validate()) {
                       _formKey.currentState!.save();
-                      context.read<ActionAgendaCubit>().updateNoteClass(
+                      context.read<ActionDetailAgendaCubit>().updateNoteClass(
                           agenda.idAgenda, noteController.text);
                       Navigator.pop(context, true);
                     }

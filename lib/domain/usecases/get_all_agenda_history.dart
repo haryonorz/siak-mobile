@@ -8,7 +8,10 @@ class GetAllAgendaHistory {
 
   GetAllAgendaHistory(this.repository);
 
-  Future<Either<Failure, List<Agenda>>> execute(String getType) {
-    return repository.getAllAgendaHistory(getType);
+  Future<Either<Failure, List<Agenda>>> execute(
+    String getType, {
+    String keyword = '',
+  }) {
+    return repository.getAllAgendaHistory(getType, keyword: keyword);
   }
 }

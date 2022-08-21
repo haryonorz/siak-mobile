@@ -19,13 +19,15 @@ abstract class AgendaRemoteDataSources {
   Future<List<AgendaResponse>> getAllAgenda(
     String username,
     String userType,
-    String getType,
-  );
+    String getType, {
+    String keyword = '',
+  });
   Future<List<AgendaResponse>> getAllAgendaHistory(
     String username,
     String userType,
-    String getType,
-  );
+    String getType, {
+    String keyword = '',
+  });
   Future<DetailAgendaResponse> getDetailAgenda(
     String idAgenda,
     String username,
@@ -37,7 +39,11 @@ abstract class AgendaRemoteDataSources {
   Future<List<AbsensiResponse>> getAllSituationClass(String idAgenda);
   Future<InfoActivityClassResponse> getInfoActivityClass();
   Future<InfoProblemClassResponse> getInfoProblemClass();
-  Future<List<AbsensiResponse>> getStudentInClass(String idAgenda);
+  Future<List<AbsensiResponse>> getStudentInClass(
+    String idAgenda,
+    String getType, {
+    String keyword = '',
+  });
 
   Future<bool> doAttendance(
     String idAgenda,
@@ -48,6 +54,15 @@ abstract class AgendaRemoteDataSources {
     String time,
     String latitude,
     String longitude,
+  );
+
+  Future<bool> doPhotoResetTutor(
+    String idAgenda,
+    String userType,
+    File photo,
+    String noStudent,
+    String date,
+    String time,
   );
   Future<bool> doVerificationAttends(
     String idAgenda,
@@ -80,8 +95,9 @@ class AgendaRemoteDataSourcesImpl extends AgendaRemoteDataSources {
   Future<List<AgendaResponse>> getAllAgenda(
     String username,
     String userType,
-    String getType,
-  ) async {
+    String getType, {
+    String keyword = '',
+  }) async {
     final response = await client.post(
       Uri.parse(EndPoints.getAllAgenda),
       body: {
@@ -89,6 +105,7 @@ class AgendaRemoteDataSourcesImpl extends AgendaRemoteDataSources {
         'username': username,
         'user_type': userType,
         'get_type': getType,
+        'keyword': keyword,
         'page': "0",
       },
     );
@@ -105,8 +122,9 @@ class AgendaRemoteDataSourcesImpl extends AgendaRemoteDataSources {
   Future<List<AgendaResponse>> getAllAgendaHistory(
     String username,
     String userType,
-    String getType,
-  ) async {
+    String getType, {
+    String keyword = '',
+  }) async {
     final response = await client.post(
       Uri.parse(EndPoints.getAllAgendaHistory),
       body: {
@@ -114,6 +132,7 @@ class AgendaRemoteDataSourcesImpl extends AgendaRemoteDataSources {
         'username': username,
         'user_type': userType,
         'get_type': getType,
+        'keyword': keyword,
         'page': "0",
       },
     );
@@ -261,12 +280,18 @@ class AgendaRemoteDataSourcesImpl extends AgendaRemoteDataSources {
   }
 
   @override
-  Future<List<AbsensiResponse>> getStudentInClass(String idAgenda) async {
+  Future<List<AbsensiResponse>> getStudentInClass(
+    String idAgenda,
+    String getType, {
+    String keyword = '',
+  }) async {
     final response = await client.post(
       Uri.parse(EndPoints.getStudentInClass),
       body: {
         'key': EndPoints.key,
         'id_agenda': idAgenda,
+        'get_type': getType,
+        'keyword': keyword,
       },
     );
     if (response.statusCode == 200) {
@@ -313,6 +338,49 @@ class AgendaRemoteDataSourcesImpl extends AgendaRemoteDataSources {
       'jam': time,
       'latitude': latitude,
       'longitude': longitude,
+    });
+    var response = await request.send();
+
+    if (response.statusCode == 200) {
+      return true;
+    } else {
+      var responseError = await http.Response.fromStream(response);
+      final error = ErrorResponse.fromJson(json.decode(responseError.body));
+      throw ServerException(
+          'Server Error [${response.statusCode}]: ${error.message}');
+    }
+  }
+
+  @override
+  Future<bool> doPhotoResetTutor(
+    String idAgenda,
+    String userType,
+    File photo,
+    String noStudent,
+    String date,
+    String time,
+  ) async {
+    var request =
+        http.MultipartRequest("POST", Uri.parse(EndPoints.doPhotoResetTutor));
+    Map<String, String> headers = {"Content-type": "multipart/form-data"};
+
+    request.files.add(
+      http.MultipartFile(
+        'photo',
+        photo.readAsBytes().asStream(),
+        photo.lengthSync(),
+        filename: basename(photo.path),
+        contentType: MediaType('image', 'jpeg'),
+      ),
+    );
+    request.headers.addAll(headers);
+    request.fields.addAll({
+      'key': EndPoints.key,
+      'id_agenda': idAgenda,
+      'user_type': userType,
+      'no_siswa': noStudent,
+      'tgl': date,
+      'jam': time,
     });
     var response = await request.send();
 

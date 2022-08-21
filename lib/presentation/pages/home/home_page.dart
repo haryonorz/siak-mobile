@@ -2,7 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:siak_mobile/common/app/app.dart';
-import 'package:siak_mobile/presentation/cubit/all_agenda/all_agenda_cubit.dart';
+import 'package:siak_mobile/common/utils.dart';
+import 'package:siak_mobile/presentation/bloc/all_agenda/all_agenda_bloc.dart';
 import 'package:siak_mobile/presentation/cubit/auth/authentication_cubit.dart';
 import 'package:siak_mobile/presentation/cubit/sign_out/sign_out_cubit.dart';
 import 'package:siak_mobile/presentation/pages/home/components/home_drawer.dart';
@@ -18,13 +19,26 @@ class HomePage extends StatefulWidget {
   State<HomePage> createState() => _HomePageState();
 }
 
-class _HomePageState extends State<HomePage> {
+class _HomePageState extends State<HomePage> with RouteAware {
+  final searchController = TextEditingController();
+
   final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
 
   @override
   void initState() {
     super.initState();
-    Future.microtask(() => context.read<AllAgendaCubit>().fetchData('all'));
+    Future.microtask(() => context.read<AllAgendaBloc>().add(OnFetchData()));
+  }
+
+  @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+    routeObserver.subscribe(this, ModalRoute.of(context)!);
+  }
+
+  @override
+  void didPopNext() {
+    context.read<AllAgendaBloc>().add(OnFetchData());
   }
 
   @override
@@ -103,8 +117,14 @@ class _HomePageState extends State<HomePage> {
                           left: AppDefaults.margin,
                           right: AppDefaults.margin * 6,
                         ),
-                        child: const SearchFormField(
+                        child: SearchFormField(
                           hintText: 'Agenda Hari Ini',
+                          controller: searchController,
+                          onChanged: (query) {
+                            context
+                                .read<AllAgendaBloc>()
+                                .add(OnQueryChanged(query));
+                          },
                         ),
                       ),
                     ),
@@ -113,25 +133,42 @@ class _HomePageState extends State<HomePage> {
               ),
             ),
             Expanded(
-              child: BlocBuilder<AllAgendaCubit, AllAgendaState>(
+              child: BlocBuilder<AllAgendaBloc, AllAgendaState>(
                 builder: (context, state) {
                   if (state is AllAgendaLoading) {
                     return const Center(
                       child: CircularProgressIndicator(),
                     );
                   } else if (state is AllAgendaEmpty) {
-                    return ViewEmpty(
-                      title: 'Agenda tidak ditemukan!',
-                      description: 'Silahkan buat agenda terlebih dahulu.',
-                      showRefresh: true,
-                      onRefresh: () {
-                        context.read<AllAgendaCubit>().fetchData('all');
-                      },
+                    return Align(
+                      alignment: Alignment.topLeft,
+                      child: ViewEmpty(
+                        title: searchController.text.isEmpty
+                            ? 'Agenda tidak ditemukan!'
+                            : 'Tidak ada agenda dengan keyword "${searchController.text}"',
+                        description: 'Silahkan buat agenda terlebih dahulu.',
+                        showRefresh: true,
+                        onRefresh: () {
+                          if (searchController.text.isEmpty) {
+                            context.read<AllAgendaBloc>().add(OnFetchData());
+                          } else {
+                            context
+                                .read<AllAgendaBloc>()
+                                .add(OnQueryChanged(searchController.text));
+                          }
+                        },
+                      ),
                     );
                   } else if (state is AllAgendaHasData) {
                     return RefreshIndicator(
                       onRefresh: () async {
-                        context.read<AllAgendaCubit>().fetchData('all');
+                        if (searchController.text.isEmpty) {
+                          context.read<AllAgendaBloc>().add(OnFetchData());
+                        } else {
+                          context
+                              .read<AllAgendaBloc>()
+                              .add(OnQueryChanged(searchController.text));
+                        }
                       },
                       child: ListView.builder(
                         padding: EdgeInsets.zero,
@@ -150,12 +187,21 @@ class _HomePageState extends State<HomePage> {
                       ),
                     );
                   } else if (state is AllAgendaError) {
-                    return ViewError(
-                      message: state.message,
-                      showRefresh: true,
-                      onRefresh: () {
-                        context.read<AllAgendaCubit>().fetchData('all');
-                      },
+                    return Align(
+                      alignment: Alignment.topLeft,
+                      child: ViewError(
+                        message: state.message,
+                        showRefresh: true,
+                        onRefresh: () {
+                          if (searchController.text.isEmpty) {
+                            context.read<AllAgendaBloc>().add(OnFetchData());
+                          } else {
+                            context
+                                .read<AllAgendaBloc>()
+                                .add(OnQueryChanged(searchController.text));
+                          }
+                        },
+                      ),
                     );
                   } else {
                     return Container();
@@ -167,5 +213,11 @@ class _HomePageState extends State<HomePage> {
         ),
       ),
     );
+  }
+
+  @override
+  void dispose() {
+    routeObserver.unsubscribe(this);
+    super.dispose();
   }
 }

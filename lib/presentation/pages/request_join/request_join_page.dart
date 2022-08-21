@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:siak_mobile/common/app/app.dart';
-import 'package:siak_mobile/presentation/cubit/action_agenda/action_agenda_cubit.dart';
+import 'package:siak_mobile/presentation/cubit/accept_request_join/accept_request_join_cubit.dart';
 import 'package:siak_mobile/presentation/cubit/all_request_join/all_request_join_cubit.dart';
 import 'package:siak_mobile/presentation/pages/request_join/components/item_request_join.dart';
 import 'package:siak_mobile/presentation/widget/view_empty.dart';
@@ -26,12 +26,12 @@ class _RequestJoinPageState extends State<RequestJoinPage> {
 
   @override
   Widget build(BuildContext context) {
-    return BlocListener<ActionAgendaCubit, ActionAgendaState>(
+    return BlocListener<AcceptRequestJoinCubit, AcceptRequestJoinState>(
       listener: (context, state) {
-        if (state is ActionAgendaSuccess) {
+        if (state is AcceptRequestJoinSuccess) {
           context.read<AllRequestJoinCubit>().fetchData(widget.idAgenda);
         }
-        if (state is ActionAgendaError) {
+        if (state is AcceptRequestJoinError) {
           ScaffoldMessenger.of(context).showSnackBar(
             SnackBar(
               content: Text(

@@ -3,7 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:siak_mobile/common/app/app.dart';
 import 'package:siak_mobile/data/datasources/remote/network/endpoints.dart';
 import 'package:siak_mobile/domain/entities/absensi.dart';
-import 'package:siak_mobile/presentation/cubit/action_agenda/action_agenda_cubit.dart';
+import 'package:siak_mobile/presentation/cubit/accept_request_join/accept_request_join_cubit.dart';
 import 'package:siak_mobile/presentation/widget/default_user_photo.dart';
 import 'package:siak_mobile/presentation/widget/user_photo.dart';
 
@@ -52,7 +52,7 @@ class ItemRequestJoin extends StatelessWidget {
           ElevatedButton(
             onPressed: () {
               context
-                  .read<ActionAgendaCubit>()
+                  .read<AcceptRequestJoinCubit>()
                   .acceptRequestJoin(absensi.idAgenda, absensi.noSiswa);
             },
             style: ElevatedButton.styleFrom(

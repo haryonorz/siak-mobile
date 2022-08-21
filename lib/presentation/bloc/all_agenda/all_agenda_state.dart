@@ -1,4 +1,4 @@
-part of 'all_agenda_cubit.dart';
+part of 'all_agenda_bloc.dart';
 
 abstract class AllAgendaState extends Equatable {
   const AllAgendaState();

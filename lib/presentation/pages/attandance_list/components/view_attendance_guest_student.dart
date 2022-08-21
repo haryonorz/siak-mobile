@@ -1,9 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:siak_mobile/common/app/app.dart';
+import 'package:siak_mobile/common/utils.dart';
 import 'package:siak_mobile/domain/entities/absensi.dart';
-import 'package:siak_mobile/presentation/cubit/action_agenda/action_agenda_cubit.dart';
 import 'package:siak_mobile/presentation/cubit/all_guest_student/all_guest_student_cubit.dart';
+import 'package:siak_mobile/presentation/cubit/verification_attendance_cubit/action_attendance_cubit.dart';
 import 'package:siak_mobile/presentation/widget/item_attendance_student.dart';
 import 'package:siak_mobile/presentation/widget/view_empty.dart';
 import 'package:siak_mobile/presentation/widget/view_error.dart';
@@ -23,8 +24,8 @@ class ViewAttendanceGuestStudent extends StatefulWidget {
       _ViewAttendanceGuestStudentState();
 }
 
-class _ViewAttendanceGuestStudentState
-    extends State<ViewAttendanceGuestStudent> {
+class _ViewAttendanceGuestStudentState extends State<ViewAttendanceGuestStudent>
+    with RouteAware {
   @override
   void initState() {
     super.initState();
@@ -33,13 +34,25 @@ class _ViewAttendanceGuestStudentState
   }
 
   @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+    routeObserver.subscribe(this, ModalRoute.of(context)!);
+  }
+
+  @override
+  void didPopNext() {
+    context.read<AllGuestStudentCubit>().fetchData(widget.idAgenda);
+  }
+
+  @override
   Widget build(BuildContext context) {
-    return BlocListener<ActionAgendaCubit, ActionAgendaState>(
+    return BlocListener<VerificationAttendanceCubit,
+        VerificationAttendanceState>(
       listener: (context, state) {
-        if (state is ActionAgendaSuccess) {
+        if (state is VerificationAttendanceSuccess) {
           context.read<AllGuestStudentCubit>().fetchData(widget.idAgenda);
         }
-        if (state is ActionAgendaError) {
+        if (state is VerificationAttendanceError) {
           ScaffoldMessenger.of(context).showSnackBar(
             SnackBar(
               content: Text(
@@ -114,5 +127,11 @@ class _ViewAttendanceGuestStudentState
         },
       ),
     );
+  }
+
+  @override
+  void dispose() {
+    routeObserver.unsubscribe(this);
+    super.dispose();
   }
 }

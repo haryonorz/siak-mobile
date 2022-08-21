@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:siak_mobile/common/app/app.dart';
 import 'package:siak_mobile/common/routes.dart';
 import 'package:siak_mobile/domain/entities/absensi.dart';
-import 'package:siak_mobile/domain/entities/arg_attandance.dart';
+import 'package:siak_mobile/domain/entities/arg_camera_attandance.dart';
 
 class DialogAttendance extends StatelessWidget {
   final Absensi absensi;

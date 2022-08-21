@@ -8,7 +8,15 @@ class GetStudentInClass {
 
   GetStudentInClass(this.repository);
 
-  Future<Either<Failure, List<Absensi>>> execute(String idAgenda) {
-    return repository.getStudentInClass(idAgenda);
+  Future<Either<Failure, List<Absensi>>> execute(
+    String idAgenda,
+    String getType, {
+    String keyword = '',
+  }) {
+    return repository.getStudentInClass(
+      idAgenda,
+      getType,
+      keyword: keyword,
+    );
   }
 }

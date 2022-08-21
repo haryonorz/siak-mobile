@@ -9,8 +9,14 @@ import 'package:siak_mobile/domain/entities/info_activity_class.dart';
 import 'package:siak_mobile/domain/entities/info_problem_class.dart';
 
 abstract class AgendaRepository {
-  Future<Either<Failure, List<Agenda>>> getAllAgenda(String getType);
-  Future<Either<Failure, List<Agenda>>> getAllAgendaHistory(String getType);
+  Future<Either<Failure, List<Agenda>>> getAllAgenda(
+    String getType, {
+    String keyword = '',
+  });
+  Future<Either<Failure, List<Agenda>>> getAllAgendaHistory(
+    String getType, {
+    String keyword = '',
+  });
   Future<Either<Failure, DetailAgenda>> getDetailAgenda(String idAgenda);
   Future<Either<Failure, List<Absensi>>> getAllRequestJoin(String idAgenda);
   Future<Either<Failure, List<Absensi>>> getAllStudent(String idAgenda);
@@ -18,7 +24,11 @@ abstract class AgendaRepository {
   Future<Either<Failure, List<Absensi>>> getAllSituationClass(String idAgenda);
   Future<Either<Failure, InfoActivityClass>> getInfoActivityClass();
   Future<Either<Failure, InfoProblemClass>> getInfoProblemClass();
-  Future<Either<Failure, List<Absensi>>> getStudentInClass(String idAgenda);
+  Future<Either<Failure, List<Absensi>>> getStudentInClass(
+    String idAgenda,
+    String getType, {
+    String keyword = '',
+  });
 
   Future<Either<Failure, bool>> doAttendance(
     String idAgenda,
@@ -28,6 +38,13 @@ abstract class AgendaRepository {
     String time,
     String latitude,
     String longitude,
+  );
+  Future<Either<Failure, bool>> doPhotoResetTutor(
+    String idAgenda,
+    File photo,
+    String noStudent,
+    String date,
+    String time,
   );
   Future<Either<Failure, bool>> doVerificationAttends(
     String idAgenda,

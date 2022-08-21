@@ -1,14 +1,17 @@
 import 'package:flutter/material.dart';
 import 'package:siak_mobile/common/app/app.dart';
 import 'package:siak_mobile/domain/entities/absensi.dart';
+import 'package:siak_mobile/presentation/widget/dialog_attendance.dart';
 import 'package:siak_mobile/presentation/widget/dialog_attendance_done.dart';
 
 class ButtonStudentAgenda extends StatelessWidget {
   final Absensi? absensi;
+  final String userType;
 
   const ButtonStudentAgenda({
     Key? key,
     this.absensi,
+    required this.userType,
   }) : super(key: key);
 
   @override
@@ -18,6 +21,13 @@ class ButtonStudentAgenda extends StatelessWidget {
       child: ElevatedButton(
         onPressed: () {
           if (absensi?.statusAbsensi == '1') {
+            showDialog(
+              context: context,
+              builder: (context) => DialogAttendance(
+                absensi: absensi!,
+                userType: userType,
+              ),
+            );
           } else {
             showDialog(
               context: context,

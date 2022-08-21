@@ -1,4 +1,4 @@
-part of 'student_in_class_cubit.dart';
+part of 'student_in_class_bloc.dart';
 
 abstract class StudentInClassState extends Equatable {
   const StudentInClassState();

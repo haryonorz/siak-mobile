@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:siak_mobile/common/app/app.dart';
+import 'package:siak_mobile/common/routes.dart';
 import 'package:siak_mobile/domain/entities/absensi.dart';
-import 'package:siak_mobile/presentation/cubit/action_agenda/action_agenda_cubit.dart';
+import 'package:siak_mobile/domain/entities/arg_camera_attandance.dart';
+import 'package:siak_mobile/presentation/cubit/verification_attendance_cubit/action_attendance_cubit.dart';
 
 class DialogAttendanceVerification extends StatelessWidget {
   final Absensi absensi;
@@ -40,7 +42,18 @@ class DialogAttendanceVerification extends StatelessWidget {
             SizedBox(
               width: double.infinity,
               child: ElevatedButton(
-                onPressed: () => Navigator.pop(context),
+                onPressed: () {
+                  Navigator.pop(context);
+                  Navigator.pushNamed(
+                    context,
+                    Routes.cameraAttendance,
+                    arguments: ArgCameraAttendance(
+                      absensi: absensi,
+                      userType: 'tutor',
+                      photoReset: true,
+                    ),
+                  );
+                },
                 style: ElevatedButton.styleFrom(
                   minimumSize: const Size(80, 38),
                   primary: Colors.transparent,
@@ -65,7 +78,9 @@ class DialogAttendanceVerification extends StatelessWidget {
                 Expanded(
                   child: ElevatedButton(
                     onPressed: () {
-                      context.read<ActionAgendaCubit>().verificationAttends(
+                      context
+                          .read<VerificationAttendanceCubit>()
+                          .verificationAttends(
                             absensi.idAgenda,
                             absensi.noSiswa,
                             '3',
@@ -87,7 +102,9 @@ class DialogAttendanceVerification extends StatelessWidget {
                 Expanded(
                   child: ElevatedButton(
                     onPressed: () {
-                      context.read<ActionAgendaCubit>().verificationAttends(
+                      context
+                          .read<VerificationAttendanceCubit>()
+                          .verificationAttends(
                             absensi.idAgenda,
                             absensi.noSiswa,
                             '2',

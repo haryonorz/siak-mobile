@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:siak_mobile/common/app/app.dart';
-import 'package:siak_mobile/presentation/cubit/student_in_class/student_in_class_cubit.dart';
+import 'package:siak_mobile/presentation/bloc/student_in_class/student_in_class_bloc.dart';
 import 'package:siak_mobile/presentation/pages/all_selected_student/components/item_selected_student.dart';
 import 'package:siak_mobile/presentation/widget/form/search_form_field.dart';
 import 'package:siak_mobile/presentation/widget/view_empty.dart';
@@ -22,11 +22,13 @@ class AllSelectedStudentPage extends StatefulWidget {
 }
 
 class _AllSelectedStudentPageState extends State<AllSelectedStudentPage> {
+  final searchController = TextEditingController();
+
   @override
   void initState() {
     super.initState();
-    Future.microtask(
-        () => context.read<StudentInClassCubit>().fetchData(widget.idAgenda));
+    Future.microtask(() =>
+        context.read<StudentInClassBloc>().add(OnFetchData(widget.idAgenda)));
   }
 
   @override
@@ -43,10 +45,19 @@ class _AllSelectedStudentPageState extends State<AllSelectedStudentPage> {
         children: [
           Container(
             margin: const EdgeInsets.symmetric(horizontal: AppDefaults.margin),
-            child: const SearchFormField(hintText: 'Cari siswa'),
+            child: SearchFormField(
+              hintText: 'Cari siswa',
+              controller: searchController,
+              onChanged: (query) {
+                context.read<StudentInClassBloc>().add(OnQueryChanged(
+                      widget.idAgenda,
+                      query,
+                    ));
+              },
+            ),
           ),
           Expanded(
-            child: BlocBuilder<StudentInClassCubit, StudentInClassState>(
+            child: BlocBuilder<StudentInClassBloc, StudentInClassState>(
               builder: (context, state) {
                 if (state is StudentInClassLoading) {
                   return const Center(
@@ -54,21 +65,37 @@ class _AllSelectedStudentPageState extends State<AllSelectedStudentPage> {
                   );
                 } else if (state is StudentInClassEmpty) {
                   return ViewEmpty(
-                    title: 'Siswa tidak ada!',
+                    title: searchController.text.isEmpty
+                        ? 'Siswa tidak ada!'
+                        : 'Tidak ada siswa dengan nama "${searchController.text}"',
                     description: 'Tidak terdapat siswa yang mengikuti kelas.',
                     showRefresh: true,
                     onRefresh: () {
-                      context
-                          .read<StudentInClassCubit>()
-                          .fetchData(widget.idAgenda);
+                      if (searchController.text.isEmpty) {
+                        context
+                            .read<StudentInClassBloc>()
+                            .add(OnFetchData(widget.idAgenda));
+                      } else {
+                        context.read<StudentInClassBloc>().add(OnQueryChanged(
+                              widget.idAgenda,
+                              searchController.text,
+                            ));
+                      }
                     },
                   );
                 } else if (state is StudentInClassHasData) {
                   return RefreshIndicator(
                     onRefresh: () async {
-                      context
-                          .read<StudentInClassCubit>()
-                          .fetchData(widget.idAgenda);
+                      if (searchController.text.isEmpty) {
+                        context
+                            .read<StudentInClassBloc>()
+                            .add(OnFetchData(widget.idAgenda));
+                      } else {
+                        context.read<StudentInClassBloc>().add(OnQueryChanged(
+                              widget.idAgenda,
+                              searchController.text,
+                            ));
+                      }
                     },
                     child: ListView.builder(
                       padding: EdgeInsets.zero,
@@ -95,9 +122,16 @@ class _AllSelectedStudentPageState extends State<AllSelectedStudentPage> {
                     message: state.message,
                     showRefresh: true,
                     onRefresh: () {
-                      context
-                          .read<StudentInClassCubit>()
-                          .fetchData(widget.idAgenda);
+                      if (searchController.text.isEmpty) {
+                        context
+                            .read<StudentInClassBloc>()
+                            .add(OnFetchData(widget.idAgenda));
+                      } else {
+                        context.read<StudentInClassBloc>().add(OnQueryChanged(
+                              widget.idAgenda,
+                              searchController.text,
+                            ));
+                      }
                     },
                   );
                 } else {

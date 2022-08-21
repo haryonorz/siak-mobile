@@ -57,7 +57,10 @@ class ViewDetaiAgenda extends StatelessWidget {
           userType == 'tutor'
               ? ButtonTutorAgenda(
                   agenda: agenda, totalRequestJoin: totalRequestJoin)
-              : ButtonStudentAgenda(absensi: absensi),
+              : ButtonStudentAgenda(
+                  absensi: absensi,
+                  userType: userType,
+                ),
           const SizedBox(height: AppDefaults.xlSpace),
           Row(
             children: [

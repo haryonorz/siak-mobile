@@ -32,7 +32,8 @@ class ItemAttendanceStudent extends StatelessWidget {
     String dateAttend = absensi.tgl ?? ' -';
     String timeAttend = absensi.jam ?? ' -';
 
-    String photoUrl = '${EndPoints.baseUrlPhoto}/absen/${absensi.fotoAbsen}';
+    String photoUrl =
+        '${EndPoints.baseUrlPhoto}/absen/${absensi.fotoAbsenTutor ?? absensi.fotoAbsen}';
 
     switch (absensi.statusAbsensi) {
       case '0':
@@ -68,8 +69,13 @@ class ItemAttendanceStudent extends StatelessWidget {
                   width: 42,
                   height: 42,
                   url: '${EndPoints.baseUrlPhoto}/profile/${absensi.foto}',
+                  photoPreview: userType == 'tutor',
                 )
-              : const DefaultUserPhoto(width: 42, height: 42),
+              : DefaultUserPhoto(
+                  width: 42,
+                  height: 42,
+                  photoPreview: userType == 'tutor',
+                ),
           const SizedBox(width: AppDefaults.lSpace),
           Expanded(
             child: Column(
@@ -129,12 +135,21 @@ class ItemAttendanceStudent extends StatelessWidget {
               ? (absensi.fotoAbsen != null)
                   ? GestureDetector(
                       onTap: () {
-                        if (absensi.statusAbsensi == '0') {
-                          showDialog(
-                            context: context,
-                            builder: (context) =>
-                                DialogAttendanceVerification(absensi: absensi),
-                          );
+                        if (userType == 'tutor') {
+                          if (absensi.statusAbsensi == '0') {
+                            showDialog(
+                              context: context,
+                              builder: (context) =>
+                                  DialogAttendanceVerification(
+                                      absensi: absensi),
+                            );
+                          } else {
+                            Navigator.pushNamed(
+                              context,
+                              Routes.photoPreview,
+                              arguments: photoUrl,
+                            );
+                          }
                         } else {
                           Navigator.pushNamed(
                             context,
@@ -165,12 +180,15 @@ class ItemAttendanceStudent extends StatelessWidget {
                             ),
                           );
                         }
-                        if (absensi.statusAbsensi == '0') {
-                          showDialog(
-                            context: context,
-                            builder: (context) =>
-                                DialogAttendanceVerification(absensi: absensi),
-                          );
+                        if (userType == 'tutor') {
+                          if (absensi.statusAbsensi == '0') {
+                            showDialog(
+                              context: context,
+                              builder: (context) =>
+                                  DialogAttendanceVerification(
+                                      absensi: absensi),
+                            );
+                          }
                         }
                       },
                       child: Container(

@@ -2,8 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:siak_mobile/common/app/app.dart';
 import 'package:siak_mobile/common/routes.dart';
+import 'package:siak_mobile/common/utils.dart';
 import 'package:siak_mobile/domain/entities/arg_attendance_list.dart';
-import 'package:siak_mobile/presentation/cubit/action_agenda/action_agenda_cubit.dart';
+import 'package:siak_mobile/presentation/cubit/action_detail_agenda/action_detail_agenda_cubit.dart';
 import 'package:siak_mobile/presentation/cubit/detail_agenda/detail_agenda_cubit.dart';
 import 'package:siak_mobile/presentation/cubit/user/user_cubit.dart';
 import 'package:siak_mobile/presentation/pages/detail_agenda/components/button_close_agenda.dart';
@@ -24,7 +25,7 @@ class DetailAgendaPage extends StatefulWidget {
   State<DetailAgendaPage> createState() => _DetailAgendaPageState();
 }
 
-class _DetailAgendaPageState extends State<DetailAgendaPage> {
+class _DetailAgendaPageState extends State<DetailAgendaPage> with RouteAware {
   @override
   void initState() {
     super.initState();
@@ -35,13 +36,25 @@ class _DetailAgendaPageState extends State<DetailAgendaPage> {
   }
 
   @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+    routeObserver.subscribe(this, ModalRoute.of(context)!);
+  }
+
+  @override
+  void didPopNext() {
+    context.read<UserCubit>().fetchData();
+    context.read<DetailAgendaCubit>().fetchData(widget.idAgenda);
+  }
+
+  @override
   Widget build(BuildContext context) {
-    return BlocListener<ActionAgendaCubit, ActionAgendaState>(
+    return BlocListener<ActionDetailAgendaCubit, ActionDetailAgendaState>(
       listener: (context, state) {
-        if (state is ActionAgendaSuccess) {
+        if (state is ActionDetailAgendaSuccess) {
           context.read<DetailAgendaCubit>().fetchData(widget.idAgenda);
         }
-        if (state is ActionAgendaError) {
+        if (state is ActionDetailAgendaError) {
           ScaffoldMessenger.of(context).showSnackBar(
             SnackBar(
               content: Text(
@@ -74,6 +87,8 @@ class _DetailAgendaPageState extends State<DetailAgendaPage> {
                 child: CircularProgressIndicator(),
               );
             } else if (state is DetailAgendaHasData) {
+              int totalStudent = state.detailAgenda.agenda.allStudent.length;
+
               return RefreshIndicator(
                 onRefresh: () async {
                   context.read<DetailAgendaCubit>().fetchData(widget.idAgenda);
@@ -156,15 +171,15 @@ class _DetailAgendaPageState extends State<DetailAgendaPage> {
                                           ),
                                         );
                                       },
-                                      itemCount: state.detailAgenda.agenda
-                                          .allStudent.length,
+                                      itemCount:
+                                          totalStudent > 5 ? 5 : totalStudent,
                                     )
                                   : const ViewEmpty(
                                       title: 'No data',
                                       description:
                                           'Tidak ada siswa yang mengikuti kelas',
                                     ),
-                              state.detailAgenda.agenda.allStudent.length > 5
+                              totalStudent > 5
                                   ? Center(
                                       child: GestureDetector(
                                         onTap: () => Navigator.pushNamed(
@@ -208,5 +223,11 @@ class _DetailAgendaPageState extends State<DetailAgendaPage> {
         ),
       ),
     );
+  }
+
+  @override
+  void dispose() {
+    routeObserver.unsubscribe(this);
+    super.dispose();
   }
 }

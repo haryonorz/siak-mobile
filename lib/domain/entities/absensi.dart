@@ -39,12 +39,12 @@ class Absensi extends Equatable {
   final String? alasanTerlambat;
   final bool selected;
 
-  Absensi copyWith({bool? selected}) {
+  Absensi copyWith({String? foto, bool? selected}) {
     return Absensi(
       idAgenda: idAgenda,
       noSiswa: noSiswa,
       namaSiswa: namaSiswa,
-      foto: foto,
+      foto: foto ?? this.foto,
       pilKelas: pilKelas,
       statusSiswa: statusSiswa,
       statusAbsensi: statusAbsensi,
