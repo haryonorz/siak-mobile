@@ -40,6 +40,7 @@ dependencies:
     sdk: flutter
   flutter_bloc: ^8.0.1
   flutter_image_compress: ^1.1.1
+  flutter_launcher_icons: ^0.10.0
   flutter_native_splash: ^2.2.6
   font_awesome_flutter: ^10.1.0
   form_field_validator: ^1.1.0
@@ -55,6 +56,14 @@ dependencies:
   path_provider: ^2.0.11
   rxdart: ^0.27.5
   sqflite: ^2.0.3
+
+flutter_icons:
+  image_path_android: "assets/images/icon-714x714-android.png"
+  image_path_ios: "assets/images/icon-714x714-ios.png"
+  android: true
+  ios: true
+  min_sdk_android: 21
+  remove_alpha_ios: true
 
 dev_dependencies:
   flutter_lints: ^2.0.0

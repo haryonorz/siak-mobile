@@ -121,7 +121,7 @@ class MyApp extends StatelessWidget {
       ],
       child: MaterialApp(
         debugShowCheckedModeBanner: false,
-        title: 'Semut',
+        title: 'SIAK Mobile',
         theme: appTheme(context),
         navigatorObservers: [routeObserver],
         onGenerateRoute: (settings) {

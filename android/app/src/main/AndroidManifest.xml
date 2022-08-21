@@ -8,7 +8,7 @@
     <uses-permission android:name="android.permission.ACCESS_BACKGROUND_LOCATION" />
     
    <application
-        android:label="siak_mobile"
+        android:label="SIAK Mobile"
         android:name="${applicationName}"
         android:icon="@mipmap/ic_launcher">
         <activity
