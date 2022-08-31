@@ -6,6 +6,7 @@ import 'package:siak_mobile/common/extensions/string_parsing.dart';
 import 'package:siak_mobile/common/routes.dart';
 import 'package:siak_mobile/data/datasources/remote/network/endpoints.dart';
 import 'package:siak_mobile/domain/entities/absensi.dart';
+import 'package:siak_mobile/domain/entities/agenda.dart';
 import 'package:siak_mobile/presentation/widget/custom_field.dart';
 import 'package:siak_mobile/presentation/widget/default_user_photo.dart';
 import 'package:siak_mobile/presentation/widget/dialog_attendance.dart';
@@ -13,12 +14,14 @@ import 'package:siak_mobile/presentation/widget/dialog_attendance_verification.d
 import 'package:siak_mobile/presentation/widget/user_photo.dart';
 
 class ItemAttendanceStudent extends StatelessWidget {
+  final Agenda agenda;
   final Absensi absensi;
   final bool showPhotoAbsensi;
   final String userType;
 
   const ItemAttendanceStudent({
     Key? key,
+    required this.agenda,
     required this.absensi,
     this.showPhotoAbsensi = true,
     required this.userType,
@@ -48,7 +51,8 @@ class ItemAttendanceStudent extends StatelessWidget {
         statusAbsensi = 'Hadir';
         if (absensi.terlambat == 'X') {
           statusAbsensi = '$statusAbsensi, Terlambat';
-          if (absensi.alasanTerlambat != null) {
+          if (absensi.alasanTerlambat != null &&
+              absensi.alasanTerlambat != '') {
             statusAbsensi = '$statusAbsensi (${absensi.alasanTerlambat})';
           }
         }
@@ -141,7 +145,9 @@ class ItemAttendanceStudent extends StatelessWidget {
                               context: context,
                               builder: (context) =>
                                   DialogAttendanceVerification(
-                                      absensi: absensi),
+                                agenda: agenda,
+                                absensi: absensi,
+                              ),
                             );
                           } else {
                             Navigator.pushNamed(
@@ -175,6 +181,7 @@ class ItemAttendanceStudent extends StatelessWidget {
                           showDialog(
                             context: context,
                             builder: (context) => DialogAttendance(
+                              agenda: agenda,
                               absensi: absensi,
                               userType: userType,
                             ),
@@ -186,7 +193,9 @@ class ItemAttendanceStudent extends StatelessWidget {
                               context: context,
                               builder: (context) =>
                                   DialogAttendanceVerification(
-                                      absensi: absensi),
+                                agenda: agenda,
+                                absensi: absensi,
+                              ),
                             );
                           }
                         }

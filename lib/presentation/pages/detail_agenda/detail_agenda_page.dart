@@ -110,7 +110,7 @@ class _DetailAgendaPageState extends State<DetailAgendaPage> with RouteAware {
                               ViewAttendanceRecap(
                                 absensiRekap:
                                     state.detailAgenda.attendanceRecap,
-                                idAgenda: state.detailAgenda.agenda.idAgenda,
+                                agenda: state.detailAgenda.agenda,
                               ),
                               const SizedBox(height: AppDefaults.xlSpace),
                               ViewPotretKelas(
@@ -163,6 +163,7 @@ class _DetailAgendaPageState extends State<DetailAgendaPage> with RouteAware {
                                             bottom: 16,
                                           ),
                                           child: ItemAttendanceStudent(
+                                            agenda: state.detailAgenda.agenda,
                                             absensi: absensi,
                                             showPhotoAbsensi: absensi.noSiswa ==
                                                 state.detailAgenda.absensi
@@ -186,8 +187,7 @@ class _DetailAgendaPageState extends State<DetailAgendaPage> with RouteAware {
                                           context,
                                           Routes.attendanceList,
                                           arguments: ArgAttendanceList(
-                                            idAgenda: state
-                                                .detailAgenda.agenda.idAgenda,
+                                            agenda: state.detailAgenda.agenda,
                                             absensi: state.detailAgenda.absensi,
                                           ),
                                         ),

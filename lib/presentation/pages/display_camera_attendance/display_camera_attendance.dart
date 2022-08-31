@@ -4,15 +4,19 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:siak_mobile/common/app/app.dart';
 import 'package:siak_mobile/domain/entities/absensi.dart';
+import 'package:siak_mobile/domain/entities/agenda.dart';
 import 'package:siak_mobile/presentation/cubit/display_camera_attendance_cubit/display_camera_attendance_cubit.dart';
+import 'package:siak_mobile/presentation/widget/dialog_late_reason.dart';
 import 'package:siak_mobile/presentation/widget/dialog_loading.dart';
 
 class DisplayCameraAttendance extends StatefulWidget {
+  final Agenda agenda;
   final Absensi absensi;
   final bool photoReset;
 
   const DisplayCameraAttendance({
     Key? key,
+    required this.agenda,
     required this.absensi,
     required this.photoReset,
   }) : super(key: key);
@@ -35,11 +39,9 @@ class _DisplayCameraAttendanceState extends State<DisplayCameraAttendance> {
               widget.absensi.noSiswa,
             );
       } else {
-        context.read<DisplayCameraAttendanceCubit>().doAttendance(
-              widget.absensi.idAgenda,
-              File(widget.absensi.foto.toString()),
-              widget.absensi.noSiswa,
-            );
+        context
+            .read<DisplayCameraAttendanceCubit>()
+            .checkLate(widget.agenda.date, widget.agenda.jamIn);
       }
     });
   }
@@ -49,6 +51,30 @@ class _DisplayCameraAttendanceState extends State<DisplayCameraAttendance> {
     return BlocListener<DisplayCameraAttendanceCubit,
         DisplayCameraAttendanceState>(
       listener: (context, state) {
+        if (state is DisplayCameraAttendanceCheckLate) {
+          Navigator.pop(context);
+          if (state.showReason) {
+            showDialog(
+              context: context,
+              builder: (context) => DialogLateReason(onTap: (lateReason) {
+                context.read<DisplayCameraAttendanceCubit>().doAttendance(
+                      widget.absensi.idAgenda,
+                      File(widget.absensi.foto.toString()),
+                      widget.absensi.noSiswa,
+                      late: state.isLated ? 'X' : '',
+                      lateReason: lateReason,
+                    );
+              }),
+            );
+          } else {
+            context.read<DisplayCameraAttendanceCubit>().doAttendance(
+                  widget.absensi.idAgenda,
+                  File(widget.absensi.foto.toString()),
+                  widget.absensi.noSiswa,
+                  late: state.isLated ? 'X' : '',
+                );
+          }
+        }
         if (state is DisplayCameraAttendanceSuccess) {
           Navigator.pop(context);
           Navigator.pop(context);

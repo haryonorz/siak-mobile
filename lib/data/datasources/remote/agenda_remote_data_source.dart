@@ -54,6 +54,8 @@ abstract class AgendaRemoteDataSources {
     String time,
     String latitude,
     String longitude,
+    String late,
+    String lateReason,
   );
 
   Future<bool> doPhotoResetTutor(
@@ -314,6 +316,8 @@ class AgendaRemoteDataSourcesImpl extends AgendaRemoteDataSources {
     String time,
     String latitude,
     String longitude,
+    String late,
+    String lateReason,
   ) async {
     var request =
         http.MultipartRequest("POST", Uri.parse(EndPoints.doAttendance));
@@ -338,6 +342,8 @@ class AgendaRemoteDataSourcesImpl extends AgendaRemoteDataSources {
       'jam': time,
       'latitude': latitude,
       'longitude': longitude,
+      'terlambat': late,
+      'alasan_terlambat': lateReason,
     });
     var response = await request.send();
 

@@ -3,9 +3,11 @@ import 'package:flutter/material.dart';
 import 'package:siak_mobile/common/app/app.dart';
 import 'package:siak_mobile/common/routes.dart';
 import 'package:siak_mobile/domain/entities/absensi.dart';
+import 'package:siak_mobile/domain/entities/agenda.dart';
 import 'package:siak_mobile/domain/entities/arg_display_camera_attandance.dart';
 
 class CameraAttendancePage extends StatefulWidget {
+  final Agenda agenda;
   final Absensi absensi;
   final List<CameraDescription> cameras;
   final String userType;
@@ -13,6 +15,7 @@ class CameraAttendancePage extends StatefulWidget {
 
   const CameraAttendancePage({
     Key? key,
+    required this.agenda,
     required this.absensi,
     required this.cameras,
     required this.userType,
@@ -81,6 +84,7 @@ class _CameraAttendancePageState extends State<CameraAttendancePage> {
                           context,
                           Routes.displayCameraAttendance,
                           arguments: ArgDisplayCameraAttendance(
+                            agenda: widget.agenda,
                             absensi: resultAbsensi,
                             photoReset: widget.photoReset,
                           ),

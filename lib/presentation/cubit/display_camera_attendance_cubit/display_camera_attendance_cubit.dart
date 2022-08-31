@@ -20,11 +20,34 @@ class DisplayCameraAttendanceCubit extends Cubit<DisplayCameraAttendanceState> {
     this._doPhotoResetTutor,
   ) : super(DisplayCameraAttendanceInitial());
 
+  void checkLate(String dateAgenda, String startTime) {
+    emit(DisplayCameraAttendanceLoading());
+
+    var now = DateTime.now();
+    var agendaTime = DateTime.parse('$dateAgenda $startTime');
+
+    var differenceTime = now.difference(agendaTime).inMinutes;
+
+    bool isLated = false;
+    bool showReason = false;
+
+    if (differenceTime > 0 && differenceTime <= 30) {
+      isLated = true;
+    } else if (differenceTime > 30 && differenceTime <= 60) {
+      isLated = true;
+      showReason = true;
+    }
+
+    emit(DisplayCameraAttendanceCheckLate(isLated, showReason));
+  }
+
   void doAttendance(
     String idAgenda,
     File photo,
-    String noStudent,
-  ) async {
+    String noStudent, {
+    String late = '',
+    String lateReason = '',
+  }) async {
     emit(DisplayCameraAttendanceLoading());
 
     var now = DateTime.now();
@@ -42,6 +65,8 @@ class DisplayCameraAttendanceCubit extends Cubit<DisplayCameraAttendanceState> {
       DateFormat('HH:mm').format(now),
       position.latitude.toString(),
       position.latitude.toString(),
+      late,
+      lateReason,
     );
 
     result.fold(

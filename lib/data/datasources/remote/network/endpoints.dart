@@ -1,6 +1,7 @@
 class EndPoints {
   static const String protocol = 'http';
-  static const String host = 'agenda.bimbel-strategis.com';
+  // static const String host = 'agenda.bimbel-strategis.com';
+  static const String host = '192.168.30.204/agenda_belajar';
 
   static const String baseUrl = '$protocol://$host/index.php/api_v2';
   static const String baseUrlPhoto = '$protocol://$host/agenda_belajar/upload';

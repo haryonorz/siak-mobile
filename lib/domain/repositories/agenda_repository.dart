@@ -38,6 +38,8 @@ abstract class AgendaRepository {
     String time,
     String latitude,
     String longitude,
+    String late,
+    String lateReason,
   );
   Future<Either<Failure, bool>> doPhotoResetTutor(
     String idAgenda,

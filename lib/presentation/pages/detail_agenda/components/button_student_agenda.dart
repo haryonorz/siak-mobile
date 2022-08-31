@@ -1,15 +1,18 @@
 import 'package:flutter/material.dart';
 import 'package:siak_mobile/common/app/app.dart';
 import 'package:siak_mobile/domain/entities/absensi.dart';
+import 'package:siak_mobile/domain/entities/agenda.dart';
 import 'package:siak_mobile/presentation/widget/dialog_attendance.dart';
 import 'package:siak_mobile/presentation/widget/dialog_attendance_done.dart';
 
 class ButtonStudentAgenda extends StatelessWidget {
+  final Agenda agenda;
   final Absensi? absensi;
   final String userType;
 
   const ButtonStudentAgenda({
     Key? key,
+    required this.agenda,
     this.absensi,
     required this.userType,
   }) : super(key: key);
@@ -24,6 +27,7 @@ class ButtonStudentAgenda extends StatelessWidget {
             showDialog(
               context: context,
               builder: (context) => DialogAttendance(
+                agenda: agenda,
                 absensi: absensi!,
                 userType: userType,
               ),

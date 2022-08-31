@@ -2,16 +2,17 @@ import 'package:flutter/material.dart';
 import 'package:siak_mobile/common/app/app.dart';
 import 'package:siak_mobile/common/routes.dart';
 import 'package:siak_mobile/domain/entities/absensi_rekap.dart';
+import 'package:siak_mobile/domain/entities/agenda.dart';
 import 'package:siak_mobile/domain/entities/arg_attendance_list.dart';
 import 'package:siak_mobile/presentation/widget/custom_field.dart';
 
 class ViewAttendanceRecap extends StatelessWidget {
-  final String idAgenda;
+  final Agenda agenda;
   final AbsensiRekap? absensiRekap;
 
   const ViewAttendanceRecap({
     Key? key,
-    required this.idAgenda,
+    required this.agenda,
     required this.absensiRekap,
   }) : super(key: key);
 
@@ -98,9 +99,7 @@ class ViewAttendanceRecap extends StatelessWidget {
               onTap: () => Navigator.pushNamed(
                 context,
                 Routes.attendanceList,
-                arguments: ArgAttendanceList(
-                  idAgenda: idAgenda,
-                ),
+                arguments: ArgAttendanceList(agenda: agenda),
               ),
               child: Text(
                 'Detail >',

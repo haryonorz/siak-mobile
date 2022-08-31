@@ -1,16 +1,17 @@
 import 'package:flutter/material.dart';
 import 'package:siak_mobile/common/app/app.dart';
 import 'package:siak_mobile/domain/entities/absensi.dart';
+import 'package:siak_mobile/domain/entities/agenda.dart';
 import 'package:siak_mobile/presentation/pages/attandance_list/components/view_attendance_guest_student.dart';
 import 'package:siak_mobile/presentation/pages/attandance_list/components/view_attendance_student.dart';
 
 class AttendanceListPage extends StatelessWidget {
-  final String idAgenda;
+  final Agenda agenda;
   final Absensi? absensi;
 
   const AttendanceListPage({
     Key? key,
-    required this.idAgenda,
+    required this.agenda,
     this.absensi,
   }) : super(key: key);
 
@@ -37,11 +38,11 @@ class AttendanceListPage extends StatelessWidget {
         body: TabBarView(
           children: [
             ViewAttendanceStudent(
-              idAgenda: idAgenda,
+              agenda: agenda,
               absensiUser: absensi,
             ),
             ViewAttendanceGuestStudent(
-              idAgenda: idAgenda,
+              agenda: agenda,
               absensiUser: absensi,
             ),
           ],

@@ -17,6 +17,8 @@ class DoAttendance {
     String time,
     String latitude,
     String longitude,
+    String late,
+    String lateReason,
   ) {
     return repository.doAttendance(
       idAgenda,
@@ -26,6 +28,8 @@ class DoAttendance {
       time,
       latitude,
       longitude,
+      late,
+      lateReason,
     );
   }
 }

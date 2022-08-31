@@ -3,14 +3,17 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:siak_mobile/common/app/app.dart';
 import 'package:siak_mobile/common/routes.dart';
 import 'package:siak_mobile/domain/entities/absensi.dart';
+import 'package:siak_mobile/domain/entities/agenda.dart';
 import 'package:siak_mobile/domain/entities/arg_camera_attandance.dart';
 import 'package:siak_mobile/presentation/cubit/verification_attendance_cubit/action_attendance_cubit.dart';
 
 class DialogAttendanceVerification extends StatelessWidget {
+  final Agenda agenda;
   final Absensi absensi;
 
   const DialogAttendanceVerification({
     Key? key,
+    required this.agenda,
     required this.absensi,
   }) : super(key: key);
 
@@ -48,6 +51,7 @@ class DialogAttendanceVerification extends StatelessWidget {
                     context,
                     Routes.cameraAttendance,
                     arguments: ArgCameraAttendance(
+                      agenda: agenda,
                       absensi: absensi,
                       userType: 'tutor',
                       photoReset: true,

@@ -193,6 +193,8 @@ class AgendaRepositoryImpl extends AgendaRepository {
     String time,
     String latitude,
     String longitude,
+    String late,
+    String lateReason,
   ) async {
     try {
       final user = await localDataSource.getUser();
@@ -206,6 +208,8 @@ class AgendaRepositoryImpl extends AgendaRepository {
           time,
           latitude,
           longitude,
+          late,
+          lateReason,
         );
         return Right(result);
       }

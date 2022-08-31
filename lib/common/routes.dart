@@ -72,7 +72,7 @@ class RouteGenerator {
         final data = args as ArgAttendanceList;
         return MaterialPageRoute(
             builder: (_) => AttendanceListPage(
-                  idAgenda: data.idAgenda,
+                  agenda: data.agenda,
                   absensi: data.absensi,
                 ));
       case Routes.situationClass:
@@ -95,6 +95,7 @@ class RouteGenerator {
         final data = args as ArgCameraAttendance;
         return MaterialPageRoute(
             builder: (_) => CameraAttendancePage(
+                  agenda: data.agenda,
                   cameras: cameras,
                   absensi: data.absensi,
                   userType: data.userType,
@@ -104,6 +105,7 @@ class RouteGenerator {
         return MaterialPageRoute(builder: (_) {
           final data = args as ArgDisplayCameraAttendance;
           return DisplayCameraAttendance(
+            agenda: data.agenda,
             absensi: data.absensi,
             photoReset: data.photoReset,
           );

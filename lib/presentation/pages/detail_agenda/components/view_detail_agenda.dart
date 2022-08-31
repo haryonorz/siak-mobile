@@ -58,6 +58,7 @@ class ViewDetaiAgenda extends StatelessWidget {
               ? ButtonTutorAgenda(
                   agenda: agenda, totalRequestJoin: totalRequestJoin)
               : ButtonStudentAgenda(
+                  agenda: agenda,
                   absensi: absensi,
                   userType: userType,
                 ),

@@ -28,7 +28,7 @@ class UserResponse extends Equatable {
         username: json["username"],
         nama: json["nama"],
         noHp: json["no_hp"],
-        foto: json["foto"],
+        foto: json["foto"] ?? '',
         type: json["type"],
       );
 
