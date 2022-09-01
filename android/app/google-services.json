@@ -33,6 +33,35 @@
           ]
         }
       }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:304778181315:android:eca09d919844c977920076",
+        "android_client_info": {
+          "package_name": "com.strategis.siak_mobile"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "304778181315-sk76kudoeifliflrodkdmn2imeqpsoii.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCW1Dm76coAKHCei2EUh7BjyEc8FjqeqME"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "304778181315-sk76kudoeifliflrodkdmn2imeqpsoii.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
     }
   ],
   "configuration_version": "1"
