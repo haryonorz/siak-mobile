@@ -8,6 +8,7 @@ import 'package:siak_mobile/domain/entities/agenda.dart';
 import 'package:siak_mobile/presentation/cubit/display_camera_attendance_cubit/display_camera_attendance_cubit.dart';
 import 'package:siak_mobile/presentation/widget/dialog_late_reason.dart';
 import 'package:siak_mobile/presentation/widget/dialog_loading.dart';
+import 'package:siak_mobile/presentation/widget/dialog_permission.dart';
 
 class DisplayCameraAttendance extends StatefulWidget {
   final Agenda agenda;
@@ -39,9 +40,15 @@ class _DisplayCameraAttendanceState extends State<DisplayCameraAttendance> {
               widget.absensi.noSiswa,
             );
       } else {
-        context
-            .read<DisplayCameraAttendanceCubit>()
-            .checkLate(widget.agenda.date, widget.agenda.jamIn);
+        if (Platform.isAndroid) {
+          context
+              .read<DisplayCameraAttendanceCubit>()
+              .checkPermissionLocation();
+        } else {
+          context
+              .read<DisplayCameraAttendanceCubit>()
+              .checkLate(widget.agenda.date, widget.agenda.jamIn);
+        }
       }
     });
   }
@@ -85,6 +92,26 @@ class _DisplayCameraAttendanceState extends State<DisplayCameraAttendance> {
             barrierDismissible: false,
             builder: (context) => const DialogLoading(title: 'Uploading...'),
           );
+        }
+        if (state is DisplayCameraAttendanceDialogPermission) {
+          Navigator.pop(context);
+          showDialog(
+            context: context,
+            barrierDismissible: false,
+            builder: (context) => DialogPermission(
+              onTap: () {
+                context
+                    .read<DisplayCameraAttendanceCubit>()
+                    .permissionLocationRequest();
+              },
+            ),
+          );
+        }
+        if (state is DisplayCameraAttendancePermissionApproved) {
+          Navigator.pop(context);
+          context
+              .read<DisplayCameraAttendanceCubit>()
+              .checkLate(widget.agenda.date, widget.agenda.jamIn);
         }
         if (state is DisplayCameraAttendanceError) {
           Navigator.pop(context);

@@ -41,6 +41,54 @@ class DisplayCameraAttendanceCubit extends Cubit<DisplayCameraAttendanceState> {
     emit(DisplayCameraAttendanceCheckLate(isLated, showReason));
   }
 
+  void checkPermissionLocation() async {
+    emit(DisplayCameraAttendanceLoading());
+
+    bool serviceEnabled;
+    LocationPermission permission;
+
+    serviceEnabled = await Geolocator.isLocationServiceEnabled();
+    if (!serviceEnabled) {
+      emit(
+        const DisplayCameraAttendanceError(
+          'Location services are disabled.',
+        ),
+      );
+      return;
+    }
+
+    permission = await Geolocator.checkPermission();
+    if (permission == LocationPermission.denied) {
+      emit(DisplayCameraAttendanceDialogPermission());
+      return;
+    }
+
+    if (permission == LocationPermission.deniedForever) {
+      emit(
+        const DisplayCameraAttendanceError(
+          'Location permissions are permanently denied, we cannot request permissions.',
+        ),
+      );
+      return;
+    }
+    emit(DisplayCameraAttendancePermissionApproved());
+  }
+
+  void permissionLocationRequest() async {
+    LocationPermission permission;
+
+    permission = await Geolocator.requestPermission();
+    if (permission == LocationPermission.denied) {
+      emit(
+        const DisplayCameraAttendanceError(
+          'Location permissions are denied.',
+        ),
+      );
+      return;
+    }
+    emit(DisplayCameraAttendancePermissionApproved());
+  }
+
   void doAttendance(
     String idAgenda,
     File photo,

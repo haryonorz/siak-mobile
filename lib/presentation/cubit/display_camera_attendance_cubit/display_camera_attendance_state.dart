@@ -11,6 +11,12 @@ class DisplayCameraAttendanceInitial extends DisplayCameraAttendanceState {}
 
 class DisplayCameraAttendanceLoading extends DisplayCameraAttendanceState {}
 
+class DisplayCameraAttendanceDialogPermission
+    extends DisplayCameraAttendanceState {}
+
+class DisplayCameraAttendancePermissionApproved
+    extends DisplayCameraAttendanceState {}
+
 class DisplayCameraAttendanceCheckLate extends DisplayCameraAttendanceState {
   final bool isLated;
   final bool showReason;

@@ -86,15 +86,15 @@ class _HomePageState extends State<HomePage> with RouteAware {
           backgroundColor: AppColors.backgroundRed,
           systemOverlayStyle: AppDefaults.statusBarRed,
           actions: [
-            IconButton(
-              onPressed: () {},
-              icon: const FaIcon(
-                FontAwesomeIcons.bell,
-                size: 20,
-              ),
-              splashColor: Colors.transparent,
-              highlightColor: Colors.transparent,
-            )
+            // IconButton(
+            //   onPressed: () {},
+            //   icon: const FaIcon(
+            //     FontAwesomeIcons.bell,
+            //     size: 20,
+            //   ),
+            //   splashColor: Colors.transparent,
+            //   highlightColor: Colors.transparent,
+            // )
           ],
         ),
         drawer: const HomeDrawer(),
