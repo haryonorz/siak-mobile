@@ -35,7 +35,8 @@ class UserRepositoryImpl extends UserRepository {
     } on ServerException catch (e) {
       return Left(ServerFailure(e.message));
     } on SocketException {
-      return Left(ConnectionFailure('Gagal terhubung ke jaringan.'));
+      return Left(ConnectionFailure(
+          'Gagal terhubung ke jaringan, silahkan periksa koneksi internet anda.'));
     }
   }
 
@@ -52,7 +53,8 @@ class UserRepositoryImpl extends UserRepository {
     } on ServerException catch (e) {
       return Left(ServerFailure(e.message));
     } on SocketException {
-      return Left(ConnectionFailure('Gagal terhubung ke jaringan.'));
+      return Left(ConnectionFailure(
+          'Gagal terhubung ke jaringan, silahkan periksa koneksi internet anda.'));
     }
   }
 
@@ -75,7 +77,8 @@ class UserRepositoryImpl extends UserRepository {
     } on ServerException catch (e) {
       return Left(ServerFailure(e.message));
     } on SocketException {
-      return Left(ConnectionFailure('Gagal terhubung ke jaringan.'));
+      return Left(ConnectionFailure(
+          'Gagal terhubung ke jaringan, silahkan periksa koneksi internet anda.'));
     }
   }
 
@@ -118,7 +121,8 @@ class UserRepositoryImpl extends UserRepository {
     } on ServerException catch (e) {
       return Left(ServerFailure(e.message));
     } on SocketException {
-      return Left(ConnectionFailure('Gagal terhubung ke jaringan.'));
+      return Left(ConnectionFailure(
+          'Gagal terhubung ke jaringan, silahkan periksa koneksi internet anda.'));
     }
   }
 
@@ -133,7 +137,8 @@ class UserRepositoryImpl extends UserRepository {
     } on ServerException catch (e) {
       return Left(ServerFailure(e.message));
     } on SocketException {
-      return Left(ConnectionFailure('Gagal terhubung ke jaringan.'));
+      return Left(ConnectionFailure(
+          'Gagal terhubung ke jaringan, silahkan periksa koneksi internet anda.'));
     }
   }
 }
