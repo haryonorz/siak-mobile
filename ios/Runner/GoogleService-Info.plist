@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>CLIENT_ID</key>
+	<string>304778181315-fv2t5an70995a5b2ghqb7tjtgg55ia6a.apps.googleusercontent.com</string>
+	<key>REVERSED_CLIENT_ID</key>
+	<string>com.googleusercontent.apps.304778181315-fv2t5an70995a5b2ghqb7tjtgg55ia6a</string>
+	<key>API_KEY</key>
+	<string>AIzaSyB2zFhhUelGH5nOncGrl-F1813EryR5-yo</string>
+	<key>GCM_SENDER_ID</key>
+	<string>304778181315</string>
+	<key>PLIST_VERSION</key>
+	<string>1</string>
+	<key>BUNDLE_ID</key>
+	<string>com.strategis.siakMobile</string>
+	<key>PROJECT_ID</key>
+	<string>siak-5dcd1</string>
+	<key>STORAGE_BUCKET</key>
+	<string>siak-5dcd1.appspot.com</string>
+	<key>IS_ADS_ENABLED</key>
+	<false></false>
+	<key>IS_ANALYTICS_ENABLED</key>
+	<false></false>
+	<key>IS_APPINVITE_ENABLED</key>
+	<true></true>
+	<key>IS_GCM_ENABLED</key>
+	<true></true>
+	<key>IS_SIGNIN_ENABLED</key>
+	<true></true>
+	<key>GOOGLE_APP_ID</key>
+	<string>1:304778181315:ios:88d49bbe75fb714b920076</string>
+</dict>
+</plist>
