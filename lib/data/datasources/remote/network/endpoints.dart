@@ -6,7 +6,7 @@ class EndPoints {
   static const String baseUrl = '$protocol://$host/index.php/api_v2';
   // static const String baseUrl =
   //     '$protocol://$host/agenda_belajar/index.php/api_v2';
-  static const String baseUrlPhoto = '$protocol://$host/agenda_belajar/upload';
+  static const String baseUrlPhoto = '$protocol://$host/upload';
   static const String key = '654321';
 
   static const String signIn = '$baseUrl/doLogin';

@@ -23,7 +23,8 @@ class AgendaRepositoryImpl extends AgendaRepository {
 
   @override
   Future<Either<Failure, List<Agenda>>> getAllAgenda(
-    String getType, {
+    String getType,
+    int page, {
     String keyword = '',
   }) async {
     try {
@@ -33,6 +34,7 @@ class AgendaRepositoryImpl extends AgendaRepository {
           user.username,
           user.type,
           getType,
+          page,
           keyword: keyword,
         );
         return Right(result.map((model) => model.toEntity()).toList());
@@ -48,7 +50,8 @@ class AgendaRepositoryImpl extends AgendaRepository {
 
   @override
   Future<Either<Failure, List<Agenda>>> getAllAgendaHistory(
-    String getType, {
+    String getType,
+    int page, {
     String keyword = '',
   }) async {
     try {
@@ -58,6 +61,7 @@ class AgendaRepositoryImpl extends AgendaRepository {
           user.username,
           user.type,
           getType,
+          page,
           keyword: keyword,
         );
         return Right(result.map((model) => model.toEntity()).toList());

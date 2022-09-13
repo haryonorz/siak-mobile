@@ -7,13 +7,21 @@ abstract class AllAgendaHistoryEvent extends Equatable {
   List<Object> get props => [];
 }
 
-class OnFetchData extends AllAgendaHistoryEvent {}
+class OnFetchData extends AllAgendaHistoryEvent {
+  final bool isRefresh;
+
+  const OnFetchData({this.isRefresh = false});
+
+  @override
+  List<Object> get props => [isRefresh];
+}
 
 class OnQueryChanged extends AllAgendaHistoryEvent {
   final String query;
+  final bool isRefresh;
 
-  const OnQueryChanged(this.query);
+  const OnQueryChanged(this.query, {this.isRefresh = false});
 
   @override
-  List<Object> get props => [query];
+  List<Object> get props => [query, isRefresh];
 }

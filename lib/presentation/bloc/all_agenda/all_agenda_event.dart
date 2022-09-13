@@ -7,7 +7,14 @@ abstract class AllAgendaEvent extends Equatable {
   List<Object> get props => [];
 }
 
-class OnFetchData extends AllAgendaEvent {}
+class OnFetchData extends AllAgendaEvent {
+  final bool isRefresh;
+
+  const OnFetchData({this.isRefresh = false});
+
+  @override
+  List<Object> get props => [isRefresh];
+}
 
 class OnQueryChanged extends AllAgendaEvent {
   final String query;

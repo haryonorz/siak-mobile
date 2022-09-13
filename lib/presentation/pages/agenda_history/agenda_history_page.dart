@@ -3,6 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:siak_mobile/common/app/app.dart';
 import 'package:siak_mobile/presentation/bloc/all_agenda_history/all_agenda_history_bloc.dart';
 import 'package:siak_mobile/presentation/widget/agenda_card.dart';
+import 'package:siak_mobile/presentation/widget/bottom_loader.dart';
 import 'package:siak_mobile/presentation/widget/form/search_form_field.dart';
 import 'package:siak_mobile/presentation/widget/view_empty.dart';
 import 'package:siak_mobile/presentation/widget/view_error.dart';
@@ -16,12 +17,33 @@ class AgendaHistoryPage extends StatefulWidget {
 
 class _AgendaHistoryPageState extends State<AgendaHistoryPage> {
   final searchController = TextEditingController();
+  final _scrollController = ScrollController();
 
   @override
   void initState() {
     super.initState();
     Future.microtask(
-        () => context.read<AllAgendaHistoryBloc>().add(OnFetchData()));
+        () => context.read<AllAgendaHistoryBloc>().add(const OnFetchData()));
+    _scrollController.addListener(_onScroll);
+  }
+
+  void _onScroll() {
+    if (_isBottom) {
+      if (searchController.text.isEmpty) {
+        context.read<AllAgendaHistoryBloc>().add(const OnFetchData());
+      } else {
+        context
+            .read<AllAgendaHistoryBloc>()
+            .add(OnQueryChanged(searchController.text));
+      }
+    }
+  }
+
+  bool get _isBottom {
+    if (!_scrollController.hasClients) return false;
+    final maxScroll = _scrollController.position.maxScrollExtent;
+    final currentScroll = _scrollController.offset;
+    return currentScroll >= (maxScroll * 0.9);
   }
 
   @override
@@ -41,78 +63,102 @@ class _AgendaHistoryPageState extends State<AgendaHistoryPage> {
               hintText: 'Cari agenda',
               controller: searchController,
               onChanged: (query) {
-                context.read<AllAgendaHistoryBloc>().add(OnQueryChanged(query));
+                context.read<AllAgendaHistoryBloc>().add(OnQueryChanged(
+                      query,
+                      isRefresh: true,
+                    ));
               },
             ),
           ),
           Expanded(
             child: BlocBuilder<AllAgendaHistoryBloc, AllAgendaHistoryState>(
               builder: (context, state) {
-                if (state is AllAgendaHistoryLoading) {
-                  return const Center(
-                    child: CircularProgressIndicator(),
-                  );
-                } else if (state is AllAgendaHistoryEmpty) {
-                  return ViewEmpty(
-                    title: searchController.text.isEmpty
-                        ? 'Belum ada agenda yang selesai!'
-                        : 'Tidak ada agenda dengan keyword "${searchController.text}"',
-                    description:
-                        'Jika terdapat agenda yang selesai, silahkan close agenda tersebut.',
-                    showRefresh: true,
-                    onRefresh: () {
-                      if (searchController.text.isEmpty) {
-                        context.read<AllAgendaHistoryBloc>().add(OnFetchData());
-                      } else {
-                        context
-                            .read<AllAgendaHistoryBloc>()
-                            .add(OnQueryChanged(searchController.text));
-                      }
-                    },
-                  );
-                } else if (state is AllAgendaHistoryHasData) {
-                  return RefreshIndicator(
-                    onRefresh: () async {
-                      if (searchController.text.isEmpty) {
-                        context.read<AllAgendaHistoryBloc>().add(OnFetchData());
-                      } else {
-                        context
-                            .read<AllAgendaHistoryBloc>()
-                            .add(OnQueryChanged(searchController.text));
-                      }
-                    },
-                    child: ListView.builder(
-                      padding: EdgeInsets.zero,
-                      itemBuilder: (context, index) {
-                        final agenda = state.agendas[index];
-                        return Container(
-                          margin: EdgeInsets.only(
-                              top: index == 0 ? AppDefaults.margin : 0,
-                              bottom: index == state.agendas.length - 1
-                                  ? AppDefaults.margin
-                                  : 10),
-                          child: AgendaCard(agenda: agenda),
-                        );
+                switch (state.status) {
+                  case AllAgendaHistoryStatus.failure:
+                    return ViewError(
+                      message: state.errorMessage,
+                      showRefresh: true,
+                      onRefresh: () {
+                        if (searchController.text.isEmpty) {
+                          context
+                              .read<AllAgendaHistoryBloc>()
+                              .add(const OnFetchData());
+                        } else {
+                          context
+                              .read<AllAgendaHistoryBloc>()
+                              .add(OnQueryChanged(
+                                searchController.text,
+                                isRefresh: true,
+                              ));
+                        }
                       },
-                      itemCount: state.agendas.length,
-                    ),
-                  );
-                } else if (state is AllAgendaHistoryError) {
-                  return ViewError(
-                    message: state.message,
-                    showRefresh: true,
-                    onRefresh: () {
-                      if (searchController.text.isEmpty) {
-                        context.read<AllAgendaHistoryBloc>().add(OnFetchData());
-                      } else {
-                        context
-                            .read<AllAgendaHistoryBloc>()
-                            .add(OnQueryChanged(searchController.text));
-                      }
-                    },
-                  );
-                } else {
-                  return Container();
+                    );
+                  case AllAgendaHistoryStatus.success:
+                    if (state.agendas.isEmpty) {
+                      return Align(
+                        alignment: Alignment.topLeft,
+                        child: ViewEmpty(
+                          title: searchController.text.isEmpty
+                              ? 'Agenda tidak ditemukan!'
+                              : 'Tidak ada agenda dengan keyword "${searchController.text}"',
+                          description: 'Silahkan buat agenda terlebih dahulu.',
+                          showRefresh: true,
+                          onRefresh: () {
+                            if (searchController.text.isEmpty) {
+                              context
+                                  .read<AllAgendaHistoryBloc>()
+                                  .add(const OnFetchData(isRefresh: true));
+                            } else {
+                              context
+                                  .read<AllAgendaHistoryBloc>()
+                                  .add(OnQueryChanged(
+                                    searchController.text,
+                                    isRefresh: true,
+                                  ));
+                            }
+                          },
+                        ),
+                      );
+                    }
+                    return RefreshIndicator(
+                      onRefresh: () async {
+                        if (searchController.text.isEmpty) {
+                          context
+                              .read<AllAgendaHistoryBloc>()
+                              .add(const OnFetchData(isRefresh: true));
+                        } else {
+                          context
+                              .read<AllAgendaHistoryBloc>()
+                              .add(OnQueryChanged(
+                                searchController.text,
+                                isRefresh: true,
+                              ));
+                        }
+                      },
+                      child: ListView.builder(
+                        padding: EdgeInsets.zero,
+                        itemBuilder: (BuildContext context, int index) {
+                          return index >= state.agendas.length
+                              ? const BottomLoader()
+                              : Container(
+                                  margin: EdgeInsets.only(
+                                      top: index == 0 ? AppDefaults.margin : 0,
+                                      bottom: index == state.agendas.length - 1
+                                          ? AppDefaults.margin
+                                          : 10),
+                                  child: AgendaCard(
+                                    agenda: state.agendas[index],
+                                  ),
+                                );
+                        },
+                        itemCount: state.hasReachedMax
+                            ? state.agendas.length
+                            : state.agendas.length + 1,
+                        controller: _scrollController,
+                      ),
+                    );
+                  case AllAgendaHistoryStatus.initial:
+                    return const Center(child: CircularProgressIndicator());
                 }
               },
             ),
@@ -120,5 +166,13 @@ class _AgendaHistoryPageState extends State<AgendaHistoryPage> {
         ],
       ),
     );
+  }
+
+  @override
+  void dispose() {
+    _scrollController
+      ..removeListener(_onScroll)
+      ..dispose();
+    super.dispose();
   }
 }

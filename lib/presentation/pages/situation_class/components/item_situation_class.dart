@@ -58,10 +58,13 @@ class _ItemSituationClassState extends State<ItemSituationClass> {
             .subtitle1
             ?.copyWith(fontWeight: FontWeight.bold),
       ),
-      subtitle: CustomField(
-        label: "Masalah: ",
-        value: widget.absensi.masalahSiswa ?? '-',
-        valueStyle: Theme.of(context).textTheme.subtitle2,
+      subtitle: Padding(
+        padding: const EdgeInsets.only(top: 8),
+        child: CustomField(
+          label: "Masalah: ",
+          value: widget.absensi.masalahSiswa ?? '-',
+          valueStyle: Theme.of(context).textTheme.subtitle2,
+        ),
       ),
     );
   }

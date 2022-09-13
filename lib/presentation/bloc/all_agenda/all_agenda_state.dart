@@ -1,30 +1,39 @@
 part of 'all_agenda_bloc.dart';
 
-abstract class AllAgendaState extends Equatable {
-  const AllAgendaState();
+enum AllAgendaStatus { initial, success, failure }
 
-  @override
-  List<Object?> get props => [];
-}
+class AllAgendaState extends Equatable {
+  const AllAgendaState({
+    this.status = AllAgendaStatus.initial,
+    this.agendas = const <Agenda>[],
+    this.errorMessage = '',
+    this.hasReachedMax = false,
+  });
 
-class AllAgendaEmpty extends AllAgendaState {}
-
-class AllAgendaLoading extends AllAgendaState {}
-
-class AllAgendaError extends AllAgendaState {
-  final String message;
-
-  const AllAgendaError(this.message);
-
-  @override
-  List<Object?> get props => [message];
-}
-
-class AllAgendaHasData extends AllAgendaState {
+  final AllAgendaStatus status;
   final List<Agenda> agendas;
+  final bool hasReachedMax;
+  final String errorMessage;
 
-  const AllAgendaHasData(this.agendas);
+  AllAgendaState copyWith({
+    AllAgendaStatus? status,
+    List<Agenda>? agendas,
+    bool? hasReachedMax,
+    String? errorMessage,
+  }) {
+    return AllAgendaState(
+      status: status ?? this.status,
+      agendas: agendas ?? this.agendas,
+      hasReachedMax: hasReachedMax ?? this.hasReachedMax,
+      errorMessage: errorMessage ?? this.errorMessage,
+    );
+  }
 
   @override
-  List<Object?> get props => [agendas];
+  String toString() {
+    return '''PostState { status: $status, hasReachedMax: $hasReachedMax, agendas: ${agendas.length} }''';
+  }
+
+  @override
+  List<Object> get props => [status, agendas, hasReachedMax, errorMessage];
 }

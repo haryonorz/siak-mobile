@@ -1,3 +1,4 @@
+import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
 import 'package:siak_mobile/common/app/app.dart';
 import 'package:siak_mobile/common/extensions/string_parsing.dart';
@@ -85,9 +86,10 @@ class AgendaCard extends StatelessWidget {
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    Text(
+                    AutoSizeText(
                       agenda.pokokBahasan,
-                      style: Theme.of(context).textTheme.headline4,
+                      style: Theme.of(context).textTheme.headline5,
+                      maxLines: 2,
                     ),
                     const SizedBox(height: AppDefaults.sSpace),
                     CustomField(
@@ -98,7 +100,10 @@ class AgendaCard extends StatelessWidget {
                     const SizedBox(height: AppDefaults.sSpace),
                     CustomField(
                       label: "Tutor: ",
-                      value: agenda.namaTutorPengganti ?? agenda.namaTutor,
+                      value: agenda.namaTutorPengganti != null &&
+                              agenda.namaTutorPengganti != ''
+                          ? agenda.namaTutorPengganti.toString()
+                          : agenda.namaTutor,
                       direction: Axis.vertical,
                     ),
                     agenda.allStudent.isNotEmpty

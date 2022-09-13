@@ -19,13 +19,15 @@ abstract class AgendaRemoteDataSources {
   Future<List<AgendaResponse>> getAllAgenda(
     String username,
     String userType,
-    String getType, {
+    String getType,
+    int page, {
     String keyword = '',
   });
   Future<List<AgendaResponse>> getAllAgendaHistory(
     String username,
     String userType,
-    String getType, {
+    String getType,
+    int page, {
     String keyword = '',
   });
   Future<DetailAgendaResponse> getDetailAgenda(
@@ -97,7 +99,8 @@ class AgendaRemoteDataSourcesImpl extends AgendaRemoteDataSources {
   Future<List<AgendaResponse>> getAllAgenda(
     String username,
     String userType,
-    String getType, {
+    String getType,
+    int page, {
     String keyword = '',
   }) async {
     final response = await client.post(
@@ -108,7 +111,7 @@ class AgendaRemoteDataSourcesImpl extends AgendaRemoteDataSources {
         'user_type': userType,
         'get_type': getType,
         'keyword': keyword,
-        'page': "0",
+        'page': page.toString(),
       },
     );
     if (response.statusCode == 200) {
@@ -124,7 +127,8 @@ class AgendaRemoteDataSourcesImpl extends AgendaRemoteDataSources {
   Future<List<AgendaResponse>> getAllAgendaHistory(
     String username,
     String userType,
-    String getType, {
+    String getType,
+    int page, {
     String keyword = '',
   }) async {
     final response = await client.post(
@@ -135,7 +139,7 @@ class AgendaRemoteDataSourcesImpl extends AgendaRemoteDataSources {
         'user_type': userType,
         'get_type': getType,
         'keyword': keyword,
-        'page': "0",
+        'page': page.toString(),
       },
     );
     if (response.statusCode == 200) {

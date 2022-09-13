@@ -1,30 +1,39 @@
 part of 'all_agenda_history_bloc.dart';
 
-abstract class AllAgendaHistoryState extends Equatable {
-  const AllAgendaHistoryState();
+enum AllAgendaHistoryStatus { initial, success, failure }
 
-  @override
-  List<Object?> get props => [];
-}
+class AllAgendaHistoryState extends Equatable {
+  const AllAgendaHistoryState({
+    this.status = AllAgendaHistoryStatus.initial,
+    this.agendas = const <Agenda>[],
+    this.errorMessage = '',
+    this.hasReachedMax = false,
+  });
 
-class AllAgendaHistoryEmpty extends AllAgendaHistoryState {}
-
-class AllAgendaHistoryLoading extends AllAgendaHistoryState {}
-
-class AllAgendaHistoryError extends AllAgendaHistoryState {
-  final String message;
-
-  const AllAgendaHistoryError(this.message);
-
-  @override
-  List<Object?> get props => [message];
-}
-
-class AllAgendaHistoryHasData extends AllAgendaHistoryState {
+  final AllAgendaHistoryStatus status;
   final List<Agenda> agendas;
+  final bool hasReachedMax;
+  final String errorMessage;
 
-  const AllAgendaHistoryHasData(this.agendas);
+  AllAgendaHistoryState copyWith({
+    AllAgendaHistoryStatus? status,
+    List<Agenda>? agendas,
+    bool? hasReachedMax,
+    String? errorMessage,
+  }) {
+    return AllAgendaHistoryState(
+      status: status ?? this.status,
+      agendas: agendas ?? this.agendas,
+      hasReachedMax: hasReachedMax ?? this.hasReachedMax,
+      errorMessage: errorMessage ?? this.errorMessage,
+    );
+  }
 
   @override
-  List<Object?> get props => [agendas];
+  String toString() {
+    return '''PostState { status: $status, hasReachedMax: $hasReachedMax, agendas: ${agendas.length} }''';
+  }
+
+  @override
+  List<Object> get props => [status, agendas, hasReachedMax, errorMessage];
 }

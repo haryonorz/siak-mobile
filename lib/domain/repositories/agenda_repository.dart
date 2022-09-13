@@ -10,11 +10,13 @@ import 'package:siak_mobile/domain/entities/info_problem_class.dart';
 
 abstract class AgendaRepository {
   Future<Either<Failure, List<Agenda>>> getAllAgenda(
-    String getType, {
+    String getType,
+    int page, {
     String keyword = '',
   });
   Future<Either<Failure, List<Agenda>>> getAllAgendaHistory(
-    String getType, {
+    String getType,
+    int page, {
     String keyword = '',
   });
   Future<Either<Failure, DetailAgenda>> getDetailAgenda(String idAgenda);

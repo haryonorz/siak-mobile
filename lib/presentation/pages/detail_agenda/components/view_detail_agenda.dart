@@ -39,7 +39,10 @@ class ViewDetaiAgenda extends StatelessWidget {
             children: [
               CustomField(
                 label: "Tutor: ",
-                value: agenda.namaTutorPengganti ?? agenda.namaTutor,
+                value: agenda.namaTutorPengganti != null &&
+                        agenda.namaTutorPengganti != ''
+                    ? agenda.namaTutorPengganti.toString()
+                    : agenda.namaTutor,
                 direction: Axis.vertical,
               ),
               const Spacer(),

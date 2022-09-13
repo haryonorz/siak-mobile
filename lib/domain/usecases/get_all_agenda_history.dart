@@ -10,8 +10,9 @@ class GetAllAgendaHistory {
 
   Future<Either<Failure, List<Agenda>>> execute(
     String getType, {
+    int page = 0,
     String keyword = '',
   }) {
-    return repository.getAllAgendaHistory(getType, keyword: keyword);
+    return repository.getAllAgendaHistory(getType, page, keyword: keyword);
   }
 }
