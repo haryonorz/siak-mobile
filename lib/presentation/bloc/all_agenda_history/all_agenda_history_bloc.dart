@@ -32,7 +32,7 @@ class AllAgendaHistoryBloc
     );
   }
 
-  void _onFetchData(
+  Future<void> _onFetchData(
     OnFetchData event,
     Emitter<AllAgendaHistoryState> emit,
   ) async {
@@ -95,7 +95,7 @@ class AllAgendaHistoryBloc
     }
   }
 
-  void _onQueryChanged(
+  Future<void> _onQueryChanged(
     OnQueryChanged event,
     Emitter<AllAgendaHistoryState> emit,
   ) async {

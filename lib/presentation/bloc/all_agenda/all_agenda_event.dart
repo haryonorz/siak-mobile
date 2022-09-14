@@ -18,9 +18,10 @@ class OnFetchData extends AllAgendaEvent {
 
 class OnQueryChanged extends AllAgendaEvent {
   final String query;
+  final bool isRefresh;
 
-  const OnQueryChanged(this.query);
+  const OnQueryChanged(this.query, {this.isRefresh = false});
 
   @override
-  List<Object> get props => [query];
+  List<Object> get props => [query, isRefresh];
 }

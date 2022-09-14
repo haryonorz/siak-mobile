@@ -21,14 +21,14 @@ class AllAgendaBloc extends Bloc<AllAgendaEvent, AllAgendaState> {
             .asyncExpand(mapper);
       },
     );
-    // on<OnQueryChanged>(
-    //   _onQueryChanged,
-    //   transformer: (events, mapper) {
-    //     return events
-    //         .debounceTime(const Duration(milliseconds: 500))
-    //         .asyncExpand(mapper);
-    //   },
-    // );
+    on<OnQueryChanged>(
+      _onQueryChanged,
+      transformer: (events, mapper) {
+        return events
+            .debounceTime(const Duration(milliseconds: 500))
+            .asyncExpand(mapper);
+      },
+    );
   }
 
   Future<void> _onFetchData(
@@ -94,21 +94,67 @@ class AllAgendaBloc extends Bloc<AllAgendaEvent, AllAgendaState> {
     }
   }
 
-  // void _onQueryChanged(
-  //   OnQueryChanged event,
-  //   Emitter<AllAgendaState> emit,
-  // ) async {
-  //   final query = event.query;
-  //   emit(AllAgendaLoading());
+  Future<void> _onQueryChanged(
+    OnQueryChanged event,
+    Emitter<AllAgendaState> emit,
+  ) async {
+    final query = event.query;
+    if (state.hasReachedMax && !event.isRefresh) return;
+    try {
+      if (event.isRefresh || state.status == AllAgendaStatus.initial) {
+        final result = await _getAllAgenda.execute('search', keyword: query);
 
-  //   final result = await _getAllAgenda.execute('search', keyword: query);
+        result.fold(
+          (failure) {
+            return emit(
+              state.copyWith(
+                status: AllAgendaStatus.failure,
+                errorMessage: failure.message,
+              ),
+            );
+          },
+          (agendas) {
+            return emit(
+              state.copyWith(
+                status: AllAgendaStatus.success,
+                agendas: agendas,
+                hasReachedMax: false,
+              ),
+            );
+          },
+        );
+      }
+      final result = await _getAllAgenda.execute('search',
+          keyword: query, page: state.agendas.length);
 
-  //   result.fold(
-  //     (failure) => emit(AllAgendaError(failure.message)),
-  //     (agendaData) {
-  //       emit(AllAgendaHasData(agendaData));
-  //       if (agendaData.isEmpty) emit(AllAgendaEmpty());
-  //     },
-  //   );
-  // }
+      result.fold(
+        (failure) {
+          return emit(
+            state.copyWith(
+              status: AllAgendaStatus.failure,
+              errorMessage: failure.message,
+            ),
+          );
+        },
+        (agendas) {
+          agendas.isEmpty
+              ? emit(state.copyWith(hasReachedMax: true))
+              : emit(
+                  state.copyWith(
+                    status: AllAgendaStatus.success,
+                    agendas: List.of(state.agendas)..addAll(agendas),
+                    hasReachedMax: false,
+                  ),
+                );
+        },
+      );
+    } catch (e) {
+      emit(
+        state.copyWith(
+          status: AllAgendaStatus.failure,
+          errorMessage: e.toString(),
+        ),
+      );
+    }
+  }
 }

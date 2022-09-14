@@ -35,7 +35,15 @@ class _HomePageState extends State<HomePage> with RouteAware {
   }
 
   void _onScroll() {
-    if (_isBottom) context.read<AllAgendaBloc>().add(const OnFetchData());
+    if (_isBottom) {
+      if (searchController.text.isEmpty) {
+        context.read<AllAgendaBloc>().add(const OnFetchData());
+      } else {
+        context
+            .read<AllAgendaBloc>()
+            .add(OnQueryChanged(searchController.text));
+      }
+    }
   }
 
   bool get _isBottom {
@@ -136,9 +144,10 @@ class _HomePageState extends State<HomePage> with RouteAware {
                           hintText: 'Agenda Hari Ini',
                           controller: searchController,
                           onChanged: (query) {
-                            context
-                                .read<AllAgendaBloc>()
-                                .add(OnQueryChanged(query));
+                            context.read<AllAgendaBloc>().add(OnQueryChanged(
+                                  query,
+                                  isRefresh: true,
+                                ));
                           },
                         ),
                       ),
@@ -161,9 +170,10 @@ class _HomePageState extends State<HomePage> with RouteAware {
                                 .read<AllAgendaBloc>()
                                 .add(const OnFetchData(isRefresh: true));
                           } else {
-                            context
-                                .read<AllAgendaBloc>()
-                                .add(OnQueryChanged(searchController.text));
+                            context.read<AllAgendaBloc>().add(OnQueryChanged(
+                                  searchController.text,
+                                  isRefresh: true,
+                                ));
                           }
                         },
                       );
@@ -186,7 +196,10 @@ class _HomePageState extends State<HomePage> with RouteAware {
                               } else {
                                 context
                                     .read<AllAgendaBloc>()
-                                    .add(OnQueryChanged(searchController.text));
+                                    .add(OnQueryChanged(
+                                      searchController.text,
+                                      isRefresh: true,
+                                    ));
                               }
                             },
                           ),
@@ -199,9 +212,10 @@ class _HomePageState extends State<HomePage> with RouteAware {
                                 .read<AllAgendaBloc>()
                                 .add(const OnFetchData(isRefresh: true));
                           } else {
-                            context
-                                .read<AllAgendaBloc>()
-                                .add(OnQueryChanged(searchController.text));
+                            context.read<AllAgendaBloc>().add(OnQueryChanged(
+                                  searchController.text,
+                                  isRefresh: true,
+                                ));
                           }
                         },
                         child: ListView.builder(
