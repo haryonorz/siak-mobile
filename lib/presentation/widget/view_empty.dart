@@ -37,8 +37,8 @@ class ViewEmpty extends StatelessWidget {
                   onPressed: onRefresh,
                   style: ElevatedButton.styleFrom(
                     minimumSize: const Size(100, 36),
+                    backgroundColor: AppColors.backgroundRed,
                     padding: EdgeInsets.zero,
-                    primary: AppColors.backgroundRed,
                     shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(AppDefaults.mRadius),
                     ),

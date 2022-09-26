@@ -53,7 +53,7 @@ class ButtonTutorAgenda extends StatelessWidget {
                           arguments: agenda.idAgenda,
                         ),
                         style: ElevatedButton.styleFrom(
-                          primary: AppColors.backgroundBlue,
+                          backgroundColor: AppColors.backgroundBlue,
                           shape: RoundedRectangleBorder(
                             borderRadius:
                                 BorderRadius.circular(AppDefaults.mRadius),

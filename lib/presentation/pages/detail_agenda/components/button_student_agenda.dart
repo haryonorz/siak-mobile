@@ -43,7 +43,7 @@ class ButtonStudentAgenda extends StatelessWidget {
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(AppDefaults.mRadius),
           ),
-          primary: absensi?.statusAbsensi == '1'
+          backgroundColor: absensi?.statusAbsensi == '1'
               ? AppColors.backgroundRed
               : AppColors.backgroundLightGrey,
         ),

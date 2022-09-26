@@ -73,7 +73,7 @@ class DialogNoteClass extends StatelessWidget {
                   },
                   style: ElevatedButton.styleFrom(
                     minimumSize: const Size(100, 38),
-                    primary: AppColors.backgroundRed,
+                    backgroundColor: AppColors.backgroundRed,
                     shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(AppDefaults.mRadius),
                     ),

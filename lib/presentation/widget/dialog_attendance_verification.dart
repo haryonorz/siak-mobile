@@ -60,7 +60,7 @@ class DialogAttendanceVerification extends StatelessWidget {
                 },
                 style: ElevatedButton.styleFrom(
                   minimumSize: const Size(80, 38),
-                  primary: Colors.transparent,
+                  backgroundColor: Colors.transparent,
                   shape: RoundedRectangleBorder(
                     side: const BorderSide(
                       color: AppColors.backgroundRed,
@@ -93,7 +93,7 @@ class DialogAttendanceVerification extends StatelessWidget {
                     },
                     style: ElevatedButton.styleFrom(
                       minimumSize: const Size(80, 38),
-                      primary: AppColors.backgroundRed,
+                      backgroundColor: AppColors.backgroundRed,
                       shape: RoundedRectangleBorder(
                         borderRadius:
                             BorderRadius.circular(AppDefaults.mRadius),
@@ -117,7 +117,7 @@ class DialogAttendanceVerification extends StatelessWidget {
                     },
                     style: ElevatedButton.styleFrom(
                       minimumSize: const Size(80, 38),
-                      primary: AppColors.backgroundRed,
+                      backgroundColor: AppColors.backgroundRed,
                       shape: RoundedRectangleBorder(
                         borderRadius:
                             BorderRadius.circular(AppDefaults.mRadius),

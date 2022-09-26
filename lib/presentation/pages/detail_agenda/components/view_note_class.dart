@@ -42,7 +42,7 @@ class ViewNoteClass extends StatelessWidget {
                 },
                 style: ElevatedButton.styleFrom(
                   minimumSize: const Size(120, 45),
-                  primary: AppColors.backgroundRed,
+                  backgroundColor: AppColors.backgroundRed,
                   shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(AppDefaults.mRadius),
                   ),

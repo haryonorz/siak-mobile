@@ -37,7 +37,7 @@ class ViewPotretKelas extends StatelessWidget {
             ),
             style: ElevatedButton.styleFrom(
               minimumSize: const Size(120, 45),
-              primary: AppColors.backgroundBlue,
+              backgroundColor: AppColors.backgroundBlue,
               shape: RoundedRectangleBorder(
                 borderRadius: BorderRadius.circular(AppDefaults.mRadius),
               ),

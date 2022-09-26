@@ -103,7 +103,7 @@ class DialogAttendanceDone extends StatelessWidget {
                 onPressed: () => Navigator.pop(context),
                 style: ElevatedButton.styleFrom(
                   minimumSize: const Size(80, 38),
-                  primary: AppColors.backgroundRed,
+                  backgroundColor: AppColors.backgroundRed,
                   shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(AppDefaults.mRadius),
                   ),
