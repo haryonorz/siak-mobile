@@ -89,7 +89,8 @@ class AgendaCard extends StatelessWidget {
                     AutoSizeText(
                       agenda.pokokBahasan,
                       style: Theme.of(context).textTheme.headline5,
-                      maxLines: 2,
+                      maxLines: 3,
+                      overflow: TextOverflow.ellipsis,
                     ),
                     const SizedBox(height: AppDefaults.sSpace),
                     CustomField(

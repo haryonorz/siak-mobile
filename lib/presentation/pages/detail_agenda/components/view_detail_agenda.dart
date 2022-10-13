@@ -1,3 +1,4 @@
+import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
 import 'package:siak_mobile/common/app/app.dart';
 import 'package:siak_mobile/common/extensions/string_parsing.dart';
@@ -29,9 +30,10 @@ class ViewDetaiAgenda extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           const SizedBox(height: AppDefaults.lSpace),
-          Text(
+          AutoSizeText(
             agenda.pokokBahasan,
             style: Theme.of(context).textTheme.headline4,
+            maxLines: 3,
           ),
           const SizedBox(height: AppDefaults.lSpace),
           Row(
