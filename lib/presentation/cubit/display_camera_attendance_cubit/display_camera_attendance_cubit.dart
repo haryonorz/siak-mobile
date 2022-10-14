@@ -112,7 +112,7 @@ class DisplayCameraAttendanceCubit extends Cubit<DisplayCameraAttendanceState> {
       DateFormat('yyyy-MM-dd').format(now),
       DateFormat('HH:mm').format(now),
       position.latitude.toString(),
-      position.latitude.toString(),
+      position.longitude.toString(),
       late,
       lateReason,
     );
@@ -193,7 +193,8 @@ Future<Position> _determinePosition() async {
   // When we reach here, permissions are granted and we can
   // continue accessing the position of the device.
   return await Geolocator.getCurrentPosition(
-      desiredAccuracy: LocationAccuracy.high);
+    desiredAccuracy: LocationAccuracy.high,
+  );
 }
 
 Future<File?> compressAndGetFile(File file) async {

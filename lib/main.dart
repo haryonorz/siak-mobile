@@ -130,6 +130,7 @@ class MyApp extends StatelessWidget {
         home: BlocBuilder<AuthenticationCubit, AuthenticationState>(
           builder: (context, state) {
             if (state is AuthenticationAuthenticated) {
+              context.read<AllAgendaBloc>().add(OnClearData());
               return const HomePage();
             }
             if (state is AuthenticationUnauthenticated) {

@@ -58,9 +58,10 @@ class AgendaCard extends StatelessWidget {
                         direction: Axis.vertical,
                       ),
                       const SizedBox(height: AppDefaults.lSpace),
-                      Text(
+                      AutoSizeText(
                         agenda.pilKelas,
                         style: Theme.of(context).textTheme.headline3,
+                        maxLines: 1,
                       ),
                       const SizedBox(height: AppDefaults.lSpace),
                       CustomField(

@@ -25,3 +25,5 @@ class OnQueryChanged extends AllAgendaEvent {
   @override
   List<Object> get props => [query, isRefresh];
 }
+
+class OnClearData extends AllAgendaEvent {}

@@ -38,7 +38,12 @@ class _CameraAttendancePageState extends State<CameraAttendancePage> {
       ResolutionPreset.medium,
     );
 
-    _initializeControllerFuture = _controller.initialize();
+    _initializeControllerFuture = _controller.initialize().then((_) {
+      if (!mounted) {
+        return;
+      }
+      setState(() {});
+    });
   }
 
   @override

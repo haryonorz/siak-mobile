@@ -29,6 +29,20 @@ class AllAgendaBloc extends Bloc<AllAgendaEvent, AllAgendaState> {
             .asyncExpand(mapper);
       },
     );
+    on<OnClearData>(_onClearData);
+  }
+
+  Future<void> _onClearData(
+    OnClearData event,
+    Emitter<AllAgendaState> emit,
+  ) async {
+    return emit(
+      state.copyWith(
+        status: AllAgendaStatus.initial,
+        agendas: [],
+        hasReachedMax: false,
+      ),
+    );
   }
 
   Future<void> _onFetchData(

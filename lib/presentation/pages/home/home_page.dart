@@ -30,7 +30,9 @@ class _HomePageState extends State<HomePage> with RouteAware {
   void initState() {
     super.initState();
     Future.microtask(
-        () => context.read<AllAgendaBloc>().add(const OnFetchData()));
+      () =>
+          context.read<AllAgendaBloc>().add(const OnFetchData(isRefresh: true)),
+    );
     _scrollController.addListener(_onScroll);
   }
 

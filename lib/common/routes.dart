@@ -19,7 +19,6 @@ import 'package:siak_mobile/presentation/pages/edit_profile/edit_profile.dart';
 import 'package:siak_mobile/presentation/pages/photo_preview/photo_preview_page.dart';
 import 'package:siak_mobile/presentation/pages/profile/profile_page.dart';
 import 'package:siak_mobile/presentation/pages/request_join/request_join_page.dart';
-import 'package:siak_mobile/presentation/pages/sign_in/sign_in_page.dart';
 import 'package:siak_mobile/presentation/pages/situation_class/situation_class_page.dart';
 
 abstract class Routes {
@@ -54,8 +53,6 @@ class RouteGenerator {
     final args = settings.arguments;
 
     switch (settings.name) {
-      case Routes.signIn:
-        return MaterialPageRoute(builder: (_) => const SignInPage());
       case Routes.detailAgenda:
         return MaterialPageRoute(
           builder: (_) => DetailAgendaPage(
