@@ -1,6 +1,7 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
+import 'package:octo_image/octo_image.dart';
 import 'package:siak_mobile/common/app/app.dart';
 import 'package:siak_mobile/common/routes.dart';
 import 'package:siak_mobile/data/datasources/remote/network/endpoints.dart';
@@ -47,18 +48,39 @@ class HomeAds extends StatelessWidget {
                       margin: const EdgeInsets.symmetric(
                         horizontal: AppDefaults.sSpace,
                       ),
-                      decoration: BoxDecoration(
+                      child: ClipRRect(
                         borderRadius: BorderRadius.circular(
                           AppDefaults.sRadius,
                         ),
-                        image: DecorationImage(
+                        child: OctoImage(
                           image: CachedNetworkImageProvider(
                             '${EndPoints.baseUrlPhoto}/iklan/${i.photoCover}',
                           ),
+                          placeholderBuilder: OctoPlaceholder.blurHash(
+                            'LEHV6nWB2yk8pyo0adR*.7kCMdnj',
+                          ),
+                          errorBuilder:
+                              OctoError.icon(color: AppColors.backgroundRed),
                           fit: BoxFit.cover,
                         ),
                       ),
                     ),
+                    // child: Container(
+                    //   margin: const EdgeInsets.symmetric(
+                    //     horizontal: AppDefaults.sSpace,
+                    //   ),
+                    //   decoration: BoxDecoration(
+                    //     borderRadius: BorderRadius.circular(
+                    //       AppDefaults.sRadius,
+                    //     ),
+                    //     image: DecorationImage(
+                    //       image: CachedNetworkImageProvider(
+                    //         '${EndPoints.baseUrlPhoto}/iklan/${i.photoCover}',
+                    //       ),
+                    //       fit: BoxFit.cover,
+                    //     ),
+                    //   ),
+                    // ),
                   );
                 }).toList(),
               ),
