@@ -65,22 +65,6 @@ class HomeAds extends StatelessWidget {
                         ),
                       ),
                     ),
-                    // child: Container(
-                    //   margin: const EdgeInsets.symmetric(
-                    //     horizontal: AppDefaults.sSpace,
-                    //   ),
-                    //   decoration: BoxDecoration(
-                    //     borderRadius: BorderRadius.circular(
-                    //       AppDefaults.sRadius,
-                    //     ),
-                    //     image: DecorationImage(
-                    //       image: CachedNetworkImageProvider(
-                    //         '${EndPoints.baseUrlPhoto}/iklan/${i.photoCover}',
-                    //       ),
-                    //       fit: BoxFit.cover,
-                    //     ),
-                    //   ),
-                    // ),
                   );
                 }).toList(),
               ),
