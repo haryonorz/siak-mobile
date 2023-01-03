@@ -1,11 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:shimmer/shimmer.dart';
 import 'package:siak_mobile/common/app/app.dart';
-import 'package:siak_mobile/common/routes.dart';
-import 'package:siak_mobile/data/datasources/remote/network/endpoints.dart';
 import 'package:siak_mobile/presentation/cubit/profile/profile_cubit.dart';
 import 'package:siak_mobile/presentation/widget/custom_field.dart';
-import 'package:siak_mobile/presentation/widget/default_user_photo.dart';
+import 'package:siak_mobile/presentation/widget/shimmer/loading_profile.dart';
 import 'package:siak_mobile/presentation/widget/user_photo.dart';
 import 'package:siak_mobile/presentation/widget/view_error.dart';
 
@@ -28,13 +27,19 @@ class _HeaderProfileState extends State<HeaderProfile> {
   @override
   Widget build(BuildContext context) {
     return Container(
-      margin: const EdgeInsets.all(AppDefaults.margin),
+      padding: const EdgeInsets.only(
+        left: AppDefaults.padding,
+        right: AppDefaults.padding,
+        bottom: AppDefaults.padding,
+      ),
       child: BlocBuilder<ProfileCubit, ProfileState>(
         builder: (context, state) {
           if (state is ProfileLoading) {
-            return const Center(
-              child: CircularProgressIndicator(),
-            );
+            return Shimmer.fromColors(
+                baseColor: AppColors.baseColor,
+                highlightColor: AppColors.highlightColor,
+                enabled: true,
+                child: const LoadingProfile());
           } else if (state is ProfileHasData) {
             return Row(
               crossAxisAlignment: CrossAxisAlignment.start,
@@ -91,31 +96,32 @@ class _HeaderProfileState extends State<HeaderProfile> {
                 const SizedBox(width: AppDefaults.lSpace),
                 Column(
                   children: [
-                    state.user.foto != ''
-                        ? UserPhoto(
-                            width: 80,
-                            height: 80,
-                            url:
-                                '${EndPoints.baseUrlPhoto}/profile/${state.user.foto}',
-                          )
-                        : const DefaultUserPhoto(width: 80, height: 80),
-                    const SizedBox(height: AppDefaults.lSpace),
-                    ElevatedButton(
-                      onPressed: () => Navigator.pushNamed(
-                        context,
-                        Routes.editProfile,
-                        arguments: state.user,
-                      ),
-                      style: ElevatedButton.styleFrom(
-                        minimumSize: const Size(90, 38),
-                        padding: EdgeInsets.zero,
-                        shape: RoundedRectangleBorder(
-                          borderRadius:
-                              BorderRadius.circular(AppDefaults.mRadius),
-                        ),
-                      ),
-                      child: const Text("Edit Profil"),
+                    UserPhoto(
+                      width: 80,
+                      height: 80,
+                      url: state.user.foto != '' &&
+                              state.user.foto !=
+                                  'http://siak.bimbel-strategis.com/uploads/'
+                          ? state.user.foto
+                          : '',
                     ),
+                    const SizedBox(height: AppDefaults.lSpace),
+                    // ElevatedButton(
+                    //   onPressed: () => Navigator.pushNamed(
+                    //     context,
+                    //     Routes.editProfile,
+                    //     arguments: state.user,
+                    //   ),
+                    //   style: ElevatedButton.styleFrom(
+                    //     minimumSize: const Size(90, 38),
+                    //     padding: EdgeInsets.zero,
+                    //     shape: RoundedRectangleBorder(
+                    //       borderRadius:
+                    //           BorderRadius.circular(AppDefaults.mRadius),
+                    //     ),
+                    //   ),
+                    //   child: const Text("Edit Profil"),
+                    // ),
                   ],
                 ),
               ],

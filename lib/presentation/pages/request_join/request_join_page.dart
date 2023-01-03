@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:shimmer/shimmer.dart';
 import 'package:siak_mobile/common/app/app.dart';
 import 'package:siak_mobile/presentation/cubit/accept_request_join/accept_request_join_cubit.dart';
 import 'package:siak_mobile/presentation/cubit/all_request_join/all_request_join_cubit.dart';
 import 'package:siak_mobile/presentation/pages/request_join/components/item_request_join.dart';
+import 'package:siak_mobile/presentation/widget/shimmer/loading_request_join.dart';
 import 'package:siak_mobile/presentation/widget/view_empty.dart';
 import 'package:siak_mobile/presentation/widget/view_error.dart';
 
@@ -60,8 +62,22 @@ class _RequestJoinPageState extends State<RequestJoinPage> {
         body: BlocBuilder<AllRequestJoinCubit, AllRequestJoinState>(
           builder: (context, state) {
             if (state is AllRequestJoinLoading) {
-              return const Center(
-                child: CircularProgressIndicator(),
+              return Padding(
+                padding: const EdgeInsets.only(top: AppDefaults.padding),
+                child: Shimmer.fromColors(
+                  baseColor: AppColors.baseColor,
+                  highlightColor: AppColors.highlightColor,
+                  enabled: true,
+                  child: ListView.separated(
+                    itemBuilder: (_, __) => const LoadingRequestJoin(),
+                    separatorBuilder: (BuildContext context, int index) {
+                      return const SizedBox(
+                        height: 16,
+                      );
+                    },
+                    itemCount: 8,
+                  ),
+                ),
               );
             } else if (state is AllRequestJoinEmpty) {
               return ViewEmpty(

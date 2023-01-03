@@ -28,15 +28,29 @@ class UserPhoto extends StatelessWidget {
                 arguments: url,
               )
           : null,
-      child: OctoImage(
-        width: width,
-        height: height,
-        image: CachedNetworkImageProvider(url),
-        placeholderBuilder: OctoPlaceholder.circularProgressIndicator(),
-        errorBuilder: OctoError.icon(color: AppColors.backgroundRed),
-        fit: BoxFit.cover,
-        imageBuilder: OctoImageTransformer.circleAvatar(),
-      ),
+      child: url != ''
+          ? OctoImage(
+              width: width,
+              height: height,
+              image: CachedNetworkImageProvider(url),
+              placeholderBuilder: OctoPlaceholder.circularProgressIndicator(),
+              errorBuilder: OctoError.icon(color: AppColors.backgroundRed),
+              fit: BoxFit.cover,
+              imageBuilder: OctoImageTransformer.circleAvatar(),
+            )
+          : Container(
+              width: width,
+              height: height,
+              decoration: const BoxDecoration(
+                shape: BoxShape.circle,
+                image: DecorationImage(
+                  image: AssetImage(
+                    AppImages.defaultPhoto,
+                  ),
+                  fit: BoxFit.cover,
+                ),
+              ),
+            ),
     );
   }
 }

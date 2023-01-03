@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:shimmer/shimmer.dart';
 import 'package:siak_mobile/common/app/app.dart';
 import 'package:siak_mobile/presentation/bloc/student_in_class/student_in_class_bloc.dart';
 import 'package:siak_mobile/presentation/pages/all_selected_student/components/item_selected_student.dart';
 import 'package:siak_mobile/presentation/widget/form/search_form_field.dart';
+import 'package:siak_mobile/presentation/widget/shimmer/loading_selected_student.dart';
 import 'package:siak_mobile/presentation/widget/view_empty.dart';
 import 'package:siak_mobile/presentation/widget/view_error.dart';
 
@@ -60,8 +62,22 @@ class _AllSelectedStudentPageState extends State<AllSelectedStudentPage> {
             child: BlocBuilder<StudentInClassBloc, StudentInClassState>(
               builder: (context, state) {
                 if (state is StudentInClassLoading) {
-                  return const Center(
-                    child: CircularProgressIndicator(),
+                  return Padding(
+                    padding: const EdgeInsets.only(top: AppDefaults.padding),
+                    child: Shimmer.fromColors(
+                      baseColor: AppColors.baseColor,
+                      highlightColor: AppColors.highlightColor,
+                      enabled: true,
+                      child: ListView.separated(
+                        itemBuilder: (_, __) => const LoadingSelectedStudent(),
+                        separatorBuilder: (BuildContext context, int index) {
+                          return const SizedBox(
+                            height: 16,
+                          );
+                        },
+                        itemCount: 8,
+                      ),
+                    ),
                   );
                 } else if (state is StudentInClassEmpty) {
                   return ViewEmpty(

@@ -10,7 +10,6 @@ class Student extends Equatable {
     required this.noHp,
     required this.noHpOrangtua,
     required this.foto,
-    required this.status,
     required this.center,
     required this.type,
   });
@@ -23,7 +22,6 @@ class Student extends Equatable {
   final String noHp;
   final String noHpOrangtua;
   final String foto;
-  final String status;
   final String center;
   final String type;
 
@@ -37,7 +35,6 @@ class Student extends Equatable {
         noHp,
         noHpOrangtua,
         foto,
-        status,
         center,
         type,
       ];

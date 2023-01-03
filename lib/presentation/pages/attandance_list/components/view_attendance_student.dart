@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:shimmer/shimmer.dart';
 import 'package:siak_mobile/common/app/app.dart';
 import 'package:siak_mobile/common/utils.dart';
 import 'package:siak_mobile/domain/entities/absensi.dart';
@@ -7,6 +8,7 @@ import 'package:siak_mobile/domain/entities/agenda.dart';
 import 'package:siak_mobile/presentation/cubit/all_student/all_student_cubit.dart';
 import 'package:siak_mobile/presentation/cubit/verification_attendance_cubit/action_attendance_cubit.dart';
 import 'package:siak_mobile/presentation/widget/item_attendance_student.dart';
+import 'package:siak_mobile/presentation/widget/shimmer/loading_attendance_student.dart';
 import 'package:siak_mobile/presentation/widget/view_empty.dart';
 import 'package:siak_mobile/presentation/widget/view_error.dart';
 
@@ -74,8 +76,22 @@ class _ViewAttendanceStudentState extends State<ViewAttendanceStudent>
       child: BlocBuilder<AllStudentCubit, AllStudentState>(
         builder: (context, state) {
           if (state is AllStudentLoading) {
-            return const Center(
-              child: CircularProgressIndicator(),
+            return Padding(
+              padding: const EdgeInsets.only(top: AppDefaults.padding),
+              child: Shimmer.fromColors(
+                baseColor: AppColors.baseColor,
+                highlightColor: AppColors.highlightColor,
+                enabled: true,
+                child: ListView.separated(
+                  itemBuilder: (_, __) => const LoadingAttendanceStudent(),
+                  separatorBuilder: (BuildContext context, int index) {
+                    return const SizedBox(
+                      height: 16,
+                    );
+                  },
+                  itemCount: 5,
+                ),
+              ),
             );
           } else if (state is AllStudentEmpty) {
             return ViewEmpty(

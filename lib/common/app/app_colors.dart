@@ -10,7 +10,7 @@ class AppColors {
   static const Color actionLightGrey = Color(0xFFE5E5E5);
 
   //Background
-  static const Color backgroundDarkBlue = Color(0xFF0F173E);
+  static const Color backgroundDarkBlue = Color(0xFF131d4f);
   static const Color backgroundBlue = Color(0xFF0b2a60);
   static const Color backgroundLightBlue = Color(0xFF253E98);
   static const Color backgroundRed = Color(0xFFec1e22);
@@ -39,6 +39,13 @@ class AppColors {
   static const Color textRed = Color(0xFFec1e22);
   static const Color textGreen = Color(0xFF56B161);
   static const Color textYellow = Color(0xFFFFC000);
+
+  //BottomBar
+  static const Color backgroundBottomBar = Color(0xFF0F173E);
+
+  //Shimmer
+  static const Color baseColor = Color(0xFF1d2c75);
+  static const Color highlightColor = Color(0xFF131d4f);
 
   //Theme
   static const colorScheme = ColorScheme(

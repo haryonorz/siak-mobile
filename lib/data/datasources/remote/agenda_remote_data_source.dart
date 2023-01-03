@@ -7,15 +7,23 @@ import 'package:path/path.dart';
 import 'package:siak_mobile/common/exceptions.dart';
 import 'package:siak_mobile/data/datasources/remote/network/endpoints.dart';
 import 'package:siak_mobile/data/models/absensi_model.dart';
+import 'package:siak_mobile/data/models/ads_model.dart';
 import 'package:siak_mobile/data/models/agenda_list_response.dart';
 import 'package:siak_mobile/data/models/agenda_model.dart';
+import 'package:siak_mobile/data/models/dashboard_response.dart';
 import 'package:siak_mobile/data/models/detail_agenda_model.dart';
 import 'package:siak_mobile/data/models/error_response.dart';
 import 'package:siak_mobile/data/models/info_activity_class_response.dart';
 import 'package:siak_mobile/data/models/info_problem_class_response.dart';
+import 'package:siak_mobile/data/models/news_list_response.dart';
+import 'package:siak_mobile/data/models/news_model.dart';
 import 'package:siak_mobile/data/models/student_list_response.dart';
 
 abstract class AgendaRemoteDataSources {
+  Future<DashboardResponse> getDashboard();
+  Future<AdsModel> getDetailAds(String adsId);
+  Future<NewsModel> getDetailNews(String newsId);
+  Future<List<NewsModel>> getAllNews(int page);
   Future<List<AgendaResponse>> getAllAgenda(
     String username,
     String userType,
@@ -94,6 +102,79 @@ class AgendaRemoteDataSourcesImpl extends AgendaRemoteDataSources {
   final http.Client client;
 
   AgendaRemoteDataSourcesImpl({required this.client});
+
+  @override
+  Future<DashboardResponse> getDashboard() async {
+    final response = await client.post(
+      Uri.parse(EndPoints.getDashboard),
+      body: {
+        'key': EndPoints.key,
+      },
+    );
+    if (response.statusCode == 200) {
+      return DashboardResponse.fromJson(json.decode(response.body));
+    } else {
+      final error = ErrorResponse.fromJson(json.decode(response.body));
+      throw ServerException(
+          'Server Error [${response.statusCode}]: ${error.message}');
+    }
+  }
+
+  @override
+  Future<AdsModel> getDetailAds(String adsId) async {
+    final response = await client.post(
+      Uri.parse(EndPoints.getDetailAds),
+      body: {
+        'key': EndPoints.key,
+        'ads_id': adsId,
+      },
+    );
+    if (response.statusCode == 200) {
+      var data = json.decode(response.body);
+      return AdsModel.fromJson(data['ads']);
+    } else {
+      final error = ErrorResponse.fromJson(json.decode(response.body));
+      throw ServerException(
+          'Server Error [${response.statusCode}]: ${error.message}');
+    }
+  }
+
+  @override
+  Future<List<NewsModel>> getAllNews(int page) async {
+    final response = await client.post(
+      Uri.parse(EndPoints.getAllNews),
+      body: {
+        'key': EndPoints.key,
+        'page': page.toString(),
+      },
+    );
+    if (response.statusCode == 200) {
+      return NewsListResponse.fromJson(json.decode(response.body)).newsList;
+    } else {
+      final error = ErrorResponse.fromJson(json.decode(response.body));
+      throw ServerException(
+          'Server Error [${response.statusCode}]: ${error.message}');
+    }
+  }
+
+  @override
+  Future<NewsModel> getDetailNews(String newsId) async {
+    final response = await client.post(
+      Uri.parse(EndPoints.getDetailNews),
+      body: {
+        'key': EndPoints.key,
+        'news_id': newsId,
+      },
+    );
+    if (response.statusCode == 200) {
+      var data = json.decode(response.body);
+      return NewsModel.fromJson(data['news']);
+    } else {
+      final error = ErrorResponse.fromJson(json.decode(response.body));
+      throw ServerException(
+          'Server Error [${response.statusCode}]: ${error.message}');
+    }
+  }
 
   @override
   Future<List<AgendaResponse>> getAllAgenda(

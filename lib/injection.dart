@@ -26,10 +26,14 @@ import 'package:siak_mobile/domain/usecases/do_verification_attends.dart';
 import 'package:siak_mobile/domain/usecases/get_all_agenda.dart';
 import 'package:siak_mobile/domain/usecases/get_all_agenda_history.dart';
 import 'package:siak_mobile/domain/usecases/get_all_guest_student.dart';
+import 'package:siak_mobile/domain/usecases/get_all_news.dart';
 import 'package:siak_mobile/domain/usecases/get_all_request_join.dart';
 import 'package:siak_mobile/domain/usecases/get_all_situation_class.dart';
 import 'package:siak_mobile/domain/usecases/get_all_student.dart';
+import 'package:siak_mobile/domain/usecases/get_dashboard.dart';
+import 'package:siak_mobile/domain/usecases/get_detail_ads.dart';
 import 'package:siak_mobile/domain/usecases/get_detail_agenda.dart';
+import 'package:siak_mobile/domain/usecases/get_detail_news.dart';
 import 'package:siak_mobile/domain/usecases/get_info_activity_class.dart';
 import 'package:siak_mobile/domain/usecases/get_info_problem_class.dart';
 import 'package:siak_mobile/domain/usecases/get_profile.dart';
@@ -37,6 +41,7 @@ import 'package:siak_mobile/domain/usecases/get_student_in_class.dart';
 import 'package:siak_mobile/domain/usecases/get_user.dart';
 import 'package:siak_mobile/presentation/bloc/all_agenda/all_agenda_bloc.dart';
 import 'package:siak_mobile/presentation/bloc/all_agenda_history/all_agenda_history_bloc.dart';
+import 'package:siak_mobile/presentation/bloc/all_news/all_news_bloc.dart';
 import 'package:siak_mobile/presentation/bloc/student_in_class/student_in_class_bloc.dart';
 import 'package:siak_mobile/presentation/cubit/accept_request_join/accept_request_join_cubit.dart';
 import 'package:siak_mobile/presentation/cubit/action_activity_class/action_activity_class_cubit.dart';
@@ -48,7 +53,10 @@ import 'package:siak_mobile/presentation/cubit/all_situation_class/all_situation
 import 'package:siak_mobile/presentation/cubit/all_student/all_student_cubit.dart';
 import 'package:siak_mobile/presentation/cubit/auth/authentication_cubit.dart';
 import 'package:siak_mobile/presentation/cubit/change_password/change_password_cubit.dart';
+import 'package:siak_mobile/presentation/cubit/dashboard/dashboard_cubit.dart';
+import 'package:siak_mobile/presentation/cubit/detail_ads/detail_ads_cubit.dart';
 import 'package:siak_mobile/presentation/cubit/detail_agenda/detail_agenda_cubit.dart';
+import 'package:siak_mobile/presentation/cubit/detail_news/detail_news_cubit.dart';
 import 'package:siak_mobile/presentation/cubit/display_camera_attendance_cubit/display_camera_attendance_cubit.dart';
 import 'package:siak_mobile/presentation/cubit/info_activity_class/info_activity_class_cubit.dart';
 import 'package:siak_mobile/presentation/cubit/info_problem_class/info_problem_class_cubit.dart';
@@ -92,6 +100,10 @@ void init() {
   locator.registerFactory(() => StudentInClassBloc(locator()));
   locator.registerFactory(() => UserCubit(locator()));
   locator.registerFactory(() => ProfileCubit(locator()));
+  locator.registerFactory(() => DashboardCubit(locator()));
+  locator.registerFactory(() => DetailAdsCubit(locator()));
+  locator.registerFactory(() => DetailNewsCubit(locator()));
+  locator.registerFactory(() => AllNewsBloc(locator()));
 
   locator.registerLazySingleton(() => DoSignIn(locator()));
   locator.registerLazySingleton(() => DoSignOut(locator()));
@@ -117,6 +129,10 @@ void init() {
   locator.registerLazySingleton(() => GetStudentInClass(locator()));
   locator.registerLazySingleton(() => GetUser(locator()));
   locator.registerLazySingleton(() => GetProfile(locator()));
+  locator.registerLazySingleton(() => GetDashboard(locator()));
+  locator.registerLazySingleton(() => GetDetailAds(locator()));
+  locator.registerLazySingleton(() => GetDetailNews(locator()));
+  locator.registerLazySingleton(() => GetAllNews(locator()));
 
   locator.registerLazySingleton<UserRepository>(() => UserRepositoryImpl(
         remoteDataSource: locator(),

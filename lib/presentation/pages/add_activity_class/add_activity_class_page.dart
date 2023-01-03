@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:shimmer/shimmer.dart';
 import 'package:siak_mobile/common/app/app.dart';
 import 'package:siak_mobile/domain/entities/agenda.dart';
 import 'package:siak_mobile/presentation/cubit/action_activity_class/action_activity_class_cubit.dart';
@@ -73,8 +74,15 @@ class _AddActivityClassPageState extends State<AddActivityClassPage> {
                       InfoActivityClassState>(
                     builder: (context, state) {
                       if (state is InfoActivityClassLoading) {
-                        return const Center(
-                          child: CircularProgressIndicator(),
+                        return Shimmer.fromColors(
+                          baseColor: AppColors.baseColor,
+                          highlightColor: AppColors.highlightColor,
+                          enabled: true,
+                          child: Container(
+                            width: double.infinity,
+                            height: 48,
+                            color: Colors.white,
+                          ),
                         );
                       } else if (state is InfoActivityClassHasData) {
                         return Material(

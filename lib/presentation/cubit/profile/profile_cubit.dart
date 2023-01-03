@@ -15,15 +15,17 @@ class ProfileCubit extends Cubit<ProfileState> {
   void fetchData() async {
     emit(ProfileLoading());
 
-    final result = await _getProfile.execute();
+    Future.delayed(const Duration(seconds: 1), () async {
+      final result = await _getProfile.execute();
 
-    result.fold(
-      (failure) {
-        emit(ProfileError(failure.message));
-      },
-      (profile) {
-        emit(ProfileHasData(profile));
-      },
-    );
+      result.fold(
+        (failure) {
+          emit(ProfileError(failure.message));
+        },
+        (profile) {
+          emit(ProfileHasData(profile));
+        },
+      );
+    });
   }
 }

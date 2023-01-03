@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:form_field_validator/form_field_validator.dart';
+import 'package:shimmer/shimmer.dart';
 import 'package:siak_mobile/common/app/app.dart';
 import 'package:siak_mobile/common/routes.dart';
 import 'package:siak_mobile/domain/entities/absensi.dart';
@@ -8,6 +9,7 @@ import 'package:siak_mobile/domain/entities/arg_selected_student.dart';
 import 'package:siak_mobile/domain/entities/problem_class.dart';
 import 'package:siak_mobile/presentation/cubit/action_situation_class/action_situation_class_cubit.dart';
 import 'package:siak_mobile/presentation/cubit/info_problem_class/info_problem_class_cubit.dart';
+import 'package:siak_mobile/presentation/widget/shimmer/loading_check_box.dart';
 
 class AddSituationClassForm extends StatelessWidget {
   final String idAgenda;
@@ -87,8 +89,23 @@ class AddSituationClassForm extends StatelessWidget {
             BlocBuilder<InfoProblemClassCubit, InfoProblemClassState>(
               builder: (context, state) {
                 if (state is InfoProblemClassLoading) {
-                  return const Center(
-                    child: CircularProgressIndicator(),
+                  return Padding(
+                    padding: const EdgeInsets.only(
+                      left: 24,
+                      right: 24,
+                      top: AppDefaults.padding,
+                    ),
+                    child: Shimmer.fromColors(
+                      baseColor: AppColors.baseColor,
+                      highlightColor: AppColors.highlightColor,
+                      enabled: true,
+                      child: Column(
+                        children: List.generate(
+                          5,
+                          (index) => const LoadingCheckBox(),
+                        ),
+                      ),
+                    ),
                   );
                 } else if (state is InfoProblemClassHasData) {
                   selectedProblem = state.problemList

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:shimmer/shimmer.dart';
 import 'package:siak_mobile/common/app/app.dart';
 import 'package:siak_mobile/common/routes.dart';
 import 'package:siak_mobile/common/utils.dart';
@@ -13,6 +14,7 @@ import 'package:siak_mobile/presentation/pages/detail_agenda/components/view_not
 import 'package:siak_mobile/presentation/pages/detail_agenda/components/view_detail_agenda.dart';
 import 'package:siak_mobile/presentation/pages/detail_agenda/components/view_potret_kelas.dart';
 import 'package:siak_mobile/presentation/widget/item_attendance_student.dart';
+import 'package:siak_mobile/presentation/widget/shimmer/loading_detail_agenda.dart';
 import 'package:siak_mobile/presentation/widget/view_empty.dart';
 import 'package:siak_mobile/presentation/widget/view_error.dart';
 
@@ -83,8 +85,11 @@ class _DetailAgendaPageState extends State<DetailAgendaPage> with RouteAware {
         body: BlocBuilder<DetailAgendaCubit, DetailAgendaState>(
           builder: (context, state) {
             if (state is DetailAgendaLoading) {
-              return const Center(
-                child: CircularProgressIndicator(),
+              return Shimmer.fromColors(
+                baseColor: AppColors.baseColor,
+                highlightColor: AppColors.highlightColor,
+                enabled: true,
+                child: const LoadingDetailAgenda(),
               );
             } else if (state is DetailAgendaHasData) {
               int totalStudent = state.detailAgenda.agenda.allStudent.length;

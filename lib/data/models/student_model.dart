@@ -11,7 +11,6 @@ class StudentResponse extends Equatable {
     required this.noHp,
     required this.noHpOrangtua,
     required this.foto,
-    required this.status,
     required this.center,
     required this.type,
   });
@@ -24,7 +23,6 @@ class StudentResponse extends Equatable {
   final String noHp;
   final String noHpOrangtua;
   final String foto;
-  final String status;
   final String center;
   final String type;
 
@@ -38,7 +36,6 @@ class StudentResponse extends Equatable {
         noHp: json["no_hp"],
         noHpOrangtua: json["no_hp_orangtua"],
         foto: json["foto"],
-        status: json["status"],
         center: json["center"],
         type: json["type"],
       );
@@ -52,7 +49,6 @@ class StudentResponse extends Equatable {
         "no_hp": noHp,
         "no_hp_orangtua": noHpOrangtua,
         "foto": foto,
-        "status": status,
         "center": center,
         "type": type,
       };
@@ -67,7 +63,6 @@ class StudentResponse extends Equatable {
       noHp: noHp,
       noHpOrangtua: noHpOrangtua,
       foto: foto,
-      status: status,
       center: center,
       type: type,
     );
@@ -83,7 +78,6 @@ class StudentResponse extends Equatable {
         noHp,
         noHpOrangtua,
         foto,
-        status,
         center,
         type,
       ];

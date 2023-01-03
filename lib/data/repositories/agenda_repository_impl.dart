@@ -6,10 +6,13 @@ import 'package:siak_mobile/common/failure.dart';
 import 'package:siak_mobile/data/datasources/db/user_local_data_source.dart';
 import 'package:siak_mobile/data/datasources/remote/agenda_remote_data_source.dart';
 import 'package:siak_mobile/domain/entities/absensi.dart';
+import 'package:siak_mobile/domain/entities/ads.dart';
 import 'package:siak_mobile/domain/entities/agenda.dart';
+import 'package:siak_mobile/domain/entities/dashboard.dart';
 import 'package:siak_mobile/domain/entities/detail_agenda.dart';
 import 'package:siak_mobile/domain/entities/info_activity_class.dart';
 import 'package:siak_mobile/domain/entities/info_problem_class.dart';
+import 'package:siak_mobile/domain/entities/news.dart';
 import 'package:siak_mobile/domain/repositories/agenda_repository.dart';
 
 class AgendaRepositoryImpl extends AgendaRepository {
@@ -20,6 +23,64 @@ class AgendaRepositoryImpl extends AgendaRepository {
     required this.remoteDataSource,
     required this.localDataSource,
   });
+
+  @override
+  Future<Either<Failure, Dashboard>> getDashboard() async {
+    try {
+      final result = await remoteDataSource.getDashboard();
+      return Right(
+        Dashboard(
+          dataIklan: result.dataIklan.map((model) => model.toEntity()).toList(),
+          dataNews: result.dataNews.map((model) => model.toEntity()).toList(),
+          totalNews: result.totalNews,
+        ),
+      );
+    } on ServerException catch (e) {
+      return Left(ServerFailure(e.message));
+    } on SocketException {
+      return Left(ConnectionFailure(
+          'Gagal terhubung ke jaringan, silahkan periksa koneksi internet anda.'));
+    }
+  }
+
+  @override
+  Future<Either<Failure, Ads>> getDetailAds(String adsId) async {
+    try {
+      final result = await remoteDataSource.getDetailAds(adsId);
+      return Right(result.toEntity());
+    } on ServerException catch (e) {
+      return Left(ServerFailure(e.message));
+    } on SocketException {
+      return Left(ConnectionFailure(
+          'Gagal terhubung ke jaringan, silahkan periksa koneksi internet anda.'));
+    }
+  }
+
+  @override
+  Future<Either<Failure, News>> getDetailNews(String newsId) async {
+    try {
+      final result = await remoteDataSource.getDetailNews(newsId);
+      return Right(result.toEntity());
+    } on ServerException catch (e) {
+      return Left(ServerFailure(e.message));
+    } on SocketException {
+      return Left(ConnectionFailure(
+          'Gagal terhubung ke jaringan, silahkan periksa koneksi internet anda.'));
+    }
+  }
+
+  @override
+  Future<Either<Failure, List<News>>> getAllNews(int page) async {
+    try {
+      final result = await remoteDataSource.getAllNews(page);
+      return Right(result.map((model) => model.toEntity()).toList());
+    } on ServerException catch (e) {
+      return Left(ServerFailure(e.message));
+    } on SocketException {
+      return Left(ConnectionFailure(
+          'Gagal terhubung ke jaringan, silahkan periksa koneksi internet anda.'));
+    }
+  }
 
   @override
   Future<Either<Failure, List<Agenda>>> getAllAgenda(

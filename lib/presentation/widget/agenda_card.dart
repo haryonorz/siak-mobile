@@ -3,10 +3,8 @@ import 'package:flutter/material.dart';
 import 'package:siak_mobile/common/app/app.dart';
 import 'package:siak_mobile/common/extensions/string_parsing.dart';
 import 'package:siak_mobile/common/routes.dart';
-import 'package:siak_mobile/data/datasources/remote/network/endpoints.dart';
 import 'package:siak_mobile/domain/entities/agenda.dart';
 import 'package:siak_mobile/presentation/widget/custom_field.dart';
-import 'package:siak_mobile/presentation/widget/default_user_photo.dart';
 import 'package:siak_mobile/presentation/widget/user_photo.dart';
 
 class AgendaCard extends StatelessWidget {
@@ -131,18 +129,16 @@ class AgendaCard extends StatelessWidget {
                                             ),
                                             color:
                                                 AppColors.backgroundLightGrey),
-                                        child: student.foto != null &&
-                                                student.foto != ''
-                                            ? UserPhoto(
-                                                width: 34,
-                                                height: 34,
-                                                url:
-                                                    '${EndPoints.baseUrlPhoto}/profile/${student.foto}',
-                                              )
-                                            : const DefaultUserPhoto(
-                                                width: 34,
-                                                height: 34,
-                                              ),
+                                        child: UserPhoto(
+                                          width: 34,
+                                          height: 34,
+                                          url: student.foto != null &&
+                                                  student.foto != '' &&
+                                                  student.foto !=
+                                                      'http://siak.bimbel-strategis.com/uploads/'
+                                              ? student.foto.toString()
+                                              : '',
+                                        ),
                                       ),
                                     );
                                   } else if (index == 3) {

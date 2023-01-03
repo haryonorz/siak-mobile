@@ -2,10 +2,8 @@ import 'package:flip_card/flip_card.dart';
 import 'package:flip_card/flip_card_controller.dart';
 import 'package:flutter/material.dart';
 import 'package:siak_mobile/common/app/app.dart';
-import 'package:siak_mobile/data/datasources/remote/network/endpoints.dart';
 import 'package:siak_mobile/domain/entities/absensi.dart';
 import 'package:siak_mobile/presentation/widget/custom_field.dart';
-import 'package:siak_mobile/presentation/widget/default_user_photo.dart';
 import 'package:siak_mobile/presentation/widget/user_photo.dart';
 
 class ItemSituationClass extends StatefulWidget {
@@ -30,17 +28,16 @@ class _ItemSituationClassState extends State<ItemSituationClass> {
         onFlipDone: (status) {},
         direction: FlipDirection.HORIZONTAL,
         controller: _controller,
-        front: widget.absensi.foto != null && widget.absensi.foto != ''
-            ? UserPhoto(
-                width: 42,
-                height: 42,
-                url: '${EndPoints.baseUrlPhoto}/profile/${widget.absensi.foto}',
-              )
-            : const DefaultUserPhoto(
-                width: 42,
-                height: 42,
-                photoPreview: false,
-              ),
+        front: UserPhoto(
+          width: 42,
+          height: 42,
+          url: widget.absensi.foto != null &&
+                  widget.absensi.foto != '' &&
+                  widget.absensi.foto !=
+                      'http://siak.bimbel-strategis.com/uploads/'
+              ? widget.absensi.foto.toString()
+              : '',
+        ),
         back: Container(
           width: 42,
           height: 42,

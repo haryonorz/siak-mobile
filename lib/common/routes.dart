@@ -8,20 +8,26 @@ import 'package:siak_mobile/domain/entities/arg_selected_student.dart';
 import 'package:siak_mobile/domain/entities/user.dart';
 import 'package:siak_mobile/presentation/pages/add_activity_class/add_activity_class_page.dart';
 import 'package:siak_mobile/presentation/pages/add_situation_class/add_situation_class_page.dart';
+import 'package:siak_mobile/presentation/pages/agenda/agenda_page.dart';
 import 'package:siak_mobile/presentation/pages/agenda_history/agenda_history_page.dart';
 import 'package:siak_mobile/presentation/pages/all_selected_student/all_selected_student_page.dart';
 import 'package:siak_mobile/presentation/pages/attandance_list/attendance_list_page.dart';
 import 'package:siak_mobile/presentation/pages/camera_attendance/camera_attendance_page.dart';
 import 'package:siak_mobile/presentation/pages/change_password/change_password_page.dart';
+import 'package:siak_mobile/presentation/pages/detail_ads/detail_ads_page.dart';
 import 'package:siak_mobile/presentation/pages/detail_agenda/detail_agenda_page.dart';
+import 'package:siak_mobile/presentation/pages/detail_news/detail_news_page.dart';
 import 'package:siak_mobile/presentation/pages/display_camera_attendance/display_camera_attendance.dart';
 import 'package:siak_mobile/presentation/pages/edit_profile/edit_profile.dart';
+import 'package:siak_mobile/presentation/pages/news_list/news_list.dart';
 import 'package:siak_mobile/presentation/pages/photo_preview/photo_preview_page.dart';
 import 'package:siak_mobile/presentation/pages/profile/profile_page.dart';
 import 'package:siak_mobile/presentation/pages/request_join/request_join_page.dart';
 import 'package:siak_mobile/presentation/pages/situation_class/situation_class_page.dart';
+import 'package:siak_mobile/presentation/pages/splash_screen/splash_screen_page.dart';
 
 abstract class Routes {
+  static const splashScreen = '/splashScreen';
   static const signIn = '/signIn';
 
   static const home = '/home';
@@ -38,6 +44,11 @@ abstract class Routes {
 
   static const photoPreview = '/photoPreview';
 
+  static const detailAds = '/detailAds';
+  static const newsList = '/newsList';
+  static const detailNews = '/detailNews';
+
+  static const agenda = '/agenda';
   static const agendaHistory = '/agendaHistory';
 
   static const profile = '/profile';
@@ -53,6 +64,20 @@ class RouteGenerator {
     final args = settings.arguments;
 
     switch (settings.name) {
+      case Routes.detailAds:
+        return MaterialPageRoute(
+          builder: (_) => DetailAdsPage(
+            adsId: args as String,
+          ),
+        );
+      case Routes.detailNews:
+        return MaterialPageRoute(
+          builder: (_) => DetailNewsPage(
+            newsId: args as String,
+          ),
+        );
+      case Routes.newsList:
+        return MaterialPageRoute(builder: (_) => const NewsListPage());
       case Routes.detailAgenda:
         return MaterialPageRoute(
           builder: (_) => DetailAgendaPage(
@@ -107,6 +132,8 @@ class RouteGenerator {
             photoReset: data.photoReset,
           );
         });
+      case Routes.agenda:
+        return MaterialPageRoute(builder: (_) => const AgendaPage());
       case Routes.agendaHistory:
         return MaterialPageRoute(builder: (_) => const AgendaHistoryPage());
       case Routes.profile:
@@ -117,6 +144,8 @@ class RouteGenerator {
             user: args as User,
           ),
         );
+      case Routes.splashScreen:
+        return MaterialPageRoute(builder: (_) => const SplashScreenPage());
       case Routes.changePassword:
         return MaterialPageRoute(builder: (_) => const ChangePasswordPage());
       default:

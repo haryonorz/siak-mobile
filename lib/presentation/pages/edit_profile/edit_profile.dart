@@ -1,9 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:siak_mobile/common/app/app.dart';
-import 'package:siak_mobile/data/datasources/remote/network/endpoints.dart';
 import 'package:siak_mobile/domain/entities/user.dart';
 import 'package:siak_mobile/presentation/pages/edit_profile/components/edit_profile_form.dart';
-import 'package:siak_mobile/presentation/widget/default_user_photo.dart';
 import 'package:siak_mobile/presentation/widget/user_photo.dart';
 
 class EditProfilePage extends StatelessWidget {
@@ -25,13 +23,14 @@ class EditProfilePage extends StatelessWidget {
         child: Column(
           children: [
             Center(
-              child: user.foto != ''
-                  ? UserPhoto(
-                      width: 120,
-                      height: 120,
-                      url: '${EndPoints.baseUrlPhoto}/profile/${user.foto}',
-                    )
-                  : const DefaultUserPhoto(width: 120, height: 120),
+              child: UserPhoto(
+                width: 120,
+                height: 120,
+                url: user.foto != '' &&
+                        user.foto != 'http://siak.bimbel-strategis.com/uploads/'
+                    ? user.foto
+                    : '',
+              ),
             ),
             EditProfileForm(user: user),
           ],

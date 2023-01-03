@@ -3,12 +3,19 @@ import 'dart:io';
 import 'package:dartz/dartz.dart';
 import 'package:siak_mobile/common/failure.dart';
 import 'package:siak_mobile/domain/entities/absensi.dart';
+import 'package:siak_mobile/domain/entities/ads.dart';
 import 'package:siak_mobile/domain/entities/agenda.dart';
+import 'package:siak_mobile/domain/entities/dashboard.dart';
 import 'package:siak_mobile/domain/entities/detail_agenda.dart';
 import 'package:siak_mobile/domain/entities/info_activity_class.dart';
 import 'package:siak_mobile/domain/entities/info_problem_class.dart';
+import 'package:siak_mobile/domain/entities/news.dart';
 
 abstract class AgendaRepository {
+  Future<Either<Failure, Dashboard>> getDashboard();
+  Future<Either<Failure, Ads>> getDetailAds(String adsId);
+  Future<Either<Failure, News>> getDetailNews(String newsId);
+  Future<Either<Failure, List<News>>> getAllNews(int page);
   Future<Either<Failure, List<Agenda>>> getAllAgenda(
     String getType,
     int page, {

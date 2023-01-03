@@ -1,11 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:form_field_validator/form_field_validator.dart';
+import 'package:shimmer/shimmer.dart';
 import 'package:siak_mobile/common/app/app.dart';
 import 'package:siak_mobile/domain/entities/activity_class.dart';
 import 'package:siak_mobile/domain/entities/agenda.dart';
 import 'package:siak_mobile/presentation/cubit/action_activity_class/action_activity_class_cubit.dart';
 import 'package:siak_mobile/presentation/cubit/info_activity_class/info_activity_class_cubit.dart';
+
+import '../../../widget/shimmer/loading_check_box.dart';
 
 class AddActivityClassForm extends StatelessWidget {
   final Agenda agenda;
@@ -33,8 +36,23 @@ class AddActivityClassForm extends StatelessWidget {
             BlocBuilder<InfoActivityClassCubit, InfoActivityClassState>(
               builder: (context, state) {
                 if (state is InfoActivityClassLoading) {
-                  return const Center(
-                    child: CircularProgressIndicator(),
+                  return Padding(
+                    padding: const EdgeInsets.only(
+                      left: 24,
+                      right: 24,
+                      top: AppDefaults.padding,
+                    ),
+                    child: Shimmer.fromColors(
+                      baseColor: AppColors.baseColor,
+                      highlightColor: AppColors.highlightColor,
+                      enabled: true,
+                      child: Column(
+                        children: List.generate(
+                          5,
+                          (index) => const LoadingCheckBox(),
+                        ),
+                      ),
+                    ),
                   );
                 } else if (state is InfoActivityClassHasData) {
                   selectedActivity = state.activityList

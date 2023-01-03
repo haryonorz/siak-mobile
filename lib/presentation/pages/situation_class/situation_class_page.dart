@@ -1,11 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:shimmer/shimmer.dart';
 import 'package:siak_mobile/common/app/app.dart';
 import 'package:siak_mobile/common/routes.dart';
 import 'package:siak_mobile/common/utils.dart';
 import 'package:siak_mobile/domain/entities/agenda.dart';
 import 'package:siak_mobile/presentation/cubit/all_situation_class/all_situation_class_cubit.dart';
 import 'package:siak_mobile/presentation/pages/situation_class/components/item_situation_class.dart';
+import 'package:siak_mobile/presentation/widget/shimmer/loading_situation_class.dart';
 import 'package:siak_mobile/presentation/widget/view_empty.dart';
 import 'package:siak_mobile/presentation/widget/view_error.dart';
 
@@ -62,8 +64,22 @@ class _SituationClassPageState extends State<SituationClassPage>
       body: BlocBuilder<AllSituationClassCubit, AllSituationClassState>(
         builder: (context, state) {
           if (state is AllSituationClassLoading) {
-            return const Center(
-              child: CircularProgressIndicator(),
+            return Padding(
+              padding: const EdgeInsets.only(top: AppDefaults.padding),
+              child: Shimmer.fromColors(
+                baseColor: AppColors.baseColor,
+                highlightColor: AppColors.highlightColor,
+                enabled: true,
+                child: ListView.separated(
+                  itemBuilder: (_, __) => const LoadingSituationClass(),
+                  separatorBuilder: (BuildContext context, int index) {
+                    return const SizedBox(
+                      height: 16,
+                    );
+                  },
+                  itemCount: 8,
+                ),
+              ),
             );
           } else if (state is AllSituationClassEmpty) {
             return ViewEmpty(

@@ -1,9 +1,10 @@
 class EndPoints {
   static const String protocol = 'http';
-  static const String host = 'agenda.bimbel-strategis.com';
-  // static const String host = '192.168.30.129/agenda_belajar';
+  // static const String host = 'agenda.bimbel-strategis.com';
+  static const String host = 'agendadev.bimbel-strategis.com';
+  // static const String host = '192.168.1.6/agenda_belajar';
 
-  static const String baseUrl = '$protocol://$host/index.php/api_v2';
+  static const String baseUrl = '$protocol://$host/index.php/api_v3';
   // static const String baseUrl =
   //     '$protocol://$host/agenda_belajar/index.php/api_v2';
   static const String baseUrlPhoto = '$protocol://$host/upload';
@@ -13,6 +14,12 @@ class EndPoints {
   static const String signOut = '$baseUrl/doLogout';
   static const String getProfile = '$baseUrl/getProfile';
   static const String doChangePassword = '$baseUrl/doChangePassword';
+
+  static const String getDashboard = '$baseUrl/getDashboard';
+
+  static const String getDetailAds = '$baseUrl/getDetailAds';
+  static const String getAllNews = '$baseUrl/getAllNews';
+  static const String getDetailNews = '$baseUrl/getDetailNews';
 
   static const String getAllAgenda = '$baseUrl/getAllAgenda';
   static const String getAllAgendaHistory = '$baseUrl/getAllAgendaHistory';

@@ -1,10 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:shimmer/shimmer.dart';
 import 'package:siak_mobile/common/app/app.dart';
 import 'package:siak_mobile/presentation/bloc/all_agenda_history/all_agenda_history_bloc.dart';
 import 'package:siak_mobile/presentation/widget/agenda_card.dart';
 import 'package:siak_mobile/presentation/widget/bottom_loader.dart';
 import 'package:siak_mobile/presentation/widget/form/search_form_field.dart';
+import 'package:siak_mobile/presentation/widget/shimmer/loading_agenda.dart';
 import 'package:siak_mobile/presentation/widget/view_empty.dart';
 import 'package:siak_mobile/presentation/widget/view_error.dart';
 
@@ -158,7 +160,16 @@ class _AgendaHistoryPageState extends State<AgendaHistoryPage> {
                       ),
                     );
                   case AllAgendaHistoryStatus.initial:
-                    return const Center(child: CircularProgressIndicator());
+                    return Shimmer.fromColors(
+                      baseColor: AppColors.baseColor,
+                      highlightColor: AppColors.highlightColor,
+                      enabled: true,
+                      child: ListView.builder(
+                        padding: const EdgeInsets.only(top: AppDefaults.margin),
+                        itemBuilder: (_, __) => const LoadingAgenda(),
+                        itemCount: 3,
+                      ),
+                    );
                 }
               },
             ),

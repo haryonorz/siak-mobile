@@ -35,7 +35,8 @@ class DialogAttendanceDone extends StatelessWidget {
         statusAbsensi = 'Hadir';
         if (absensi?.terlambat == 'X') {
           statusAbsensi = '$statusAbsensi, Terlambat';
-          if (absensi?.alasanTerlambat != null) {
+          if (absensi?.alasanTerlambat != null &&
+              absensi?.alasanTerlambat != '') {
             statusAbsensi = '$statusAbsensi (${absensi?.alasanTerlambat})';
           }
         }
